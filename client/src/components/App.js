@@ -15,7 +15,7 @@ export default class App extends React.Component {
         <Navbar inverse collapseOnSelect className="customNav">
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/#">Saving deposits App</a>
+              <a href="/#">Saving Deposits App</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -30,7 +30,7 @@ export default class App extends React.Component {
                 to={{ pathname: "/saving-deposits", query: {} }}
                 onClick={this.toggleAddSavingDeposit}
               >
-                <NavItem eventKey={1}>Saving deposits</NavItem>
+                <NavItem eventKey={1}>Saving Deposits</NavItem>
               </LinkContainer>
 {/*               <LinkContainer to={{ pathname: "/users", query: {} }} @todo
                 onClick={this.toggleAddSavingDeposit}

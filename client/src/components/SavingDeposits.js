@@ -1,6 +1,13 @@
 // ./react-redux-client/src/components/SavingDeposits.js
 import React from "react";
-import { Alert, Glyphicon, Button, Modal } from "react-bootstrap";
+import { Form, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
+import {
+  InputGroup,
+  FormGroup,
+  ControlLabel,
+  FormControl
+} from "react-bootstrap";
+import DatePicker from "react-16-bootstrap-date-picker";
 import { Link } from "react-router";
 import SavingDepositEditForm from "./SavingDepositEditForm";
 
@@ -16,9 +23,22 @@ export default class SavingDeposits extends React.Component {
     this.getSimpleAmount = this.getSimpleAmount.bind(this);
     this.getCompoundAmount = this.getCompoundAmount.bind(this);
     this.getNumberOfDays = this.getNumberOfDays.bind(this);
+    this.searchSavingDeposits = this.searchSavingDeposits.bind(this);
   }
   componentWillMount() {
     this.props.fetchSavingDeposits();
+  }
+  searchSavingDeposits(e) {
+    e.preventDefault();
+    const searchForm = document.getElementById("searchSavingDepositForm");
+    const filters = {
+        bankName: searchForm.bankName.value,
+        minAmount: searchForm.minAmount.value,
+        maxAmount: searchForm.maxAmount.value,
+        startDate: searchForm.startDate.value,
+        endDate: searchForm.endDate.value,
+    }
+    this.props.fetchSavingDeposits(filters);
   }
   getNumberOfDays(startDate, endDate) {
     const numberMsInDay = 1000 * 60 * 60 * 24;
@@ -62,7 +82,6 @@ export default class SavingDeposits extends React.Component {
     data.append("bankName", editForm.bankName.value);
     data.append("accountNumber", editForm.accountNumber.value);
     data.append("initialAmount", editForm.initialAmount.value);
-    data.append("accountNumber", editForm.accountNumber.value);
     data.append("startDate", editForm.startDate.value);
     data.append("endDate", editForm.endDate.value);
     data.append("interest", editForm.interest.value);
@@ -95,21 +114,28 @@ export default class SavingDeposits extends React.Component {
         tax: 1.12
       }
     ];
+    const { savingDepositsFilter, savingDepositToDelete } = savingDepositState;
     const editSavingDeposit = savingDepositState.savingDepositToEdit;
-    const savingDepositToDelete = savingDepositState.savingDepositToDelete;
     return (
       <div className="col-md-12">
-        <h3 className="centerAlign">SavingDeposits</h3>
-        <Link to={`/saving-deposits/create`}>
-          <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
-            <Glyphicon glyph="plus" /> Add new record
-          </Button>
-        </Link>{" "}
+        <h3 className="centerAlign">Saving Deposits</h3>
 
-        <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
-          <Glyphicon glyph="tasks" /> Generate report {/*@todo*/}
-        </Button>
+        <Panel>
+          <Panel.Heading>
+            <Panel.Title componentClass="h3">Actions</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            <Link to={`/saving-deposits/create`}>
+              <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
+                <Glyphicon glyph="plus" /> Add new record
+              </Button>
+            </Link>{" "}
 
+            <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
+              <Glyphicon glyph="tasks" /> Generate report {/*@todo*/}
+            </Button>
+          </Panel.Body>
+        </Panel>
         {!savingDeposits &&
           savingDepositState.isFetching &&
           <p>Loading saving deposits...</p>}
@@ -121,67 +147,149 @@ export default class SavingDeposits extends React.Component {
         {savingDeposits &&
           savingDeposits.length > 0 &&
           !savingDepositState.isFetching &&
-          <table className="table">
-            <thead>
-              <tr>
-                {
-                  //   @todo filters
-                }
-                <th>Bank name</th>
-                <th>Initial amount</th>
-                <th>Current amount</th>
-                <th>Start date</th>
-                <th>End date</th>
-                <th className="textCenter">Edit</th>
-                <th className="textCenter">Delete</th>
-                <th className="textCenter">View</th>
-              </tr>
-            </thead>
-            <tbody>
-              {savingDeposits.map((savingDeposit, i) => (
-                <tr key={i}>
-                  <td>{savingDeposit.bankName}</td>
-                  <td>{savingDeposit.initialAmount}</td>
-                  <td>
-                    {this.getCompoundAmount(
-                      savingDeposit.initialAmount,
-                      savingDeposit.interest,
-                      this.getNumberOfDays(
-                        savingDeposit.startDate,
-                        savingDeposit.endDate
-                      )
-                    )}
-                  </td>
-                  <td>{savingDeposit.startDate}</td>
-                  <td>{savingDeposit.endDate}</td>
-                  <td className="textCenter">
+          <div>
+            <Panel>
+              <Panel.Heading>
+                {/*Amount gteq : min
+                Amount lteq : max
+                Bank: ABC
+                Active on or after date: sldfkj
+                Active on or before date: sdlfj*/}
+                <form 
+                className="form"
+                id="searchSavingDepositForm"
+                onSubmit={this.searchSavingDeposits}
+                >
+                  <FormGroup>
+                    <ControlLabel>Bank name: </ControlLabel>
+                    <FormControl
+                      type="text"
+                      placeholder="Enter bank name"
+                      name="bankName"
+                      defaultValue={savingDepositsFilter && savingDepositsFilter.bankName || ''}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <ControlLabel>Invested amount between: </ControlLabel>
+                    <InputGroup>
+                      <InputGroup.Addon>$</InputGroup.Addon>
+                      <FormControl
+                        type="text"
+                        placeholder="Enter minimum amount"
+                        name="minAmount"
+                        defaultValue={savingDepositsFilter && savingDepositsFilter.minAmount || ''}
+                      />
+                    </InputGroup>
+                    <ControlLabel> and </ControlLabel>
+                    <InputGroup>
+                      <InputGroup.Addon>$</InputGroup.Addon>
+                      <FormControl
+                        type="text"
+                        placeholder="Enter maximum amount"
+                        name="maxAmount"
+                        defaultValue={savingDepositsFilter && savingDepositsFilter.maxAmount || ''}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <ControlLabel>Active between start date: </ControlLabel>
+                    <DatePicker
+                      id="start-date-picker"
+                      value={this.state && this.state.startDate}
+                      onChange={this.handleChange}
+                      name="startDate"
+                      defaultValue={savingDepositsFilter && savingDepositsFilter.startDate || ''}
+                    />
+                    <ControlLabel> and end date: </ControlLabel>
+                    <DatePicker
+                      id="end-date-picker"
+                      value={this.state && this.state.endDate}
+                      onChange={this.handleChange}
+                      name="endDate"
+                      defaultValue={savingDepositsFilter && savingDepositsFilter.endDate || ''}
+                    />
+                  </FormGroup>
+
+                  <FormGroup>
                     <Button
-                      onClick={() => this.showEditModal(savingDeposit)}
-                      bsStyle="info"
-                      bsSize="xsmall"
+                      type="submit"
+                      bsStyle="success"
+                      bsSize="large"
+                      block
                     >
-                      <Glyphicon glyph="pencil" />
+                      Search
                     </Button>
-                  </td>
-                  <td className="textCenter">
-                    <Button
-                      onClick={() => this.showDeleteModal(savingDeposit)}
-                      bsStyle="danger"
-                      bsSize="xsmall"
-                    >
-                      <Glyphicon glyph="trash" />
-                    </Button>
-                  </td>
-                  <td className="textCenter">
-                    <Link to={`/saving-deposits/${savingDeposit._id}`}>
-                      View Details
-                    </Link>
-                    {" "}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>}
+                  </FormGroup>
+                </form>
+                </Panel.Heading>
+              <Panel.Body>
+
+                <table className="table">
+                  <thead>
+                    <tr>
+                      {
+                        //   @todo filters
+                      }
+                      <th>Bank name</th>
+                      <th>Initial amount</th>
+                      <th>Current amount</th>
+                      <th>Start date</th>
+                      <th>End date</th>
+                      <th className="textCenter">Edit</th>
+                      <th className="textCenter">Delete</th>
+                      <th className="textCenter">View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {savingDeposits.map((savingDeposit, i) => (
+                      <tr key={i}>
+                        <td>{savingDeposit.bankName}</td>
+                        <td>{savingDeposit.initialAmount}</td>
+                        <td>
+                          {this.getCompoundAmount(
+                            savingDeposit.initialAmount,
+                            savingDeposit.interest,
+                            this.getNumberOfDays(
+                              savingDeposit.startDate,
+                              savingDeposit.endDate
+                            )
+                          )}
+                        </td>
+                        <td>{savingDeposit.startDate}</td>
+                        <td>{savingDeposit.endDate}</td>
+                        <td className="textCenter">
+                          <Button
+                            onClick={() => this.showEditModal(savingDeposit)}
+                            bsStyle="info"
+                            bsSize="xsmall"
+                          >
+                            <Glyphicon glyph="pencil" />
+                          </Button>
+                        </td>
+                        <td className="textCenter">
+                          <Button
+                            onClick={() => this.showDeleteModal(savingDeposit)}
+                            bsStyle="danger"
+                            bsSize="xsmall"
+                          >
+                            <Glyphicon glyph="trash" />
+                          </Button>
+                        </td>
+                        <td className="textCenter">
+                          <Link to={`/saving-deposits/${savingDeposit._id}`}>
+                            View Details
+                          </Link>
+                          {" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Panel.Body>
+            </Panel>
+
+          </div>}
 
         {/* Modal for editing savingDeposit */}
         <Modal

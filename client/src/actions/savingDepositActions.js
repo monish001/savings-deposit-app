@@ -1,7 +1,6 @@
 // ./react-redux-client/src/actions/savingDepositActions.js
 const apiUrl = "/api/users/self/saving-deposits/";
 export const addNewSavingDeposit = savingDeposit => {
-  console.log(savingDeposit);
   return dispatch => {
     dispatch(addNewSavingDepositRequest(savingDeposit));
     return fetch(apiUrl, {
@@ -10,7 +9,6 @@ export const addNewSavingDeposit = savingDeposit => {
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
-          console.log(data.savingDeposit);
           dispatch(
             addNewSavingDepositRequestSuccess(data.savingDeposit, data.message)
           );
@@ -44,13 +42,18 @@ export const addNewSavingDepositRequestFailed = error => {
 };
 
 //Async action
-export const fetchSavingDeposits = () => {
+export const fetchSavingDeposits = (filters={}) => {
   // Returns a dispatcher function
   // that dispatches an action at later time
+  const queryParams = filters && Object.keys(filters)
+    .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(filters[k]))
+    .join("&");
+  const _apiUrl =
+    apiUrl + (apiUrl.indexOf("?") === -1 ? "?" : "&") + queryParams;
   return dispatch => {
-    dispatch(fetchSavingDepositsRequest());
+    dispatch(fetchSavingDepositsRequest(filters));
     // Returns a promise
-    return fetch(apiUrl).then(response => {
+    return fetch(_apiUrl).then(response => {
       if (response.ok) {
         response.json().then(data => {
           dispatch(
@@ -65,9 +68,10 @@ export const fetchSavingDeposits = () => {
     });
   };
 };
-export const fetchSavingDepositsRequest = () => {
+export const fetchSavingDepositsRequest = (filters) => {
   return {
-    type: "FETCH_SAVING_DEPOSITS_REQUEST"
+    type: "FETCH_SAVING_DEPOSITS_REQUEST",
+    savingDepositsFilter: filters
   };
 };
 //Sync action
@@ -91,7 +95,6 @@ export const fetchSavingDepositById = savingDepositId => {
     dispatch(fetchSavingDepositRequest());
     // Returns a promise
     return fetch(apiUrl + savingDepositId).then(response => {
-      console.log(response);
       if (response.ok) {
         response.json().then(data => {
           dispatch(

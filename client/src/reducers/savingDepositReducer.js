@@ -1,6 +1,7 @@
 // ./react-redux-client/src/reducers/savingDepositReducer.js
 const INITIAL_STATE = {
   savingDeposits: [],
+  savingDepositsFilter: {},
   savingDeposit: null,
   isFetching: false,
   error: null,
@@ -17,6 +18,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: [],
+        savingDepositsFilter: action.savingDepositsFilter,
         savingDeposit: null,
         isFetching: true,
         error: null,
@@ -30,6 +32,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: action.savingDeposits,
+        savingDepositsFilter: currentState.savingDepositsFilter,
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -43,6 +46,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: [],
+        savingDepositsFilter: currentState.savingDepositsFilter,
         savingDeposit: null,
         isFetching: false,
         error: action.error,
@@ -56,6 +60,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: true,
         error: null,
@@ -69,6 +74,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
         savingDeposit: action.savingDeposit,
         isFetching: false,
         error: null,
@@ -82,6 +88,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: [],
+        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: false,
         error: action.error,
@@ -95,6 +102,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: true,
         error: null,
@@ -109,6 +117,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: true,
         error: action.error,
@@ -123,6 +132,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       const nextState = {
         ...currentState,
         savingDeposits: [...currentState.savingDeposits, action.savingDeposit],
+        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -138,6 +148,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -152,6 +163,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -166,6 +179,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: true,
         error: null,
@@ -183,11 +198,15 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
           return savingDeposit;
         }
         //Otherwise, this is the one we want to return an updated value
-        return { ...savingDeposit, ...action.savingDeposit };
+        return { ...savingDeposit,
+          ...action.savingDeposit
+        };
       });
       return {
         ...currentState,
         savingDeposits: updatedSavingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -202,6 +221,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: action.error,
@@ -216,6 +237,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: true,
         error: null,
@@ -233,6 +256,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: filteredSavingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -247,6 +272,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: action.error,
@@ -261,6 +288,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: null,
@@ -275,6 +304,8 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
+        savingDepositsFilter: {},
+
         savingDeposit: null,
         isFetching: false,
         error: null,

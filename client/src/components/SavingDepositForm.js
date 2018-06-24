@@ -26,7 +26,7 @@ export default class SavingDepositsForm extends React.Component {
 
   addSavingDeposit(e) {
     e.preventDefault();
-    const form = document.getElementById("addTodoForm");
+    const form = document.getElementById("addTodoForm"); // @todo dont use getElementById
     const data = new FormData();
     data.append("bankName", form.bankName.value);
     data.append("accountNumber", form.accountNumber.value);

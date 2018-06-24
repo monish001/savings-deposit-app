@@ -13,8 +13,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     //you can now say this.props.mappedAppActions
-    fetchSavingDeposits: () =>
-      dispatch(savingDepositActions.fetchSavingDeposits()),
+    fetchSavingDeposits: filters =>
+      dispatch(savingDepositActions.fetchSavingDeposits(filters)),
     mappedEditSavingDeposit: savingDepositToEdit =>
       dispatch(savingDepositActions.editSavingDeposit(savingDepositToEdit)),
     mappedShowEditModal: savingDepositToEdit =>
