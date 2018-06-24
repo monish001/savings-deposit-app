@@ -3,7 +3,7 @@ import React from "react";
 import { Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
 import SavingDepositEditForm from "./SavingDepositEditForm";
-// @todo import SavingDepositAddForm from "./SavingDepositAddForm";
+
 export default class SavingDeposits extends React.Component {
   constructor(props) {
     super(props);
@@ -11,9 +11,34 @@ export default class SavingDeposits extends React.Component {
     this.submitEditSavingDeposit = this.submitEditSavingDeposit.bind(this);
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
     this.confirmDeleteSavingDeposit = this.confirmDeleteSavingDeposit.bind(this);
+    this.getSimpleAmount = this.getSimpleAmount.bind(this);
+    this.getCompoundAmount = this.getCompoundAmount.bind(this);
+    this.getNumberOfDays = this.getNumberOfDays.bind(this);
   }
   componentWillMount() {
     this.props.fetchSavingDeposits();
+  }
+  getNumberOfDays(startDate, endDate) {
+    const numberMsInDay = 1000 * 60 * 60 * 24;
+    const startDayNumber = Math.floor(new Date(startDate).getTime() / numberMsInDay);
+    const endDayNumber = Math.floor(new Date(endDate).getTime() / numberMsInDay);
+    const currentDayNumber = Math.floor(Date.now() / numberMsInDay);
+    const numberOfDays = (currentDayNumber <= endDayNumber) ? (currentDayNumber - startDayNumber) : (endDayNumber - startDayNumber + 1);
+    return numberOfDays;
+  }
+  getSimpleAmount(p, r, t) {
+    // p initial amount,
+    // r interest per yr
+    // t time in years
+    return Number(p * (1 + r * t / 100.0)).toFixed(2);
+  }
+  getCompoundAmount(p, r, t, N = 360) {
+    // p initial amount,
+    // r interest per yr
+    // t time in years
+    // N number of times that interest is compounded per year
+    // See https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php for more details
+    return Number(p * Math.pow((1 + r / (N * 100.0)), N * t)).toFixed(2);
   }
   showEditModal(savingDepositToEdit) {
     this.props.mappedShowEditModal(savingDepositToEdit);
@@ -50,39 +75,32 @@ export default class SavingDeposits extends React.Component {
   render() {
     const savingDepositState = this.props.mappedSavingDepositState;
     let savingDeposits = savingDepositState.savingDeposits;
-    savingDeposits = [{
-        "_id": 1,
-        "bankName": 1,
-        "accountNumber": 2,
-        "initialAmount": 3,
-        "startDate": "2018-06-01T06:30:00.000Z",
-        "endDate": "2018-06-02T06:30:00.000Z",
-        "interest": 12.12,
-        "tax": 1.12
-    }];
+    savingDeposits = [
+      {
+        _id: 1,
+        bankName: 1,
+        accountNumber: 2,
+        initialAmount: 3,
+        startDate: "2018-06-01T06:30:00.000Z",
+        endDate: "2018-06-02T06:30:00.000Z",
+        interest: 12.12,
+        tax: 1.12
+      }
+    ];
     const editSavingDeposit = savingDepositState.savingDepositToEdit;
     const savingDepositToDelete = savingDepositState.savingDepositToDelete;
     return (
       <div className="col-md-12">
         <h3 className="centerAlign">SavingDeposits</h3>
         <Link to={`/saving-deposits/create`}>
-          <Button
-            onClick={() => {}}
-            bsStyle="info"
-            bsSize="xsmall"
-          >
+          <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
             <Glyphicon glyph="plus" /> Add new record
           </Button>
         </Link>{" "}
 
-        <Button
-            onClick={() => {}}
-            bsStyle="info"
-            bsSize="xsmall"
-        >
-            <Glyphicon glyph="tasks" /> Generate report {/*@todo*/}
+        <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
+          <Glyphicon glyph="tasks" /> Generate report {/*@todo*/}
         </Button>
-
 
         {!savingDeposits &&
           savingDepositState.isFetching &&
@@ -98,7 +116,8 @@ export default class SavingDeposits extends React.Component {
           <table className="table">
             <thead>
               <tr>
-                {//   @todo filters
+                {
+                  //   @todo filters
                 }
                 <th>Bank name</th>
                 <th>Initial amount</th>
@@ -115,7 +134,7 @@ export default class SavingDeposits extends React.Component {
                 <tr key={i}>
                   <td>{savingDeposit.bankName}</td>
                   <td>{savingDeposit.initialAmount}</td>
-                  <td>{savingDeposit.initialAmount}</td> {/*@todo current amount*/}
+                  <td>{this.getCompoundAmount(savingDeposit.initialAmount, savingDeposit.interest, this.getNumberOfDays(savingDeposit.startDate, savingDeposit.endDate))}</td>
                   <td>{savingDeposit.startDate}</td>
                   <td>{savingDeposit.endDate}</td>
                   <td className="textCenter">
@@ -137,13 +156,16 @@ export default class SavingDeposits extends React.Component {
                     </Button>
                   </td>
                   <td className="textCenter">
-                    <Link to={`/saving-deposits/${savingDeposit._id}`}>View Details</Link>{" "}
+                    <Link to={`/saving-deposits/${savingDeposit._id}`}>
+                      View Details
+                    </Link>
+                    {" "}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>}
-          
+
         {/* Modal for editing savingDeposit */}
         <Modal
           show={savingDepositState.showEditModal}
@@ -157,12 +179,12 @@ export default class SavingDeposits extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="col-md-12" style={{float: 'initial'}}>
+            <div className="col-md-12" style={{ float: "initial" }}>
               {editSavingDeposit &&
                 <SavingDepositEditForm
                   savingDepositData={editSavingDeposit}
                   editSavingDeposit={this.submitEditSavingDeposit}
-              />}
+                />}
               {editSavingDeposit &&
                 savingDepositState.isFetching &&
                 <Alert bsStyle="info">
@@ -205,16 +227,16 @@ export default class SavingDeposits extends React.Component {
           <Modal.Body>
             {savingDepositToDelete &&
               <Alert bsStyle="warning">
-                Are you sure you want to delete the saving deposit with bank 
+                Are you sure you want to delete the saving deposit with bank
                 {" "}
                 <strong>{savingDepositToDelete.bankName}</strong>
                 ?
               </Alert>}
             {savingDepositToDelete &&
-                savingDepositState.isFetching &&
-                <Alert bsStyle="success">
-                    <strong>Deleting... </strong>
-                </Alert>}
+              savingDepositState.isFetching &&
+              <Alert bsStyle="success">
+                <strong>Deleting... </strong>
+              </Alert>}
             {savingDepositToDelete &&
               !savingDepositState.isFetching &&
               savingDepositState.error &&
