@@ -41,7 +41,9 @@ export default class SavingDeposits extends React.Component {
     this.props.mappedshowDeleteModal(savingDepositToDelete);
   }
   cofirmDeleteSavingDeposit() {
-    this.props.mappedDeleteSavingDeposit(this.props.mappedSavingDepositState.savingDepositToDelete);
+    this.props.mappedDeleteSavingDeposit(
+      this.props.mappedSavingDepositState.savingDepositToDelete
+    );
   }
   render() {
     const savingDepositState = this.props.mappedSavingDepositState;
@@ -50,13 +52,25 @@ export default class SavingDeposits extends React.Component {
     return (
       <div className="col-md-12">
         <h3 className="centerAlign">SavingDeposits</h3>
+        <Link to={`/saving-deposits/create`}>
+          <Button
+            onClick={() => {}}
+            bsStyle="info"
+            bsSize="xsmall"
+          >
+            <Glyphicon glyph="plus" /> Create new
+          </Button>
 
-        {/*Create action - add SD*/}
+        </Link>
 
-        {!savingDeposits && savingDepositState.isFetching && <p>Loading saving deposits...</p>}
+        {!savingDeposits &&
+          savingDepositState.isFetching &&
+          <p>Loading saving deposits...</p>}
         {savingDeposits.length <= 0 &&
           !savingDepositState.isFetching &&
-          <p>No Saving Deposits Available. Add A Saving Deposit to List here.</p>}
+          <p>
+            No Saving Deposits Available. Add A Saving Deposit to List here.
+          </p>}
         {savingDeposits &&
           savingDeposits.length > 0 &&
           !savingDepositState.isFetching &&
@@ -106,7 +120,9 @@ export default class SavingDeposits extends React.Component {
           aria-labelledby="contained-modal-title"
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title">Edit Your SavingDeposit</Modal.Title>
+            <Modal.Title id="contained-modal-title">
+              Edit Your SavingDeposit
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="col-md-12">
@@ -160,7 +176,10 @@ export default class SavingDeposits extends React.Component {
               <Alert bsStyle="warning">
                 Are you sure you want to delete this saving deposit
                 {" "}
-                <strong>{savingDepositState.savingDepositToDelete.savingDepositText} </strong>
+                <strong>
+                  {savingDepositState.savingDepositToDelete.savingDepositText}
+                  {" "}
+                </strong>
                 {" "}
                 ?
               </Alert>}

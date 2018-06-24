@@ -2,7 +2,6 @@
 import { connect } from 'react-redux';
 // import * as appActions from '../actions/appActions';
 import App from '../components/App';
-import * as savingDepositActions from '../actions/savingDepositActions';
 
 // map state from store to props
 const mapStateToProps = (state) => {

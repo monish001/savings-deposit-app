@@ -26,8 +26,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(savingDepositActions.showDeleteModal(savingDepositToDelete)),
     mappedhideDeleteModal: () =>
       dispatch(savingDepositActions.hideDeleteModal()),
-    mappedAddSavingDeposit: savingDeposit =>
-      dispatch(savingDepositActions.addNewSavingDeposit(savingDeposit))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SavingDeposits);
