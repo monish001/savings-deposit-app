@@ -1,35 +1,12 @@
-// ./react-redux-client/src/components/App.js
 import React from "react";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./App.css";
-// @todo import SavingDepositForm from "./SavingDepositForm";
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-
-    // @todo
-    // this.toggleAddSavingDeposit = this.toggleAddSavingDeposit.bind(this);
-    // this.addSavingDeposit = this.addSavingDeposit.bind(this);
   }
-
-  // @todo
-  // toggleAddSavingDeposit(e) {
-  //   e.preventDefault();
-  //   this.props.mappedtoggleAddSavingDeposit();
-  // }
-  // addSavingDeposit(e) {
-  //   e.preventDefault();
-  //   const form = document.getElementById("addSavingDepositForm");
-  //   if (form.savingDepositText.value !== "" && form.savingDepositDesc.value !== "") {
-  //     const data = new FormData();
-  //     data.append("savingDepositText", form.savingDepositText.value);
-  //     data.append("savingDepositDesc", form.savingDepositDesc.value);
-  //     this.props.mappedaddSavingDeposit(data);
-  //   } else {
-  //     return;
-  //   }
-  // }
 
   render() {
     const appState = this.props.mappedAppState;
@@ -55,8 +32,7 @@ export default class App extends React.Component {
               >
                 <NavItem eventKey={1}>Saving deposits</NavItem>
               </LinkContainer>
-{/*              <LinkContainer
-                to={{ pathname: "/users", query: {} }}
+{/*               <LinkContainer to={{ pathname: "/users", query: {} }} @todo
                 onClick={this.toggleAddSavingDeposit}
               >
                 <NavItem eventKey={1}>Users</NavItem>
@@ -67,12 +43,6 @@ export default class App extends React.Component {
         <div className="container">
             {this.props.children}
         </div>
-        {/*        
-          <div className="container">
-            {appState.showaddSavingDeposit && <SavingDepositForm addSavingDeposit={this.addSavingDeposit} />}
-            {this.props.children}
-          </div>
-        */}
       </div>
     );
   }

@@ -6,13 +6,10 @@ import SavingDeposits from './containers/SavingDeposits';
 import SavingDepositForm from './containers/SavingDepositForm';
 import SavingDeposit from './containers/SavingDeposit';
 
-// @todo
-// import Users from './containers/Users';
+// @todo import Users from './containers/Users';
 // import User from './containers/User';
-
 // <Route path="/users" component={Users} />
 // <Route path="/users/:id" component={User} />
-// <Route path="/saving-deposits/:id" component={SavingDeposit} />
 
 export default (
   <Route path="/" component={App}>
