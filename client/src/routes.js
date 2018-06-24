@@ -4,7 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from './containers/App';
 import SavingDeposits from './containers/SavingDeposits';
 import SavingDepositForm from './containers/SavingDepositForm';
-// import SavingDeposit from './containers/SavingDeposit';
+import SavingDeposit from './containers/SavingDeposit';
 
 // @todo
 // import Users from './containers/Users';
@@ -19,5 +19,6 @@ export default (
     <IndexRoute component={SavingDeposits} />
     <Route path="/saving-deposits" component={SavingDeposits} />
     <Route path="/saving-deposits/create" component={SavingDepositForm} />
+    <Route path="/saving-deposits/:id" component={SavingDeposit} />
   </Route>
 )

@@ -137,12 +137,13 @@ export default class SavingDeposits extends React.Component {
                     </Button>
                   </td>
                   <td className="textCenter">
-                    <Link to={`/${savingDeposit._id}`}>View Details</Link>{" "}
+                    <Link to={`/saving-deposits/${savingDeposit._id}`}>View Details</Link>{" "}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>}
+          
         {/* Modal for editing savingDeposit */}
         <Modal
           show={savingDepositState.showEditModal}
