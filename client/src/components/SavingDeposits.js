@@ -10,16 +10,16 @@ export default class SavingDeposits extends React.Component {
     this.hideEditModal = this.hideEditModal.bind(this);
     this.submitEditSavingDeposit = this.submitEditSavingDeposit.bind(this);
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
-    this.cofirmDeleteSavingDeposit = this.cofirmDeleteSavingDeposit.bind(this);
+    this.confirmDeleteSavingDeposit = this.confirmDeleteSavingDeposit.bind(this);
   }
   componentWillMount() {
     this.props.fetchSavingDeposits();
   }
   showEditModal(savingDepositToEdit) {
-    this.props.mappedshowEditModal(savingDepositToEdit);
+    this.props.mappedShowEditModal(savingDepositToEdit);
   }
   hideEditModal() {
-    this.props.mappedhideEditModal();
+    this.props.mappedHideEditModal();
   }
   submitEditSavingDeposit(e) {
     e.preventDefault();
@@ -40,14 +40,23 @@ export default class SavingDeposits extends React.Component {
   showDeleteModal(savingDepositToDelete) {
     this.props.mappedshowDeleteModal(savingDepositToDelete);
   }
-  cofirmDeleteSavingDeposit() {
+  confirmDeleteSavingDeposit() {
     this.props.mappedDeleteSavingDeposit(
       this.props.mappedSavingDepositState.savingDepositToDelete
     );
   }
   render() {
     const savingDepositState = this.props.mappedSavingDepositState;
-    const savingDeposits = savingDepositState.savingDeposits;
+    let savingDeposits = savingDepositState.savingDeposits;
+    savingDeposits = [{
+        "bankName": 1,
+        "accountNumber": 2,
+        "initialAmount": 3,
+        "startDate": "2018-06-01T06:30:00.000Z",
+        "endDate": "2018-06-02T06:30:00.000Z",
+        "interest": 12.12,
+        "tax": 1.12
+    }];
     const editSavingDeposit = savingDepositState.savingDepositToEdit;
     return (
       <div className="col-md-12">
@@ -58,10 +67,18 @@ export default class SavingDeposits extends React.Component {
             bsStyle="info"
             bsSize="xsmall"
           >
-            <Glyphicon glyph="plus" /> Create new
+            <Glyphicon glyph="plus" /> Add new record
           </Button>
+        </Link>{" "}
 
-        </Link>
+        <Button
+            onClick={() => {}}
+            bsStyle="info"
+            bsSize="xsmall"
+        >
+            <Glyphicon glyph="tasks" /> Generate report
+        </Button>
+
 
         {!savingDeposits &&
           savingDepositState.isFetching &&
@@ -74,10 +91,16 @@ export default class SavingDeposits extends React.Component {
         {savingDeposits &&
           savingDeposits.length > 0 &&
           !savingDepositState.isFetching &&
-          <table className="table booksTable">
+          <table className="table">
             <thead>
               <tr>
-                <th>SavingDeposit</th>
+                {//   @todo filters
+                }
+                <th>Bank name</th>
+                <th>Initial amount</th>
+                <th>Current amount</th>
+                <th>Start date</th>
+                <th>End date</th>
                 <th className="textCenter">Edit</th>
                 <th className="textCenter">Delete</th>
                 <th className="textCenter">View</th>
@@ -86,7 +109,11 @@ export default class SavingDeposits extends React.Component {
             <tbody>
               {savingDeposits.map((savingDeposit, i) => (
                 <tr key={i}>
-                  <td>{savingDeposit.savingDepositText}</td>
+                  <td>{savingDeposit.bankName}</td>
+                  <td>{savingDeposit.initialAmount}</td>
+                  <td>{savingDeposit.initialAmount}</td>
+                  <td>{savingDeposit.startDate}</td>
+                  <td>{savingDeposit.endDate}</td>
                   <td className="textCenter">
                     <Button
                       onClick={() => this.showEditModal(savingDeposit)}
@@ -205,7 +232,7 @@ export default class SavingDeposits extends React.Component {
             {!savingDepositState.successMsg &&
               !savingDepositState.isFetching &&
               <div>
-                <Button onClick={this.cofirmDeleteSavingDeposit}>Yes</Button>
+                <Button onClick={this.confirmDeleteSavingDeposit}>Yes</Button>
                 <Button onClick={this.hideDeleteModal}>No</Button>
               </div>}
             {savingDepositState.successMsg &&
