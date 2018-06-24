@@ -10,7 +10,9 @@ export default class SavingDeposits extends React.Component {
     this.hideEditModal = this.hideEditModal.bind(this);
     this.submitEditSavingDeposit = this.submitEditSavingDeposit.bind(this);
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
-    this.confirmDeleteSavingDeposit = this.confirmDeleteSavingDeposit.bind(this);
+    this.confirmDeleteSavingDeposit = this.confirmDeleteSavingDeposit.bind(
+      this
+    );
     this.getSimpleAmount = this.getSimpleAmount.bind(this);
     this.getCompoundAmount = this.getCompoundAmount.bind(this);
     this.getNumberOfDays = this.getNumberOfDays.bind(this);
@@ -20,10 +22,16 @@ export default class SavingDeposits extends React.Component {
   }
   getNumberOfDays(startDate, endDate) {
     const numberMsInDay = 1000 * 60 * 60 * 24;
-    const startDayNumber = Math.floor(new Date(startDate).getTime() / numberMsInDay);
-    const endDayNumber = Math.floor(new Date(endDate).getTime() / numberMsInDay);
+    const startDayNumber = Math.floor(
+      new Date(startDate).getTime() / numberMsInDay
+    );
+    const endDayNumber = Math.floor(
+      new Date(endDate).getTime() / numberMsInDay
+    );
     const currentDayNumber = Math.floor(Date.now() / numberMsInDay);
-    const numberOfDays = (currentDayNumber <= endDayNumber) ? (currentDayNumber - startDayNumber) : (endDayNumber - startDayNumber + 1);
+    const numberOfDays = currentDayNumber <= endDayNumber
+      ? currentDayNumber - startDayNumber
+      : endDayNumber - startDayNumber + 1;
     return numberOfDays;
   }
   getSimpleAmount(p, r, t) {
@@ -38,7 +46,7 @@ export default class SavingDeposits extends React.Component {
     // t time in years
     // N number of times that interest is compounded per year
     // See https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php for more details
-    return Number(p * Math.pow((1 + r / (N * 100.0)), N * t)).toFixed(2);
+    return Number(p * Math.pow(1 + r / (N * 100.0), N * t)).toFixed(2);
   }
   showEditModal(savingDepositToEdit) {
     this.props.mappedShowEditModal(savingDepositToEdit);
@@ -134,7 +142,16 @@ export default class SavingDeposits extends React.Component {
                 <tr key={i}>
                   <td>{savingDeposit.bankName}</td>
                   <td>{savingDeposit.initialAmount}</td>
-                  <td>{this.getCompoundAmount(savingDeposit.initialAmount, savingDeposit.interest, this.getNumberOfDays(savingDeposit.startDate, savingDeposit.endDate))}</td>
+                  <td>
+                    {this.getCompoundAmount(
+                      savingDeposit.initialAmount,
+                      savingDeposit.interest,
+                      this.getNumberOfDays(
+                        savingDeposit.startDate,
+                        savingDeposit.endDate
+                      )
+                    )}
+                  </td>
                   <td>{savingDeposit.startDate}</td>
                   <td>{savingDeposit.endDate}</td>
                   <td className="textCenter">
