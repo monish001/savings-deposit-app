@@ -252,7 +252,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         error: action.error,
         successMsg: null,
         showDeleteModal: true,
-        savingDepositToDelete: null,
+        savingDepositToDelete: currentState.savingDepositToDelete,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null

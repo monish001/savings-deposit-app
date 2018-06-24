@@ -22,9 +22,9 @@ const mapDispatchToProps = dispatch => {
     mappedHideEditModal: () => dispatch(savingDepositActions.hideEditModal()),
     mappedDeleteSavingDeposit: savingDepositToDelete =>
       dispatch(savingDepositActions.deleteSavingDeposit(savingDepositToDelete)),
-    mappedshowDeleteModal: savingDepositToDelete =>
+    mappedShowDeleteModal: savingDepositToDelete =>
       dispatch(savingDepositActions.showDeleteModal(savingDepositToDelete)),
-    mappedhideDeleteModal: () =>
+    mappedHideDeleteModal: () =>
       dispatch(savingDepositActions.hideDeleteModal()),
   };
 };

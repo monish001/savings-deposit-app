@@ -2,7 +2,7 @@
 import React from "react";
 import { Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
-// @todo import SavingDepositEditForm from "./SavingDepositEditForm";
+import SavingDepositEditForm from "./SavingDepositEditForm";
 // @todo import SavingDepositAddForm from "./SavingDepositAddForm";
 export default class SavingDeposits extends React.Component {
   constructor(props) {
@@ -24,21 +24,23 @@ export default class SavingDeposits extends React.Component {
   submitEditSavingDeposit(e) {
     e.preventDefault();
     const editForm = document.getElementById("EditSavingDepositForm");
-    if (editForm.savingDepositText.value !== "") {
-      const data = new FormData();
-      data.append("id", editForm.id.value);
-      data.append("savingDepositText", editForm.savingDepositText.value);
-      data.append("savingDepositDesc", editForm.savingDepositDesc.value);
-      this.props.mappedEditSavingDeposit(data);
-    } else {
-      return;
-    }
+    const data = new FormData();
+    data.append("_id", editForm.id.value);
+    data.append("bankName", editForm.bankName.value);
+    data.append("accountNumber", editForm.accountNumber.value);
+    data.append("initialAmount", editForm.initialAmount.value);
+    data.append("accountNumber", editForm.accountNumber.value);
+    data.append("startDate", editForm.startDate.value);
+    data.append("endDate", editForm.endDate.value);
+    data.append("interest", editForm.interest.value);
+    data.append("tax", editForm.tax.value);
+    this.props.mappedEditSavingDeposit(data);
   }
   hideDeleteModal() {
-    this.props.mappedhideDeleteModal();
+    this.props.mappedHideDeleteModal();
   }
   showDeleteModal(savingDepositToDelete) {
-    this.props.mappedshowDeleteModal(savingDepositToDelete);
+    this.props.mappedShowDeleteModal(savingDepositToDelete);
   }
   confirmDeleteSavingDeposit() {
     this.props.mappedDeleteSavingDeposit(
@@ -49,6 +51,7 @@ export default class SavingDeposits extends React.Component {
     const savingDepositState = this.props.mappedSavingDepositState;
     let savingDeposits = savingDepositState.savingDeposits;
     savingDeposits = [{
+        "_id": 1,
         "bankName": 1,
         "accountNumber": 2,
         "initialAmount": 3,
@@ -58,6 +61,7 @@ export default class SavingDeposits extends React.Component {
         "tax": 1.12
     }];
     const editSavingDeposit = savingDepositState.savingDepositToEdit;
+    const savingDepositToDelete = savingDepositState.savingDepositToDelete;
     return (
       <div className="col-md-12">
         <h3 className="centerAlign">SavingDeposits</h3>
@@ -76,7 +80,7 @@ export default class SavingDeposits extends React.Component {
             bsStyle="info"
             bsSize="xsmall"
         >
-            <Glyphicon glyph="tasks" /> Generate report
+            <Glyphicon glyph="tasks" /> Generate report {/*@todo*/}
         </Button>
 
 
@@ -111,7 +115,7 @@ export default class SavingDeposits extends React.Component {
                 <tr key={i}>
                   <td>{savingDeposit.bankName}</td>
                   <td>{savingDeposit.initialAmount}</td>
-                  <td>{savingDeposit.initialAmount}</td>
+                  <td>{savingDeposit.initialAmount}</td> {/*@todo current amount*/}
                   <td>{savingDeposit.startDate}</td>
                   <td>{savingDeposit.endDate}</td>
                   <td className="textCenter">
@@ -148,20 +152,20 @@ export default class SavingDeposits extends React.Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title">
-              Edit Your SavingDeposit
+              Edit Saving Deposit Record
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="col-md-12">
-              {/* @todo editSavingDeposit &&
+            <div className="col-md-12" style={{float: 'initial'}}>
+              {editSavingDeposit &&
                 <SavingDepositEditForm
                   savingDepositData={editSavingDeposit}
                   editSavingDeposit={this.submitEditSavingDeposit}
-              />*/}
+              />}
               {editSavingDeposit &&
                 savingDepositState.isFetching &&
                 <Alert bsStyle="info">
-                  <strong>Updating...... </strong>
+                  <strong>Updating... </strong>
                 </Alert>}
               {editSavingDeposit &&
                 !savingDepositState.isFetching &&
@@ -184,6 +188,7 @@ export default class SavingDeposits extends React.Component {
             <Button onClick={this.hideEditModal}>Close</Button>
           </Modal.Footer>
         </Modal>
+
         {/* Modal for deleting savingDeposit */}
         <Modal
           show={savingDepositState.showDeleteModal}
@@ -193,39 +198,33 @@ export default class SavingDeposits extends React.Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title">
-              Delete Your Book
+              Delete Saving Deposit Record
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {savingDepositState.savingDepositToDelete &&
-              !savingDepositState.error &&
-              !savingDepositState.isFetching &&
+            {savingDepositToDelete &&
               <Alert bsStyle="warning">
-                Are you sure you want to delete this saving deposit
+                Are you sure you want to delete the saving deposit with bank 
                 {" "}
-                <strong>
-                  {savingDepositState.savingDepositToDelete.savingDepositText}
-                  {" "}
-                </strong>
-                {" "}
+                <strong>{savingDepositToDelete.bankName}</strong>
                 ?
               </Alert>}
-            {savingDepositState.savingDepositToDelete &&
+            {savingDepositToDelete &&
+                savingDepositState.isFetching &&
+                <Alert bsStyle="success">
+                    <strong>Deleting... </strong>
+                </Alert>}
+            {savingDepositToDelete &&
+              !savingDepositState.isFetching &&
               savingDepositState.error &&
-              <Alert bsStyle="warning">
+              <Alert bsStyle="danger">
                 Failed. <strong>{savingDepositState.error} </strong>
               </Alert>}
-            {savingDepositState.savingDepositToDelete &&
-              !savingDepositState.error &&
-              savingDepositState.isFetching &&
-              <Alert bsStyle="success">
-                <strong>Deleting.... </strong>
-              </Alert>}
-            {!savingDepositState.savingDepositToDelete &&
-              !savingDepositState.error &&
+            {!savingDepositToDelete &&
               !savingDepositState.isFetching &&
+              savingDepositState.successMsg &&
               <Alert bsStyle="success">
-                SavingDeposit <strong>{savingDepositState.successMsg} </strong>
+                Saving Deposit <strong>{savingDepositState.successMsg} </strong>
               </Alert>}
           </Modal.Body>
           <Modal.Footer>
