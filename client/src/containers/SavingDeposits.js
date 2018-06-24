@@ -1,6 +1,7 @@
 // ./react-redux-client/src/containers/SavingDeposits.js
 import { connect } from "react-redux";
 import * as savingDepositActions from "../actions/savingDepositActions";
+import * as appActions from "../actions/appActions";
 import SavingDeposits from "../components/SavingDeposits";
 // map state from store to props
 const mapStateToProps = (state, ownProps) => {
@@ -13,8 +14,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     //you can now say this.props.mappedAppActions
-    fetchSavingDeposits: filters =>
-      dispatch(savingDepositActions.fetchSavingDeposits(filters)),
+    mappedFetchSavingDeposits: filters =>
+        dispatch(savingDepositActions.fetchSavingDeposits(filters)),
     mappedEditSavingDeposit: savingDepositToEdit =>
       dispatch(savingDepositActions.editSavingDeposit(savingDepositToEdit)),
     mappedShowEditModal: savingDepositToEdit =>
@@ -22,10 +23,14 @@ const mapDispatchToProps = dispatch => {
     mappedHideEditModal: () => dispatch(savingDepositActions.hideEditModal()),
     mappedDeleteSavingDeposit: savingDepositToDelete =>
       dispatch(savingDepositActions.deleteSavingDeposit(savingDepositToDelete)),
-    mappedShowDeleteModal: savingDepositToDelete =>
+      mappedShowDeleteModal: savingDepositToDelete =>
       dispatch(savingDepositActions.showDeleteModal(savingDepositToDelete)),
     mappedHideDeleteModal: () =>
       dispatch(savingDepositActions.hideDeleteModal()),
+    mappedShowGenerateReportModal: () =>
+      dispatch(savingDepositActions.showGenerateReportModal()),
+    mappedGenerateReportModal: () =>
+      dispatch(savingDepositActions.hideGenerateReportModal()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SavingDeposits);

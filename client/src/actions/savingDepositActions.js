@@ -227,3 +227,13 @@ export const hideDeleteModal = () => {
     type: "HIDE_DELETE_MODAL"
   };
 };
+export const showGenerateReportModal = () => {
+  return {
+    type: "SHOW_GENERATE_REPORT_MODAL",
+  };
+};
+export const hideGenerateReportModal = () => {
+  return {
+    type: "HIDE_GENERATE_REPORT_MODAL"
+  };
+};

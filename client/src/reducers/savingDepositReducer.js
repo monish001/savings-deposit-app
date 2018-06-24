@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   successMsg: null,
   showDeleteModal: false,
   savingDepositToDelete: null,
+  showGenerateReportModal: false,
   showEditModal: false,
   savingDepositToEdit: null,
   newSavingDeposit: null
@@ -25,6 +26,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null
       };
@@ -32,13 +34,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: action.savingDeposits,
-        savingDepositsFilter: currentState.savingDepositsFilter,
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null
       };
@@ -46,13 +48,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: [],
-        savingDepositsFilter: currentState.savingDepositsFilter,
         savingDeposit: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null
       };
@@ -60,13 +62,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: true,
         error: null,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null
       };
@@ -74,13 +76,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
         savingDeposit: action.savingDeposit,
         isFetching: false,
         error: null,
         successMsg: action.message,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null
       };
@@ -88,13 +90,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: [],
-        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null
       };
@@ -102,13 +104,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: true,
         error: null,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: action.savingDeposit
@@ -117,13 +119,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: true,
         error: action.error,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null
@@ -132,13 +134,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       const nextState = {
         ...currentState,
         savingDeposits: [...currentState.savingDeposits, action.savingDeposit],
-        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: action.savingDeposit
@@ -148,13 +150,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: true,
         savingDepositToEdit: action.savingDeposit,
         newSavingDeposit: null
@@ -163,14 +165,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null
@@ -179,14 +180,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: true,
         error: null,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: true,
         savingDepositToEdit: action.savingDeposit,
         newSavingDeposit: null
@@ -205,14 +205,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: updatedSavingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: true,
         savingDepositToEdit: action.savingDeposit,
         newSavingDeposit: null
@@ -221,14 +220,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: true,
         savingDepositToEdit: currentState.savingDepositToEdit,
         newSavingDeposit: null
@@ -237,14 +235,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: true,
         error: null,
         successMsg: null,
         showDeleteModal: true,
         savingDepositToDelete: action.savingDeposit,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null
@@ -256,14 +253,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: filteredSavingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
         showDeleteModal: true,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null
@@ -272,14 +268,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
         showDeleteModal: true,
         savingDepositToDelete: currentState.savingDepositToDelete,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null
@@ -288,14 +283,13 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: null,
         showDeleteModal: true,
         savingDepositToDelete: action.savingDeposit,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null
@@ -304,14 +298,43 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
-        savingDepositsFilter: {},
-
         savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
+        showGenerateReportModal: false,
+        showEditModal: false,
+        savingDepositToEdit: null,
+        newSavingDeposit: null
+      };
+    case "SHOW_GENERATE_REPORT_MODAL":
+      return {
+        ...currentState,
+        savingDeposits: currentState.savingDeposits,
+        savingDeposit: null,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showDeleteModal: true,
+        savingDepositToDelete: action.savingDeposit,
+        showGenerateReportModal: true,
+        showEditModal: false,
+        savingDepositToEdit: null,
+        newSavingDeposit: null
+      };
+    case "HIDE_GENERATE_REPORT_MODAL":
+      return {
+        ...currentState,
+        savingDeposits: currentState.savingDeposits,
+        savingDeposit: null,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showDeleteModal: false,
+        savingDepositToDelete: null,
+        showGenerateReportModal: false,
         showEditModal: false,
         savingDepositToEdit: null,
         newSavingDeposit: null

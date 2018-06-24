@@ -10,6 +10,7 @@ import {
 import DatePicker from "react-16-bootstrap-date-picker";
 import { Link } from "react-router";
 import SavingDepositEditForm from "./SavingDepositEditForm";
+import { browserHistory } from 'react-router';
 
 export default class SavingDeposits extends React.Component {
   constructor(props) {
@@ -20,25 +21,38 @@ export default class SavingDeposits extends React.Component {
     this.confirmDeleteSavingDeposit = this.confirmDeleteSavingDeposit.bind(
       this
     );
+    this.hideGenerateReportModal = this.hideGenerateReportModal.bind(this);
+    this.showGenerateReportModal = this.showGenerateReportModal.bind(this);
     this.getSimpleAmount = this.getSimpleAmount.bind(this);
     this.getCompoundAmount = this.getCompoundAmount.bind(this);
     this.getNumberOfDays = this.getNumberOfDays.bind(this);
     this.searchSavingDeposits = this.searchSavingDeposits.bind(this);
+    this.generateSavingDepositsReport = this.generateSavingDepositsReport.bind(
+      this
+    );
   }
   componentWillMount() {
-    this.props.fetchSavingDeposits();
+    this.props.mappedFetchSavingDeposits();
+  }
+  generateSavingDepositsReport(e) {
+    e.preventDefault();
+    const generateReportForm = document.getElementById("generateSavingDepositsReport");
+    const reportStartDate = generateReportForm.reportStartDate.value;
+    const reportEndDate = generateReportForm.reportEndDate.value;
+    const url = `/saving-deposits/report/${reportStartDate}/${reportEndDate}`;
+    browserHistory.push(url);
   }
   searchSavingDeposits(e) {
     e.preventDefault();
     const searchForm = document.getElementById("searchSavingDepositForm");
     const filters = {
-        bankName: searchForm.bankName.value,
-        minAmount: searchForm.minAmount.value,
-        maxAmount: searchForm.maxAmount.value,
-        startDate: searchForm.startDate.value,
-        endDate: searchForm.endDate.value,
-    }
-    this.props.fetchSavingDeposits(filters);
+      bankName: searchForm.bankName.value,
+      minAmount: searchForm.minAmount.value,
+      maxAmount: searchForm.maxAmount.value,
+      startDate: searchForm.startDate.value,
+      endDate: searchForm.endDate.value
+    };
+    this.props.mappedFetchSavingDeposits(filters);
   }
   getNumberOfDays(startDate, endDate) {
     const numberMsInDay = 1000 * 60 * 60 * 24;
@@ -67,6 +81,12 @@ export default class SavingDeposits extends React.Component {
     // N number of times that interest is compounded per year
     // See https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php for more details
     return Number(p * Math.pow(1 + r / (N * 100.0), N * t)).toFixed(2);
+  }
+  showGenerateReportModal() {
+    this.props.mappedShowGenerateReportModal();
+  }
+  hideGenerateReportModal() {
+    this.props.mappedGenerateReportModal();
   }
   showEditModal(savingDepositToEdit) {
     this.props.mappedShowEditModal(savingDepositToEdit);
@@ -99,6 +119,7 @@ export default class SavingDeposits extends React.Component {
       this.props.mappedSavingDepositState.savingDepositToDelete
     );
   }
+
   render() {
     const savingDepositState = this.props.mappedSavingDepositState;
     let savingDeposits = savingDepositState.savingDeposits;
@@ -126,13 +147,13 @@ export default class SavingDeposits extends React.Component {
           </Panel.Heading>
           <Panel.Body>
             <Link to={`/saving-deposits/create`}>
-              <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
+              <Button onClick={() => {}} bsStyle="info" bsSize="small">
                 <Glyphicon glyph="plus" /> Add new record
               </Button>
             </Link>{" "}
 
-            <Button onClick={() => {}} bsStyle="info" bsSize="xsmall">
-              <Glyphicon glyph="tasks" /> Generate report {/*@todo*/}
+            <Button onClick={() => {this.showGenerateReportModal()}} bsStyle="info" bsSize="small">
+              <Glyphicon glyph="tasks" /> Generate report
             </Button>
           </Panel.Body>
         </Panel>
@@ -155,10 +176,10 @@ export default class SavingDeposits extends React.Component {
                 Bank: ABC
                 Active on or after date: sldfkj
                 Active on or before date: sdlfj*/}
-                <form 
-                className="form"
-                id="searchSavingDepositForm"
-                onSubmit={this.searchSavingDeposits}
+                <form
+                  className="form"
+                  id="searchSavingDepositForm"
+                  onSubmit={this.searchSavingDeposits}
                 >
                   <FormGroup>
                     <ControlLabel>Bank name: </ControlLabel>
@@ -166,7 +187,11 @@ export default class SavingDeposits extends React.Component {
                       type="text"
                       placeholder="Enter bank name"
                       name="bankName"
-                      defaultValue={savingDepositsFilter && savingDepositsFilter.bankName || ''}
+                      defaultValue={
+                        (savingDepositsFilter &&
+                          savingDepositsFilter.bankName) ||
+                          ""
+                      }
                     />
                   </FormGroup>
                   <FormGroup>
@@ -177,7 +202,11 @@ export default class SavingDeposits extends React.Component {
                         type="text"
                         placeholder="Enter minimum amount"
                         name="minAmount"
-                        defaultValue={savingDepositsFilter && savingDepositsFilter.minAmount || ''}
+                        defaultValue={
+                          (savingDepositsFilter &&
+                            savingDepositsFilter.minAmount) ||
+                            ""
+                        }
                       />
                     </InputGroup>
                     <ControlLabel> and </ControlLabel>
@@ -187,7 +216,11 @@ export default class SavingDeposits extends React.Component {
                         type="text"
                         placeholder="Enter maximum amount"
                         name="maxAmount"
-                        defaultValue={savingDepositsFilter && savingDepositsFilter.maxAmount || ''}
+                        defaultValue={
+                          (savingDepositsFilter &&
+                            savingDepositsFilter.maxAmount) ||
+                            ""
+                        }
                       />
                     </InputGroup>
                   </FormGroup>
@@ -196,18 +229,22 @@ export default class SavingDeposits extends React.Component {
                     <ControlLabel>Active between start date: </ControlLabel>
                     <DatePicker
                       id="start-date-picker"
-                      value={this.state && this.state.startDate}
-                      onChange={this.handleChange}
                       name="startDate"
-                      defaultValue={savingDepositsFilter && savingDepositsFilter.startDate || ''}
+                      defaultValue={
+                        (savingDepositsFilter &&
+                          savingDepositsFilter.startDate) ||
+                          ""
+                      }
                     />
                     <ControlLabel> and end date: </ControlLabel>
                     <DatePicker
                       id="end-date-picker"
-                      value={this.state && this.state.endDate}
-                      onChange={this.handleChange}
                       name="endDate"
-                      defaultValue={savingDepositsFilter && savingDepositsFilter.endDate || ''}
+                      defaultValue={
+                        (savingDepositsFilter &&
+                          savingDepositsFilter.endDate) ||
+                          ""
+                      }
                     />
                   </FormGroup>
 
@@ -215,14 +252,14 @@ export default class SavingDeposits extends React.Component {
                     <Button
                       type="submit"
                       bsStyle="success"
-                      bsSize="large"
+                      bsSize="small"
                       block
                     >
                       Search
                     </Button>
                   </FormGroup>
                 </form>
-                </Panel.Heading>
+              </Panel.Heading>
               <Panel.Body>
 
                 <table className="table">
@@ -385,6 +422,63 @@ export default class SavingDeposits extends React.Component {
             {savingDepositState.successMsg &&
               !savingDepositState.isFetching &&
               <Button onClick={this.hideDeleteModal}>Close</Button>}
+          </Modal.Footer>
+        </Modal>
+
+        {/* Modal for generating report */}
+        <Modal
+          show={savingDepositState.showGenerateReportModal}
+          onHide={this.hideGenerateReportModal}
+          container={this}
+          aria-labelledby="contained-modal-title"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title">
+              Generate Saving Deposit Report
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+              <form
+                className="form"
+                id="generateSavingDepositsReport"
+                onSubmit={this.generateSavingDepositsReport}
+              >
+
+                <FormGroup>
+                  <ControlLabel>Start date: </ControlLabel>
+                  <DatePicker
+                    id="report-start-date-picker"
+                    name="reportStartDate"
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <ControlLabel>End date: </ControlLabel>
+                  <DatePicker
+                    id="report-end-date-picker"
+                    name="reportEndDate"
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Button
+                    type="submit"
+                    bsStyle="success"
+                    bsSize="small"
+                    block
+                    id="generate-report"
+                  >
+                    Generate
+                  </Button>
+                </FormGroup>{" "}
+              </form>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+
+            <Button onClick={this.hideGenerateReportModal}>Close</Button>
+
           </Modal.Footer>
         </Modal>
       </div>
