@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run build-client__prod && npm run server__prod",
+    "start__dev": "concurrently \"npm run server__dev\" \"npm run client__dev\"",
+    "server__prod": "node ./server/bin/www",
+    "server__dev": "node ./server/bin/www-dev-start.js",
+    "build-client__prod": "cd client && npm run build && cd ..",
+    "client__dev": "node start-client.js"
+  },
+  "dependencies": {
+    "babel-preset-es2015-node6": "^0.4.0",
+    "babel-register": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "mongoose": "^5.1.6",
+    "morgan": "^1.9.0",
+    "source-map-support": "^0.5.6"
+  },
+  "devDependencies": {
+    "concurrently": "^3.6.0"
+  }
+}
