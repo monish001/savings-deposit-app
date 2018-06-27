@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   InputGroup,
   FormGroup,
   ControlLabel,
@@ -26,104 +27,109 @@ export default class SavingDepositsForm extends React.Component {
 
   addSavingDeposit(e) {
     e.preventDefault();
-    const form = document.getElementById("addTodoForm"); // @todo dont use getElementById
-    const data = new FormData();
-    data.append("bankName", form.bankName.value);
-    data.append("accountNumber", form.accountNumber.value);
-    data.append("initialAmount", form.initialAmount.value);
-    data.append("accountNumber", form.accountNumber.value);
-    data.append("startDate", form.startDate.value);
-    data.append("endDate", form.endDate.value);
-    data.append("interest", form.interest.value);
-    data.append("tax", form.tax.value);
-    this.props.mappedAddNewSavingDeposit(data);
+    const form = document.getElementById("addSavingDepositForm"); // @todo dont use getElementById
+    const newSavingDeposit = {
+      bankName: form.bankName.value,
+      accountNumber: form.accountNumber.value,
+      initialAmount: form.initialAmount.value,
+      startDate: form.startDate.value,
+      endDate: form.startDate.value,
+      interest: form.interest.value,
+      tax: form.tax.value
+    };
+    this.props.mappedAddNewSavingDeposit(newSavingDeposit);
   }
 
   render() {
     return (
-      <form
-        className="form form-horizontal"
-        id="addSavingDepositForm"
-        onSubmit={this.props.addSavingDeposit}
-      >
-        <div className="row">
-          <h3 className="centerAlign">Add your saving deposit</h3>
-          <div className="col-md-12">
-            <FormGroup>
-              <ControlLabel>Bank name: </ControlLabel>
-              <FormControl
-                type="text"
-                placeholder="Enter bank name"
-                name="bankName"
-              />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Account number: </ControlLabel>
-              <FormControl
-                type="text"
-                placeholder="Enter account number"
-                name="accountNumber"
-              />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Initial amount saved: </ControlLabel>
-              <InputGroup>
-                <InputGroup.Addon>$</InputGroup.Addon>
+      <div>
+        <form
+          className="form form-horizontal"
+          id="addSavingDepositForm"
+          onSubmit={this.addSavingDeposit}
+        >
+          <div className="row">
+            <h3 className="centerAlign">Add your saving deposit</h3>
+            <div className="col-md-12">
+              <FormGroup>
+                <ControlLabel>Bank name: </ControlLabel>
                 <FormControl
                   type="text"
-                  placeholder="Enter initial amount saved"
-                  name="initialAmount"
+                  placeholder="Enter bank name"
+                  name="bankName"
                 />
-              </InputGroup>
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Start date: </ControlLabel>
-              <DatePicker
-                id="start-date-picker"
-                value={this.state && this.state.startDate}
-                onChange={this.handleChange}
-                name="startDate"
-              />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>End date: </ControlLabel>
-              <DatePicker
-                id="end-date-picker"
-                value={this.state && this.state.endDate}
-                onChange={this.handleChange}
-                name="endDate"
-              />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Interest per year: </ControlLabel>
-              <InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Account number: </ControlLabel>
                 <FormControl
                   type="text"
-                  placeholder="Enter interest per year"
-                  name="interest"
+                  placeholder="Enter account number"
+                  name="accountNumber"
                 />
-                <InputGroup.Addon>%</InputGroup.Addon>
-              </InputGroup>
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Tax: </ControlLabel>
-              <InputGroup>
-                <FormControl 
-                  type="text" 
-                  placeholder="Enter tax" 
-                  name="tax" 
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Initial amount saved: </ControlLabel>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    type="text"
+                    placeholder="Enter initial amount saved"
+                    name="initialAmount"
+                  />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Start date: </ControlLabel>
+                <DatePicker
+                  id="start-date-picker"
+                  value={this.state && this.state.startDate}
+                  onChange={this.handleChange}
+                  name="startDate"
                 />
-                <InputGroup.Addon>%</InputGroup.Addon>
-              </InputGroup>
-            </FormGroup>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>End date: </ControlLabel>
+                <DatePicker
+                  id="end-date-picker"
+                  value={this.state && this.state.endDate}
+                  onChange={this.handleChange}
+                  name="endDate"
+                />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Interest per year: </ControlLabel>
+                <InputGroup>
+                  <FormControl
+                    type="text"
+                    placeholder="Enter interest per year"
+                    name="interest"
+                  />
+                  <InputGroup.Addon>%</InputGroup.Addon>
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Tax: </ControlLabel>
+                <InputGroup>
+                  <FormControl type="text" placeholder="Enter tax" name="tax" />
+                  <InputGroup.Addon>%</InputGroup.Addon>
+                </InputGroup>
+              </FormGroup>
+            </div>
           </div>
-        </div>
-        <FormGroup>
-          <Button type="submit" bsStyle="info" bsSize="large" block>
-            Submit
-          </Button>
-        </FormGroup>
-      </form>
+          <FormGroup>
+            <Button type="submit" bsStyle="info" bsSize="small" block>
+              Submit
+            </Button>
+          </FormGroup>
+        </form>
+        {!this.props.mappedSavingDepositState.isFetching &&
+          this.props.mappedSavingDepositState.error &&
+          <Alert bsStyle="danger">
+            <strong>
+              Failed. {this.props.mappedSavingDepositState.error}{" "}
+            </strong>
+          </Alert>}
+      </div>
     );
   }
 }

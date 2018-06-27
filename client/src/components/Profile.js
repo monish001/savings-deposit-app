@@ -44,7 +44,6 @@ export default class Profile extends React.Component {
       newPassword: formData.newPassword.value,
       confirmNewPassword: formData.confirmNewPassword.value
     };
-    console.log(args);
     this.props.mappedUpdatePassword(args);
   }
 
@@ -76,7 +75,7 @@ export default class Profile extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Button type="submit" bsStyle="info" bsSize="large" block>
+                  <Button type="submit" bsStyle="info" bsSize="small" block>
                     Update picture
                   </Button>
                 </FormGroup>
@@ -136,7 +135,7 @@ export default class Profile extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup>
-                  <Button type="submit" bsStyle="info" bsSize="large" block>
+                  <Button type="submit" bsStyle="info" bsSize="small" block>
                     Update password
                   </Button>
                 </FormGroup>

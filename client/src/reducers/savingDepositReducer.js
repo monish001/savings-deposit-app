@@ -119,7 +119,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
         savingDeposit: null,
-        isFetching: true,
+        isFetching: false,
         error: action.error,
         successMsg: null,
         showDeleteModal: false,

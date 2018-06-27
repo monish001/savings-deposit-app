@@ -7,7 +7,7 @@ const mapStateToProps = state => {
   return {
     //you can now say this.props.mappedAppSate
     mappedUsersState: state.usersState,
-    mappedProfileState: state.profileState,
+    mappedProfileState: state.profileState
   };
 };
 // map actions to props
@@ -15,15 +15,22 @@ const mapDispatchToProps = dispatch => {
   return {
     //you can now say this.props.mappedAppActions
     mappedFetchUsers: () => dispatch(userActions.fetchUsers()),
-    mappedEditUser: userToEdit => dispatch(userActions.editUser(userToEdit)),
+
+    mappedEditUser: (userToEdit, oldUser) => dispatch(userActions.editUser(userToEdit, oldUser)),
     mappedShowEditModal: userToEdit =>
       dispatch(userActions.showEditModal(userToEdit)),
     mappedHideEditModal: () => dispatch(userActions.hideEditModal()),
+
     mappedDeleteUser: userToDelete =>
       dispatch(userActions.deleteUser(userToDelete)),
     mappedShowDeleteModal: userToDelete =>
       dispatch(userActions.showDeleteModal(userToDelete)),
-    mappedHideDeleteModal: () => dispatch(userActions.hideDeleteModal())
+    mappedHideDeleteModal: () => dispatch(userActions.hideDeleteModal()),
+
+    mappedUploadUserPictureInBrowser: base64Image =>
+      dispatch(userActions.uploadUserPictureInBrowser(base64Image)),
+    mappedSubmitPicture: userToEdit =>
+      dispatch(userActions.submitPicture(userToEdit))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

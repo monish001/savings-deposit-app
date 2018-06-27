@@ -73,7 +73,7 @@ export default class Login extends React.Component {
 
                 <FormGroup>
                   <Col smOffset={2} sm={10}>
-                    <Button type="submit" bsStyle="info">
+                    <Button type="submit" bsStyle="info" bsSize="small">
                       {`${profileState.isLoggingIn ? "Signing In..." : "Sign In"}`}
                     </Button>
                   </Col>
@@ -152,7 +152,7 @@ export default class Login extends React.Component {
 
                 <FormGroup>
                   <Col smOffset={2} sm={10}>
-                    <Button type="submit" bsStyle="info">
+                    <Button type="submit" bsStyle="info" bsSize="small">
                       {`${profileState.isSigningUp ? "Signing Up..." : "Sign Up"}`}
                     </Button>
                   </Col>

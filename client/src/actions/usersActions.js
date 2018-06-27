@@ -1,16 +1,14 @@
 const apiUrl = "/api/users/";
 /** create user */
 export const addNewUser = user => {
-  console.log(user);
   return dispatch => {
     dispatch(addNewUserRequest(user));
     return fetch(apiUrl, {
       method: "post",
-      body: user
+      body: JSON.stringify(user),
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
-          console.log(data.user);
           dispatch(addNewUserRequestSuccess(data.user, data.message));
         });
       } else {
@@ -41,7 +39,7 @@ export const addNewUserRequestFailed = error => {
   };
 };
 
-//Async action
+// get list of users
 export const fetchUsers = () => {
   // Returns a dispatcher function
   // that dispatches an action at later time
@@ -82,45 +80,46 @@ export const fetchUsersFailed = error => {
   };
 };
 
-export const fetchUserById = userId => {
-  return dispatch => {
-    dispatch(fetchUserRequest());
-    // Returns a promise
-    return fetch(apiUrl + userId).then(response => {
-      console.log(response);
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(fetchUserSuccess(data.user[0], data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(fetchUserFailed(error));
-        });
-      }
-    });
-  };
-};
-export const fetchUserRequest = () => {
-  return {
-    type: "FETCH_USER_REQUEST"
-  };
-};
-//Sync action
-export const fetchUserSuccess = (user, message) => {
-  return {
-    type: "FETCH_USER_SUCCESS",
-    user: user,
-    message: message,
-    receivedAt: Date.now
-  };
-};
-export const fetchUserFailed = error => {
-  return {
-    type: "FETCH_USER_FAILED",
-    error
-  };
-};
+// /* get a single user */
+// export const fetchUserById = userId => {
+//   return dispatch => {
+//     dispatch(fetchUserRequest());
+//     // Returns a promise
+//     return fetch(apiUrl + userId).then(response => {
+//       if (response.ok) {
+//         response.json().then(data => {
+//           dispatch(fetchUserSuccess(data.user[0], data.message));
+//         });
+//       } else {
+//         response.json().then(error => {
+//           dispatch(fetchUserFailed(error));
+//         });
+//       }
+//     });
+//   };
+// };
+// export const fetchUserRequest = () => {
+//   return {
+//     type: "FETCH_USER_REQUEST"
+//   };
+// };
+// //Sync action
+// export const fetchUserSuccess = (user, message) => {
+//   return {
+//     type: "FETCH_USER_SUCCESS",
+//     user: user,
+//     message: message,
+//     receivedAt: Date.now
+//   };
+// };
+// export const fetchUserFailed = error => {
+//   return {
+//     type: "FETCH_USER_FAILED",
+//     error
+//   };
+// };
 
+// edit user
 export const showEditModal = userToEdit => {
   return {
     type: "SHOW_EDIT_USER__MODAL",
@@ -132,12 +131,13 @@ export const hideEditModal = () => {
     type: "HIDE_EDIT_USER__MODAL"
   };
 };
-export const editUser = user => {
+export const editUser = (newUser, oldUser) => {
   return dispatch => {
-    dispatch(editUserRequest(user));
-    return fetch(apiUrl, {
+    dispatch(editUserRequest(newUser));
+    const _apiUrl = apiUrl + oldUser._id + '/update-role-to-' + newUser.role.toLowerCase();
+    return fetch(_apiUrl, {
       method: "put",
-      body: user
+      body: newUser
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -171,6 +171,7 @@ export const editUserFailed = error => {
   };
 };
 
+// delete user
 export const deleteUser = user => {
   return dispatch => {
     dispatch(deleteUserRequest(user));
@@ -218,3 +219,49 @@ export const hideDeleteModal = () => {
     type: "HIDE_DELETE_USER__MODAL"
   };
 };
+
+
+export const uploadUserPictureInBrowser = base64Image => {
+  return {
+    type: "UPLOAD_USER_PICTURE_IN_BROWSER",
+    imageToUpdate: base64Image
+  };
+};
+export const submitPicture = args => {
+  return dispatch => {
+    console.log('submitPicture', args);
+    dispatch(submitPictureRequest());
+    return fetch(apiUrl + args._id + "/update-picture", {
+      method: "post",
+      body: JSON.stringify(args),
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          dispatch(submitPictureRequestSuccess(data.message));
+        });
+      } else {
+        response.json().then(error => {
+          dispatch(submitPictureRequestFailed(error));
+        });
+      }
+    });
+  };
+};
+export const submitPictureRequest = () => {
+  return {
+    type: "UPDATE_USER_PICTURE_REQUEST"
+  };
+};
+export const submitPictureRequestSuccess = message => {
+  return {
+    type: "UPDATE_USER_PICTURE_SUCCESS",
+    message: message
+  };
+};
+export const submitPictureRequestFailed = error => {
+  return {
+    type: "UPDATE_USER_PICTURE_FAILED",
+    error
+  };
+};
+

@@ -9,7 +9,7 @@ import {
 import DatePicker from "react-16-bootstrap-date-picker";
 import { Link } from "react-router";
 import SavingDepositEditForm from "./SavingDepositEditForm";
-import { browserHistory } from 'react-router';
+import { browserHistory } from "react-router";
 
 export default class SavingDeposits extends React.Component {
   constructor(props) {
@@ -35,7 +35,9 @@ export default class SavingDeposits extends React.Component {
   }
   generateSavingDepositsReport(e) {
     e.preventDefault();
-    const generateReportForm = document.getElementById("generateSavingDepositsReport");
+    const generateReportForm = document.getElementById(
+      "generateSavingDepositsReport"
+    );
     const reportStartDate = generateReportForm.reportStartDate.value;
     const reportEndDate = generateReportForm.reportEndDate.value;
     const url = `/saving-deposits/report/${reportStartDate}/${reportEndDate}`;
@@ -151,7 +153,13 @@ export default class SavingDeposits extends React.Component {
               </Button>
             </Link>{" "}
 
-            <Button onClick={() => {this.showGenerateReportModal()}} bsStyle="info" bsSize="small">
+            <Button
+              onClick={() => {
+                this.showGenerateReportModal();
+              }}
+              bsStyle="info"
+              bsSize="small"
+            >
               <Glyphicon glyph="tasks" /> Generate report
             </Button>
           </Panel.Body>
@@ -194,7 +202,7 @@ export default class SavingDeposits extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <ControlLabel>Invested amount between: </ControlLabel>
+                    <ControlLabel>Minimum invested amount </ControlLabel>
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
@@ -208,7 +216,9 @@ export default class SavingDeposits extends React.Component {
                         }
                       />
                     </InputGroup>
-                    <ControlLabel> and </ControlLabel>
+                  </FormGroup>
+                  <FormGroup>
+                    <ControlLabel>Maximum invested amount </ControlLabel>
                     <InputGroup>
                       <InputGroup.Addon>$</InputGroup.Addon>
                       <FormControl
@@ -225,7 +235,7 @@ export default class SavingDeposits extends React.Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <ControlLabel>Active between start date: </ControlLabel>
+                    <ControlLabel>Start date: </ControlLabel>
                     <DatePicker
                       id="start-date-picker"
                       name="startDate"
@@ -235,7 +245,11 @@ export default class SavingDeposits extends React.Component {
                           ""
                       }
                     />
-                    <ControlLabel> and end date: </ControlLabel>
+                    {" "}
+                  </FormGroup>
+                  <FormGroup>
+
+                    <ControlLabel>End date: </ControlLabel>
                     <DatePicker
                       id="end-date-picker"
                       name="endDate"
@@ -248,12 +262,7 @@ export default class SavingDeposits extends React.Component {
                   </FormGroup>
 
                   <FormGroup>
-                    <Button
-                      type="submit"
-                      bsStyle="success"
-                      bsSize="small"
-                      block
-                    >
+                    <Button type="submit" bsStyle="info" bsSize="small" block>
                       Search
                     </Button>
                   </FormGroup>
@@ -295,7 +304,7 @@ export default class SavingDeposits extends React.Component {
                           <Button
                             onClick={() => this.showEditModal(savingDeposit)}
                             bsStyle="info"
-                            bsSize="xsmall"
+                            bsSize="small"
                           >
                             <Glyphicon glyph="pencil" />
                           </Button>
@@ -304,7 +313,7 @@ export default class SavingDeposits extends React.Component {
                           <Button
                             onClick={() => this.showDeleteModal(savingDeposit)}
                             bsStyle="danger"
-                            bsSize="xsmall"
+                            bsSize="small"
                           >
                             <Glyphicon glyph="trash" />
                           </Button>
@@ -366,7 +375,7 @@ export default class SavingDeposits extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideEditModal}>Close</Button>
+            <Button bsSize="small" onClick={this.hideEditModal}>Close</Button>
           </Modal.Footer>
         </Modal>
 
@@ -412,12 +421,21 @@ export default class SavingDeposits extends React.Component {
             {!savingDepositState.successMsg &&
               !savingDepositState.isFetching &&
               <div>
-                <Button onClick={this.confirmDeleteSavingDeposit}>Yes</Button>
-                <Button onClick={this.hideDeleteModal}>No</Button>
+                <Button
+                  bsSize="small"
+                  onClick={this.confirmDeleteSavingDeposit}
+                >
+                  Yes
+                </Button>
+                <Button bsSize="small" onClick={this.hideDeleteModal}>
+                  No
+                </Button>
               </div>}
             {savingDepositState.successMsg &&
               !savingDepositState.isFetching &&
-              <Button onClick={this.hideDeleteModal}>Close</Button>}
+              <Button bsSize="small" onClick={this.hideDeleteModal}>
+                Close
+              </Button>}
           </Modal.Footer>
         </Modal>
 
@@ -460,7 +478,7 @@ export default class SavingDeposits extends React.Component {
                 <FormGroup>
                   <Button
                     type="submit"
-                    bsStyle="success"
+                    bsStyle="info"
                     bsSize="small"
                     block
                     id="generate-report"
@@ -472,7 +490,9 @@ export default class SavingDeposits extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideGenerateReportModal}>Close</Button>
+            <Button bsSize="small" onClick={this.hideGenerateReportModal}>
+              Close
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

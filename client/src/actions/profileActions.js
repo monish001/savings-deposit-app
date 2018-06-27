@@ -5,7 +5,7 @@ export const login = args => {
     dispatch(loginRequest(args));
     return fetch(apiUrl + "login", {
       method: "post",
-      body: args
+      body: JSON.stringify(args),
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -45,7 +45,7 @@ export const register = args => {
     dispatch(registerRequest(args));
     return fetch(apiUrl + "register", {
       method: "post",
-      body: args
+      body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -87,11 +87,10 @@ export const uploadPictureInBrowser = base64Image => {
 };
 export const submitPicture = args => {
   return dispatch => {
-    console.log(args);
     dispatch(submitPictureRequest());
     return fetch(apiUrl + "users/self/update-picture", {
       method: "post",
-      body: args
+      body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {

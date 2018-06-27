@@ -4,7 +4,7 @@ export const addNewSavingDeposit = savingDeposit => {
     dispatch(addNewSavingDepositRequest(savingDeposit));
     return fetch(apiUrl, {
       method: "post",
-      body: savingDeposit
+      body: JSON.stringify(savingDeposit)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {

@@ -1,9 +1,9 @@
 const INITIAL_STATE = {
-// @todo mock data
-// users: [],
+  // @todo mock data
+  // users: [],
   users: [{
     _id: '<guid - 1>',
-    email: 'test@qw.com', 
+    email: 'test@qw.com',
     role: 'USER_MANAGER',
     photo: null,
     googleId: 12345678,
@@ -13,7 +13,7 @@ const INITIAL_STATE = {
     retryCount: 0
   }, {
     _id: '<guid - 2>',
-    email: 'test1@qw.com', 
+    email: 'test1@qw.com',
     role: 'ADMIN',
     photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",
     googleId: null,
@@ -22,7 +22,8 @@ const INITIAL_STATE = {
     isEmailVerified: true,
     retryCount: 3
   }],
-  user: null,
+
+  // user: null,
   isFetching: false,
   error: null,
   successMsg: null,
@@ -30,7 +31,9 @@ const INITIAL_STATE = {
   userToDelete: null,
   showEditModal: false,
   userToEdit: null,
-  newUser: null
+  newUser: null,
+  imageToUpdate: null,
+  isUpdatingPicture: false,
 };
 const userReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -73,45 +76,46 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         showEditModal: false,
         userToEdit: null
       };
-    case "FETCH_USER_REQUEST":
-      return {
-        ...currentState,
-        users: currentState.users,
-        user: null,
-        isFetching: true,
-        error: null,
-        successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null
-      };
-    case "FETCH_USER_SUCCESS":
-      return {
-        ...currentState,
-        users: currentState.users,
-        user: action.user,
-        isFetching: false,
-        error: null,
-        successMsg: action.message,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null
-      };
-    case "FETCH_USER_FAILED":
-      return {
-        ...currentState,
-        users: [],
-        user: null,
-        isFetching: false,
-        error: action.error,
-        successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null
-      };
+      // case "FETCH_USER_REQUEST":
+      //   return {
+      //     ...currentState,
+      //     users: currentState.users,
+      //     user: null,
+      //     isFetching: true,
+      //     error: null,
+      //     successMsg: null,
+      //     showDeleteModal: false,
+      //     userToDelete: null,
+      //     showEditModal: false,
+      //     userToEdit: null
+      //   };
+      // case "FETCH_USER_SUCCESS":
+      //   return {
+      //     ...currentState,
+      //     users: currentState.users,
+      //     user: action.user,
+      //     isFetching: false,
+      //     error: null,
+      //     successMsg: action.message,
+      //     showDeleteModal: false,
+      //     userToDelete: null,
+      //     showEditModal: false,
+      //     userToEdit: null
+      //   };
+      // case "FETCH_USER_FAILED":
+      //   return {
+      //     ...currentState,
+      //     users: [],
+      //     user: null,
+      //     isFetching: false,
+      //     error: action.error,
+      //     successMsg: null,
+      //     showDeleteModal: false,
+      //     userToDelete: null,
+      //     showEditModal: false,
+      //     userToEdit: null
+      //   };
+
     case "ADD_NEW_USER_REQUEST":
       return {
         ...currentState,
@@ -204,7 +208,9 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
           return user;
         }
         //Otherwise, this is the one we want to return an updated value
-        return { ...user, ...action.user };
+        return { ...user,
+          ...action.user
+        };
       });
       return {
         ...currentState,
@@ -304,6 +310,45 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         showEditModal: false,
         userToEdit: null,
         newUser: null
+      };
+
+
+    case "UPLOAD_USER_PICTURE_IN_BROWSER":
+      return {
+        ...currentState,
+        imageToUpdate: action.imageToUpdate
+      };
+    case "UPDATE_USER_PICTURE_REQUEST":
+      return {
+        ...currentState,
+        isUpdatingPicture: true
+      };
+    case "UPDATE_USER_PICTURE_SUCCESS":
+      const updatedUsers1 = currentState.users.map(user => {
+        if (user._id !== action.user._id) {
+          //This is not the item we care about, keep it as is
+          return user;
+        }
+        //Otherwise, this is the one we want to return an updated value
+        return { 
+          ...user,
+          ...action.user
+        };
+      });
+      return {
+        ...currentState,
+        successMsg: action.message,
+        error: null,
+        isUpdatingPicture: false,
+        imageToUpdate: null,
+        users: updatedUsers1,
+      };
+    case "UPDATE_USER_PICTURE_FAILED":
+      return {
+        ...currentState,
+        successMsg: null,
+        error: action.error,
+        isUpdatingPicture: false
       };
     default:
       return currentState;

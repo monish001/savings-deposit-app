@@ -2,11 +2,14 @@ import React from "react";
 import { Image, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
 import UserEditForm from "./UserEditForm";
+
 export default class Users extends React.Component {
   constructor(props) {
     super(props);
     this.hideEditModal = this.hideEditModal.bind(this);
     this.submitEditUser = this.submitEditUser.bind(this);
+    this.setNewProfilePhoto = this.setNewProfilePhoto.bind(this);
+    this.submitNewPhoto = this.submitNewPhoto.bind(this);
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
     this.confirmDeleteUser = this.confirmDeleteUser.bind(this);
   }
@@ -21,12 +24,32 @@ export default class Users extends React.Component {
   }
   submitEditUser(e) {
     e.preventDefault();
-    const editForm = document.getElementById("UserEditForm");
-    const data = new FormData();
-    data.append("id", editForm.id.value);
-    data.append("userText", editForm.userText.value);
-    data.append("userDesc", editForm.userDesc.value);
-    this.props.mappedEditUser(data);
+    const form = document.getElementById("UserEditForm");
+    const newUser = {
+      _id: form._id.value,
+      role: form.role.value
+    };
+    const oldUser = this.props.mappedUsersState.users.find(
+      user => user._id === form._id.value
+    );
+    this.props.mappedEditUser(newUser, oldUser);
+  }
+  setNewProfilePhoto(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      this.props.mappedUploadUserPictureInBrowser(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+  submitNewPhoto(e) {
+    e.preventDefault();
+    const form = document.getElementById("UserEditForm");
+    this.props.mappedSubmitPicture({
+      _id: form._id.value,
+      photo: this.props.mappedUsersState.imageToUpdate
+    });
   }
   hideDeleteModal() {
     this.props.mappedHideDeleteModal();
@@ -115,7 +138,7 @@ export default class Users extends React.Component {
                     <Button
                       onClick={() => this.showEditModal(user)}
                       bsStyle="info"
-                      bsSize="xsmall"
+                      bsSize="small"
                     >
                       <Glyphicon glyph="pencil" />
                     </Button>
@@ -124,7 +147,7 @@ export default class Users extends React.Component {
                     <Button
                       onClick={() => this.showDeleteModal(user)}
                       bsStyle="danger"
-                      bsSize="xsmall"
+                      bsSize="small"
                     >
                       <Glyphicon glyph="trash" />
                     </Button>
@@ -135,7 +158,7 @@ export default class Users extends React.Component {
                       {" "}<Button
                         onClick={() => this.showEditModal(user)}
                         bsStyle="info"
-                        bsSize="xsmall"
+                        bsSize="small"
                       >
                         Unblock
                       </Button>
@@ -160,7 +183,9 @@ export default class Users extends React.Component {
               {editUser &&
                 <UserEditForm
                   userData={editUser}
-                  editUser={this.submitEditUser}
+                  submitEditUser={this.submitEditUser}
+                  setNewProfilePhoto={this.setNewProfilePhoto}
+                  submitNewPhoto={this.submitNewPhoto}
                 />}
               {editUser &&
                 usersState.isFetching &&
@@ -233,12 +258,18 @@ export default class Users extends React.Component {
             {!usersState.successMsg &&
               !usersState.isFetching &&
               <div>
-                <Button onClick={this.confirmDeleteUser}>Yes</Button>
-                <Button onClick={this.hideDeleteModal}>No</Button>
+                <Button bsSize="small" onClick={this.confirmDeleteUser}>
+                  Yes
+                </Button>
+                <Button bsSize="small" onClick={this.hideDeleteModal}>
+                  No
+                </Button>
               </div>}
             {usersState.successMsg &&
               !usersState.isFetching &&
-              <Button onClick={this.hideDeleteModal}>Close</Button>}
+              <Button bsSize="small" onClick={this.hideDeleteModal}>
+                Close
+              </Button>}
           </Modal.Footer>
         </Modal>
       </div>
