@@ -131,13 +131,13 @@ export const fetchSavingDepositFailed = error => {
 
 export const showEditModal = savingDepositToEdit => {
   return {
-    type: "SHOW_EDIT_MODAL",
+    type: "SHOW_EDIT_SD_MODAL",
     savingDeposit: savingDepositToEdit
   };
 };
 export const hideEditModal = () => {
   return {
-    type: "HIDE_EDIT_MODAL"
+    type: "HIDE_EDIT_SD_MODAL"
   };
 };
 export const editSavingDeposit = savingDeposit => {
@@ -217,22 +217,22 @@ export const deleteSavingDepositFailed = error => {
 };
 export const showDeleteModal = savingDepositToDelete => {
   return {
-    type: "SHOW_DELETE_MODAL",
+    type: "SHOW_DELETE_SD_MODAL",
     savingDeposit: savingDepositToDelete
   };
 };
 export const hideDeleteModal = () => {
   return {
-    type: "HIDE_DELETE_MODAL"
+    type: "HIDE_DELETE_SD_MODAL"
   };
 };
 export const showGenerateReportModal = () => {
   return {
-    type: "SHOW_GENERATE_REPORT_MODAL",
+    type: "SHOW_GENERATE_REPORT_SD_MODAL",
   };
 };
 export const hideGenerateReportModal = () => {
   return {
-    type: "HIDE_GENERATE_REPORT_MODAL"
+    type: "HIDE_GENERATE_REPORT_SD_MODAL"
   };
 };

@@ -10,45 +10,12 @@ import {
 export default class SavingDepositsReport extends React.Component {
   componentDidMount() {
     const { startDate, endDate } = this.props.params;
-    this.props.mappedFetchSavingDepositsReport({ startDate, endDate });
+    // this.props.mappedFetchSavingDepositsReport({ startDate, endDate }); // @todo uncomment
   }
   render() {
     const savingDepositsReportState = this.props
       .mappedSavingDepositsReportState;
-    savingDepositsReportState.savingDepositsReport = {
-      // @todo mock data
-      rows: [
-        {
-          _id: 1,
-          bankName: 1,
-          accountNumber: 2,
-          initialAmount: 3,
-          startDate: "2018-06-01T06:30:00.000Z",
-          endDate: "2018-06-02T06:30:00.000Z",
-          gains: 12.12,
-          tax: 1.12
-        },
-        {
-          _id: 2,
-          bankName: 1,
-          accountNumber: 2,
-          initialAmount: 3,
-          startDate: "2018-06-01T06:30:00.000Z",
-          endDate: "2018-06-02T06:30:00.000Z",
-          gains: -12.12,
-          tax: 0
-        }
-      ],
-      summary: {
-        totalGains: 12,
-        totalLoss: 13,
-        totaltax: 14
-      },
-      request: {
-        startDate: "2018-06-01",
-        endDate: "2018-07-01"
-      }
-    };
+
     return (
       <div className="savingDepositsReport">
         {!savingDepositsReportState.savingDepositsReport &&
@@ -140,7 +107,7 @@ export default class SavingDepositsReport extends React.Component {
                   <FormControl.Static>
                     {
                       savingDepositsReportState.savingDepositsReport.summary
-                        .totaltax
+                        .totalTax
                     }
                   </FormControl.Static>
                 </Col>

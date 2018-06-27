@@ -145,7 +145,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         newSavingDeposit: action.savingDeposit
       };
       return nextState;
-    case "SHOW_EDIT_MODAL":
+    case "SHOW_EDIT_SD_MODAL":
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
@@ -160,7 +160,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         savingDepositToEdit: action.savingDeposit,
         newSavingDeposit: null
       };
-    case "HIDE_EDIT_MODAL":
+    case "HIDE_EDIT_SD_MODAL":
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
@@ -278,7 +278,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         savingDepositToEdit: null,
         newSavingDeposit: null
       };
-    case "SHOW_DELETE_MODAL":
+    case "SHOW_DELETE_SD_MODAL":
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
@@ -293,7 +293,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         savingDepositToEdit: null,
         newSavingDeposit: null
       };
-    case "HIDE_DELETE_MODAL":
+    case "HIDE_DELETE_SD_MODAL":
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
@@ -308,7 +308,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         savingDepositToEdit: null,
         newSavingDeposit: null
       };
-    case "SHOW_GENERATE_REPORT_MODAL":
+    case "SHOW_GENERATE_REPORT_SD_MODAL":
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,
@@ -323,7 +323,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         savingDepositToEdit: null,
         newSavingDeposit: null
       };
-    case "HIDE_GENERATE_REPORT_MODAL":
+    case "HIDE_GENERATE_REPORT_SD_MODAL":
       return {
         ...currentState,
         savingDeposits: currentState.savingDeposits,

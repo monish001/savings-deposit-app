@@ -13,8 +13,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     //you can now say this.props.mappedAppActions
-    mappedUpdatePicture: args => dispatch(profileActions.updatePicture(args)),
-    mappedUpdatePassword: args => dispatch(profileActions.updatePassword(args)),
+    mappedSubmitPicture: newPhoto => dispatch(profileActions.submitPicture(newPhoto)),
+    mappedUploadPictureInBrowser: base64Image => dispatch(profileActions.uploadPictureInBrowser(base64Image)),
+    mappedUpdatePassword: args => dispatch(profileActions.updatePassword(args)), 
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Profile);

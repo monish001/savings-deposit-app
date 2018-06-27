@@ -12,23 +12,18 @@ export default class App extends React.Component {
   render() {
     const profileState = this.props.mappedProfileState;
     const showProfile = profileState.profile && profileState.profile.email;
-    const showSds = profileState.profile && profileState.profile.role && profileState.profile.role === 'ADMIN';
+    const showSds = profileState.profile && profileState.profile.role && (profileState.profile.role === 'ADMIN' || profileState.profile.role === 'REGULAR_USER');
     const showUsers = profileState.profile && profileState.profile.role && (profileState.profile.role === 'USER_MANAGER' || profileState.profile.role === 'ADMIN');
     return (
       <div>
         <Navbar inverse collapseOnSelect className="customNav">
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/#">Saving Deposits App</a>
+              <a href="/">Saving Deposits App</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav>
-              <LinkContainer to={{ pathname: "/", query: {} }}>
-                <NavItem eventKey={1}>Home</NavItem>
-              </LinkContainer>
-            </Nav>
             <Nav pullRight>
               {showSds && <LinkContainer
                 to={{ pathname: "/saving-deposits", query: {} }}

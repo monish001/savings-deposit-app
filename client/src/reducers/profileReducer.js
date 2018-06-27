@@ -1,5 +1,13 @@
 const INITIAL_STATE = {
-  profile: {email: 'test', role: 'ADMIN'},
+  // @todo mock data
+  //   profile: null,
+  //   profile: {email: 'reg_user@abc.com', role: 'REGULAR_USER'},
+  profile: {
+    email: "user_man@abc.com",
+    role: "USER_MANAGER"
+    //   photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7"
+  },
+  //   profile: {email: 'admin@abc.com', role: 'ADMIN'},
   successMsg: null,
   error: null,
   isLoggingIn: false,
@@ -8,7 +16,7 @@ const INITIAL_STATE = {
   signUpError: null,
   isUpdatingPicture: false,
   isUpdatingPassword: false,
-  newPicture: null,
+  imageToUpdate: null
 };
 const profileReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -16,7 +24,7 @@ const profileReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         isLoggingIn: true,
-        loginError: null,
+        loginError: null
       };
     case "LOGIN_SUCCESS":
       return {
@@ -25,7 +33,7 @@ const profileReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: action.message,
         error: null,
         isLoggingIn: false,
-        loginError: null,
+        loginError: null
       };
     case "LOGIN_FAILED":
       return {
@@ -33,37 +41,39 @@ const profileReducer = (currentState = INITIAL_STATE, action) => {
         profile: {},
         successMsg: null,
         loginError: action.error,
-        isLoggingIn: false,
+        isLoggingIn: false
       };
-
 
     case "REGISTER_REQUEST":
       return {
         ...currentState,
         isSigningUp: true,
-        signUpError: null,
+        signUpError: null
       };
     case "REGISTER_SUCCESS":
       return {
         ...currentState,
         successMsg: action.message,
         signUpError: null,
-        isSigningUp: false,
+        isSigningUp: false
       };
     case "REGISTER_FAILED":
       return {
         ...currentState,
         successMsg: null,
         signUpError: action.error,
-        isSigningUp: false,
+        isSigningUp: false
       };
 
-
+    case "UPLOAD_PICTURE_IN_BROWSER":
+      return {
+        ...currentState,
+        imageToUpdate: action.imageToUpdate
+      };
     case "UPDATE_PICTURE_REQUEST":
       return {
         ...currentState,
-        isUpdatingPicture: true,
-        newPicture: action.args,
+        isUpdatingPicture: true
       };
     case "UPDATE_PICTURE_SUCCESS":
       return {
@@ -71,36 +81,35 @@ const profileReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: action.message,
         error: null,
         isUpdatingPicture: false,
-        newPicture: null,
-        profile: {...currentState.profile, picture: currentState.newPicture}
+        imageToUpdate: null,
+        profile: { ...currentState.profile, photo: currentState.imageToUpdate }
       };
     case "UPDATE_PICTURE_FAILED":
       return {
         ...currentState,
         successMsg: null,
         error: action.error,
-        isUpdatingPicture: false,
+        isUpdatingPicture: false
       };
-
 
     case "UPDATE_PASSWORD_REQUEST":
       return {
         ...currentState,
-        isUpdatingPassword: true,
+        isUpdatingPassword: true
       };
     case "UPDATE_PASSWORD_SUCCESS":
       return {
         ...currentState,
         successMsg: action.message,
         error: null,
-        isUpdatingPassword: false,
+        isUpdatingPassword: false
       };
     case "UPDATE_PASSWORD_FAILED":
       return {
         ...currentState,
         successMsg: null,
         error: action.error,
-        isUpdatingPassword: false,
+        isUpdatingPassword: false
       };
     default:
       return currentState;

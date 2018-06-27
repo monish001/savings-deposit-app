@@ -276,7 +276,7 @@ export default class SavingDeposits extends React.Component {
                   </thead>
                   <tbody>
                     {savingDeposits.map((savingDeposit, i) => (
-                      <tr key={i}>
+                      <tr key={`sd-${savingDeposit._id}-${i}`}>
                         <td>{savingDeposit.bankName}</td>
                         <td>{savingDeposit.initialAmount}</td>
                         <td>
@@ -472,9 +472,7 @@ export default class SavingDeposits extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-
             <Button onClick={this.hideGenerateReportModal}>Close</Button>
-
           </Modal.Footer>
         </Modal>
       </div>

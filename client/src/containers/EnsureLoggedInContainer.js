@@ -1,18 +1,35 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from "react-redux";
-// import * as profileActions from '../actions/profileActions';
 
 class EnsureLoggedInContainer extends React.Component {
   componentDidMount() {
     const { mappedProfileState } = this.props;
+    let url;
 
     if (!mappedProfileState.profile || !mappedProfileState.profile.email) {
       // set the current url/path for future redirection (we use a Redux action)
       // then redirect (we use a React Router method)
       // dispatch(setRedirectUrl(mappedProfileState.currentURL));
-      browserHistory.replace("/login");
+      url = "/login";
+        browserHistory.replace(url);
+    // } else {
+    //     const profileState = this.props.mappedProfileState;
+    //     const role = profileState.profile && profileState.profile.role;
+
+    //     switch (role) {
+    //         case 'ADMIN':
+    //         case 'USER_MANAGER':
+    //             url = "/users";
+    //             break;
+    //         case 'REGULAR_USER':
+    //             url = "/saving-deposits";
+    //             break;
+    //         default:
+    //             url = "/profile"
+    //     }
     }
+    // browserHistory.replace(url);
   }
 
   render() {
