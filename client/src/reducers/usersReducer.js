@@ -379,35 +379,64 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
     case "SHOW_RESET_PASSWORD_USER_MODAL":
       return {
         ...currentState,
-        users: currentState.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null,
-        newUser: null,
         showResetPasswordModal: true,
         userToResetPassword: action.userToResetPassword,
       };
     case "HIDE_RESET_PASSWORD_USER_MODAL":
       return {
         ...currentState,
-        users: currentState.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null,
-        newUser: null,
         showResetPasswordModal: false,
         userToResetPassword: null,
       };
+
+
+    case "UNBLOCK_USER_REQUEST":
+      return {
+        ...currentState,
+        isFetching: true,
+        error: null,
+        successMsg: null,
+      };
+    case "UNBLOCK_USER_SUCCESS":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: action.message,
+
+      };
+    case "UNBLOCK_USER_FAILED":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: action.error,
+        successMsg: null,
+      };     
+    case "SHOW_UNBLOCK_USER_MODAL":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showUnblockUserModal: true,
+        userToUnblock: action.userToUnblock,
+      };
+    case "HIDE_UNBLOCK_USER_MODAL":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showUnblockUserModal: false,
+        userToUnblock: null,
+      };
+
 
     default:
       return currentState;

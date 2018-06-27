@@ -270,7 +270,7 @@ export const submitPictureRequestFailed = error => {
 export const resetPassword = user => {
   return dispatch => {
     dispatch(resetPasswordRequest(user));
-    return fetch(apiUrl + user._id, {
+    return fetch(apiUrl + user._id + '/reset-password', {
       method: "post"
     }).then(response => {
       if (response.ok) {
@@ -313,5 +313,55 @@ export const showResetPasswordModal = userToResetPassword => {
 export const hideResetPasswordModal = () => {
   return {
     type: "HIDE_RESET_PASSWORD_USER_MODAL"
+  };
+};
+
+
+// unblock user
+export const unblockUser = user => {
+  return dispatch => {
+    dispatch(unblockUserRequest(user));
+    return fetch(apiUrl + user._id + '/unblock', {
+      method: "post"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          dispatch(unblockUserSuccess(data.message));
+        });
+      } else {
+        response.json().then(error => {
+          dispatch(unblockUserFailed(error));
+        });
+      }
+    });
+  };
+};
+export const unblockUserRequest = user => {
+  return {
+    type: "UNBLOCK_USER_REQUEST",
+    user
+  };
+};
+export const unblockUserSuccess = message => {
+  return {
+    type: "UNBLOCK_USER_SUCCESS",
+    message: message
+  };
+};
+export const unblockUserFailed = error => {
+  return {
+    type: "UNBLOCK_USER_FAILED",
+    error
+  };
+};
+export const showUnblockUserModal = userToUnblock => {
+  return {
+    type: "SHOW_UNBLOCK_USER_MODAL",
+    userToUnblock: userToUnblock,
+  };
+};
+export const hideUnblockUserModal = () => {
+  return {
+    type: "HIDE_UNBLOCK_USER_MODAL"
   };
 };

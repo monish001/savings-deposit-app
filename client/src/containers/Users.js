@@ -16,7 +16,8 @@ const mapDispatchToProps = dispatch => {
     //you can now say this.props.mappedAppActions
     mappedFetchUsers: () => dispatch(userActions.fetchUsers()),
 
-    mappedEditUser: (userToEdit, oldUser) => dispatch(userActions.editUser(userToEdit, oldUser)),
+    mappedEditUser: (userToEdit, oldUser) =>
+      dispatch(userActions.editUser(userToEdit, oldUser)),
     mappedShowEditModal: userToEdit =>
       dispatch(userActions.showEditModal(userToEdit)),
     mappedHideEditModal: () => dispatch(userActions.hideEditModal()),
@@ -31,7 +32,15 @@ const mapDispatchToProps = dispatch => {
       dispatch(userActions.resetPassword(userToResetPassword)),
     mappedShowResetPasswordModal: userToResetPassword =>
       dispatch(userActions.showResetPasswordModal(userToResetPassword)),
-    mappedHideResetPasswordModal: () => dispatch(userActions.hideResetPasswordModal()),
+    mappedHideResetPasswordModal: () =>
+      dispatch(userActions.hideResetPasswordModal()),
+
+    mappedUnblockUser: userToUnblock =>
+      dispatch(userActions.unblockUser(userToUnblock)),
+    mappedShowUnblockUserModal: userToUnblock =>
+      dispatch(userActions.showUnblockUserModal(userToUnblock)),
+    mappedHideUnblockUserModal: () =>
+      dispatch(userActions.hideUnblockUserModal()),
 
     mappedUploadUserPictureInBrowser: base64Image =>
       dispatch(userActions.uploadUserPictureInBrowser(base64Image)),

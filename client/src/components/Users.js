@@ -2,6 +2,7 @@ import React from "react";
 import { Image, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
 import UserEditForm from "./UserEditForm";
+import UsersConfirmationModal from './UsersConfirmationModal';
 
 export default class Users extends React.Component {
   constructor(props) {
@@ -15,9 +16,21 @@ export default class Users extends React.Component {
     this.confirmResetPasswordUser = this.confirmResetPasswordUser.bind(this);
     this.hideResetPasswordModal = this.hideResetPasswordModal.bind(this);
     this.showResetPasswordModal = this.showResetPasswordModal.bind(this);
+    this.confirmUnblockUser = this.confirmUnblockUser.bind(this);
+    this.hideUnblockUserModal = this.hideUnblockUserModal.bind(this);
+    this.showUnblockUserModal = this.showUnblockUserModal.bind(this);
   }
   componentWillMount() {
     // this.props.mappedFetchUsers(); @todo uncomment
+  }
+  hideUnblockUserModal() {
+    this.props.mappedHideUnblockUserModal();
+  }
+  showUnblockUserModal(userToUnblock) {
+    this.props.mappedShowUnblockUserModal(userToUnblock);
+  }
+  confirmUnblockUser() {
+    this.props.mappedUnblockUser(this.props.mappedUsersState.userToUnblock);
   }
   hideResetPasswordModal() {
     this.props.mappedHideResetPasswordModal();
@@ -26,7 +39,9 @@ export default class Users extends React.Component {
     this.props.mappedShowResetPasswordModal(userToResetPassword);
   }
   confirmResetPasswordUser() {
-    this.props.mappedResetPasswordUser(this.props.mappedUsersState.userToResetPassword);
+    this.props.mappedResetPasswordUser(
+      this.props.mappedUsersState.userToResetPassword
+    );
   }
   showEditModal(userToEdit) {
     this.props.mappedShowEditModal(userToEdit);
@@ -74,7 +89,7 @@ export default class Users extends React.Component {
   }
   render() {
     const profileState = this.props.mappedProfileState;
-    const showUnblock =
+    const showInvite =
       profileState.profile &&
       profileState.profile.role &&
       profileState.profile.role === "ADMIN";
@@ -91,9 +106,13 @@ export default class Users extends React.Component {
           <Panel.Body>
             <Link to={`/users/create`}>
               <Button onClick={() => {}} bsStyle="info" bsSize="small">
-                <Glyphicon glyph="plus" /> Add new user
+                <Glyphicon glyph="plus" /> Add new user {/*@todo*/}
               </Button>
-            </Link>
+            </Link>{" "}
+            {showInvite &&
+              <Button onClick={() => {}} bsStyle="info" bsSize="small">
+                <Glyphicon glyph="envelope" /> Invite user {/*@todo*/}
+              </Button>}
           </Panel.Body>
         </Panel>
         {!users && usersState.isFetching && <p>Loading users....</p>}
@@ -116,9 +135,6 @@ export default class Users extends React.Component {
                 <th>Picture</th>
                 <th>Email</th>
                 <th>Role</th>
-
-                {/*@todo reset password button*/}
-
                 {/*<th>is Email Logged</th>
                 <th>is Email Verified</th>
                 <th>is Google Logged</th>
@@ -126,7 +142,7 @@ export default class Users extends React.Component {
                 <th className="textCenter">Edit</th>
                 <th className="textCenter">Delete</th>
                 <th className="textCenter">Reset password</th>
-                {showUnblock && <th className="textCenter">Unblock</th>}
+                <th className="textCenter">Unblock</th>
               </tr>
             </thead>
             <tbody>
@@ -174,11 +190,10 @@ export default class Users extends React.Component {
                       <Glyphicon glyph="refresh" />
                     </Button>
                   </td>
-                  {showUnblock &&
-                    user.retryCount == 3 &&
+                  {user.retryCount == 3 &&
                     <td>
                       {" "}<Button
-                        onClick={() => this.showEditModal(user)}
+                        onClick={() => this.showUnblockUserModal(user)}
                         bsStyle="info"
                         bsSize="small"
                       >
@@ -252,9 +267,9 @@ export default class Users extends React.Component {
             {usersState.userToDelete &&
               !usersState.isFetching &&
               <Alert bsStyle="warning">
-                Are you sure you want to delete this user
+                Are you sure you want to delete the user
                 {" "}
-                <strong>{usersState.userToDelete.userText} </strong>
+                <strong>{usersState.userToDelete.email} </strong>
                 {" "}
                 ?
               </Alert>}
@@ -295,7 +310,6 @@ export default class Users extends React.Component {
           </Modal.Footer>
         </Modal>
 
-
         {/* Modal for reset password */}
         <Modal
           show={usersState.showResetPasswordModal}
@@ -312,7 +326,11 @@ export default class Users extends React.Component {
             {usersState.userToResetPassword &&
               !usersState.isFetching &&
               <Alert bsStyle="warning">
-                Are you sure you want to trigger password reset email to this user?
+                Are you sure you want to trigger password reset for user
+                {" "}
+                <strong>{usersState.userToResetPassword.email} </strong>
+                {" "}
+                ?
               </Alert>}
             {usersState.userToResetPassword &&
               usersState.error &&
@@ -349,7 +367,20 @@ export default class Users extends React.Component {
                 Close
               </Button>}
           </Modal.Footer>
-        </Modal>        
+        </Modal>
+
+        {/* Modal for unblock user */}
+        <UsersConfirmationModal
+          show={usersState.showUnblockUserModal}
+          onHide={this.hideUnblockUserModal}
+          container={this}
+          displayTitle="Unblock user"
+          usersState={usersState}
+          user={usersState.userToUnblock}
+          confirm={this.confirmUnblockUser}
+          hideUserModal={this.hideUnblockUserModal}
+          displayBody="Are you sure you want to unblock the user"
+        />
       </div>
     );
   }
