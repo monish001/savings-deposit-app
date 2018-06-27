@@ -1,4 +1,3 @@
-// ./react-redux-client/src/components/SavingDeposit.js
 import React from "react";
 import {
   FormGroup,

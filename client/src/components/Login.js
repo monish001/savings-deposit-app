@@ -1,12 +1,9 @@
 import React from "react";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { Form, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import {
   FormGroup,
   ControlLabel,
   FormControl,
-  Image,
+  Button,
   Row,
   Grid,
   Col
@@ -15,23 +12,49 @@ import {
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
+  }
+
+  login(e) {
+    e.preventDefault();
+    const form = document.getElementById("logInForm");
+    const email = form.email.value;
+    const password = form.password.value;
+    this.props.mappedLogin({ email, password });
+  }
+  register(e) {
+    e.preventDefault();
+    const form = document.getElementById("signUpForm");
+    const email = form.email.value;
+    const password = form.password.value;
+    const cpassword = form.cpassword.value;
+    this.props.mappedRegister({ email, password, cpassword });
   }
 
   render() {
-    // const appState = this.props.mappedAppState;
+    const profileState = this.props.mappedProfileState;
     return (
       <div>
         <Grid>
           <Row>
             <Col xs={12} md={6}>
               <h3>Login</h3>
-              <Form horizontal>
+              <form
+                className="form form-horizontal"
+                id="logInForm"
+                onSubmit={this.login}
+              >
                 <FormGroup controlId="formHorizontalLoginEmail">
                   <Col componentClass={ControlLabel} sm={2}>
                     Email
                   </Col>
                   <Col sm={10}>
-                    <FormControl type="email" placeholder="Email" />
+                    <FormControl
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                    />
                   </Col>
                 </FormGroup>
 
@@ -40,15 +63,31 @@ export default class Login extends React.Component {
                     Password
                   </Col>
                   <Col sm={10}>
-                    <FormControl type="password" placeholder="Password" />
+                    <FormControl
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                    />
                   </Col>
                 </FormGroup>
 
                 <FormGroup>
                   <Col smOffset={2} sm={10}>
-                    <Button type="submit">Sign in</Button>
+                    <Button type="submit" bsStyle="info">
+                      {`${profileState.isLoggingIn ? "Signing In..." : "Sign In"}`}
+                    </Button>
                   </Col>
                 </FormGroup>
+
+                {profileState.loginError &&
+                  <FormGroup controlId="formHorizontalFeedback">
+                    <Col sm={12}>
+                      <FormControl.Static>
+                        {profileState.loginError}
+                      </FormControl.Static>
+                    </Col>
+                  </FormGroup>}
+
                 <FormGroup controlId="">
                   <Col componentClass={ControlLabel} sm={2} />
                   <Col sm={10}>
@@ -63,17 +102,25 @@ export default class Login extends React.Component {
                     <div class="g-signin2" data-onsuccess="onSignIn" />
                   </Col>
                 </FormGroup>
-              </Form>
+              </form>
             </Col>
             <Col xs={12} md={6}>
               <h3>Signup</h3>
-              <Form horizontal>
+              <form
+                className="form form-horizontal"
+                id="signUpForm"
+                onSubmit={this.register}
+              >
                 <FormGroup controlId="formHorizontalSignupEmail">
                   <Col componentClass={ControlLabel} sm={2}>
                     Email
                   </Col>
                   <Col sm={10}>
-                    <FormControl type="email" placeholder="Email" />
+                    <FormControl
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                    />
                   </Col>
                 </FormGroup>
 
@@ -82,7 +129,11 @@ export default class Login extends React.Component {
                     Password
                   </Col>
                   <Col sm={10}>
-                    <FormControl type="password" placeholder="Password" />
+                    <FormControl
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                    />
                   </Col>
                 </FormGroup>
 
@@ -91,16 +142,32 @@ export default class Login extends React.Component {
                     Password
                   </Col>
                   <Col sm={10}>
-                    <FormControl type="password" placeholder="Password" />
+                    <FormControl
+                      name="cpassword"
+                      type="password"
+                      placeholder="Password"
+                    />
                   </Col>
                 </FormGroup>
 
                 <FormGroup>
                   <Col smOffset={2} sm={10}>
-                    <Button type="submit">Sign up</Button>
+                    <Button type="submit" bsStyle="info">
+                      {`${profileState.isSigningUp ? "Signing Up..." : "Sign Up"}`}
+                    </Button>
                   </Col>
                 </FormGroup>
-              </Form>
+
+                {profileState.signUpError &&
+                  <FormGroup controlId="formHorizontalFeedback">
+                    <Col sm={12}>
+                      <FormControl.Static>
+                        {profileState.signUpError}
+                      </FormControl.Static>
+                    </Col>
+                  </FormGroup>}
+
+              </form>
             </Col>
           </Row>
         </Grid>

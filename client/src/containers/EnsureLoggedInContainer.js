@@ -17,7 +17,7 @@ class EnsureLoggedInContainer extends React.Component {
 
   render() {
     const { mappedProfileState } = this.props;
-    if (mappedProfileState.isLoggedIn) {
+    if (mappedProfileState.profile && mappedProfileState.profile.email) {
       return this.props.children;
     } else {
       return null;

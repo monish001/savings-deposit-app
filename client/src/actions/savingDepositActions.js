@@ -1,4 +1,3 @@
-// ./react-redux-client/src/actions/savingDepositActions.js
 const apiUrl = "/api/users/self/saving-deposits/";
 export const addNewSavingDeposit = savingDeposit => {
   return dispatch => {

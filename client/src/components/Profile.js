@@ -22,7 +22,7 @@ export default class Profile extends React.Component {
   render() {
     const profileState = this.props.mappedProfileState;
     // @todo mock data
-    profileState.email = "ac@abc.com";
+    profileState.profile.email = "ac@abc.com";
     return (
       <div>
         <Grid>
@@ -33,7 +33,7 @@ export default class Profile extends React.Component {
               {!profileState.pic &&
                 <div style={{"text-align":"center"}}><Glyphicon style={{ "font-size": "20rem" }} glyph="user" /></div>}
               <FormGroup>
-                <Button type="submit" bsStyle="success" bsSize="large" block>
+                <Button type="submit" bsStyle="info" bsSize="large" block>
                   Upload new picture
                 </Button>
               </FormGroup>
@@ -47,7 +47,7 @@ export default class Profile extends React.Component {
                   </Col>
                   <Col sm={10}>
                     <FormControl.Static>
-                      {profileState.email}
+                      {profileState.profile.email}
                     </FormControl.Static>
                   </Col>
                 </FormGroup>
@@ -78,7 +78,7 @@ export default class Profile extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup>
-                  <Button type="submit" bsStyle="success" bsSize="large" block>
+                  <Button type="submit" bsStyle="info" bsSize="large" block>
                     Update password
                   </Button>
                 </FormGroup>

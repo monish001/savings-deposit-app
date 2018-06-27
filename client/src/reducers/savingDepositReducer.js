@@ -1,4 +1,3 @@
-// ./react-redux-client/src/reducers/savingDepositReducer.js
 const INITIAL_STATE = {
   savingDeposits: [],
   savingDepositsFilter: {},
