@@ -7,6 +7,7 @@ import SavingDepositForm from './containers/SavingDepositForm';
 import SavingDeposit from './containers/SavingDeposit';
 import SavingDepositsReport from './containers/SavingDepositsReport';
 import Profile from './containers/Profile';
+import EnsureLoggedInContainer from './containers/EnsureLoggedInContainer';
 
 // @todo import Users from './containers/Users';
 // import User from './containers/User';
@@ -16,10 +17,12 @@ import Profile from './containers/Profile';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={SavingDeposits} />
-    <Route path="/profile" component={Profile} />
-    <Route path="/saving-deposits" component={SavingDeposits} />
-    <Route path="/saving-deposits/create" component={SavingDepositForm} />
-    <Route path="/saving-deposits/report/:startDate/:endDate" component={SavingDepositsReport} />
-    <Route path="/saving-deposits/:id" component={SavingDeposit} />
+    <Route component={EnsureLoggedInContainer}>
+      <Route path="/profile" component={Profile} />
+      <Route path="/saving-deposits" component={SavingDeposits} />
+      <Route path="/saving-deposits/create" component={SavingDepositForm} />
+      <Route path="/saving-deposits/report/:startDate/:endDate" component={SavingDepositsReport} />
+      <Route path="/saving-deposits/:id" component={SavingDeposit} />
+    </Route>
   </Route>
 )
