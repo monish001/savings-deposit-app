@@ -1,8 +1,7 @@
-// ./react-redux-client/src/containers/SavingDeposits.js
 import { connect } from "react-redux";
 import * as savingDepositActions from "../actions/savingDepositActions";
-import * as appActions from "../actions/appActions";
 import SavingDeposits from "../components/SavingDeposits";
+
 // map state from store to props
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -10,6 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     mappedSavingDepositState: state.savingDepositState
   };
 };
+
 // map actions to props
 const mapDispatchToProps = dispatch => {
   return {
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(savingDepositActions.hideDeleteModal()),
     mappedShowGenerateReportModal: () =>
       dispatch(savingDepositActions.showGenerateReportModal()),
-    mappedGenerateReportModal: () =>
+    mappedHideGenerateReportModal: () =>
       dispatch(savingDepositActions.hideGenerateReportModal()),
   };
 };

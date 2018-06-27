@@ -86,7 +86,7 @@ export default class SavingDeposits extends React.Component {
     this.props.mappedShowGenerateReportModal();
   }
   hideGenerateReportModal() {
-    this.props.mappedGenerateReportModal();
+    this.props.mappedHideGenerateReportModal();
   }
   showEditModal(savingDepositToEdit) {
     this.props.mappedShowEditModal(savingDepositToEdit);
@@ -265,9 +265,6 @@ export default class SavingDeposits extends React.Component {
                 <table className="table">
                   <thead>
                     <tr>
-                      {
-                        //   @todo filters
-                      }
                       <th>Bank name</th>
                       <th>Initial amount</th>
                       <th>Current amount</th>
