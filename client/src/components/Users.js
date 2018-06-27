@@ -252,122 +252,30 @@ export default class Users extends React.Component {
         </Modal>
 
         {/* Modal for deleting user */}
-        <Modal
+        <UsersConfirmationModal
           show={usersState.showDeleteModal}
           onHide={this.hideDeleteModal}
           container={this}
-          aria-labelledby="contained-modal-title"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title">
-              Delete user
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {usersState.userToDelete &&
-              !usersState.isFetching &&
-              <Alert bsStyle="warning">
-                Are you sure you want to delete the user
-                {" "}
-                <strong>{usersState.userToDelete.email} </strong>
-                {" "}
-                ?
-              </Alert>}
-            {usersState.userToDelete &&
-              usersState.error &&
-              <Alert bsStyle="danger">
-                Failed. <strong>{usersState.error} </strong>
-              </Alert>}
-            {usersState.userToDelete &&
-              !usersState.error &&
-              usersState.isFetching &&
-              <Alert bsStyle="success">
-                <strong>Deleting... </strong>
-              </Alert>}
-            {!usersState.userToDelete &&
-              !usersState.error &&
-              !usersState.isFetching &&
-              <Alert bsStyle="success">
-                User <strong>{usersState.successMsg} </strong>
-              </Alert>}
-          </Modal.Body>
-          <Modal.Footer>
-            {!usersState.successMsg &&
-              !usersState.isFetching &&
-              <div>
-                <Button bsSize="small" onClick={this.confirmDeleteUser}>
-                  Yes
-                </Button>
-                <Button bsSize="small" onClick={this.hideDeleteModal}>
-                  No
-                </Button>
-              </div>}
-            {usersState.successMsg &&
-              !usersState.isFetching &&
-              <Button bsSize="small" onClick={this.hideDeleteModal}>
-                Close
-              </Button>}
-          </Modal.Footer>
-        </Modal>
+          displayTitle="Delete user"
+          usersState={usersState}
+          user={usersState.userToDelete}
+          confirm={this.confirmDeleteUser}
+          hideUserModal={this.hideDeleteModal}
+          displayBody="Are you sure you want to delete the user"
+        />        
 
         {/* Modal for reset password */}
-        <Modal
+        <UsersConfirmationModal
           show={usersState.showResetPasswordModal}
           onHide={this.hideResetPasswordModal}
           container={this}
-          aria-labelledby="contained-modal-title"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title">
-              Reset password
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {usersState.userToResetPassword &&
-              !usersState.isFetching &&
-              <Alert bsStyle="warning">
-                Are you sure you want to trigger password reset for user
-                {" "}
-                <strong>{usersState.userToResetPassword.email} </strong>
-                {" "}
-                ?
-              </Alert>}
-            {usersState.userToResetPassword &&
-              usersState.error &&
-              <Alert bsStyle="danger">
-                Failed. <strong>{usersState.error} </strong>
-              </Alert>}
-            {usersState.userToResetPassword &&
-              !usersState.error &&
-              usersState.isFetching &&
-              <Alert bsStyle="success">
-                <strong>In progress... </strong>
-              </Alert>}
-            {!usersState.userToResetPassword &&
-              !usersState.error &&
-              !usersState.isFetching &&
-              <Alert bsStyle="success">
-                <strong>{usersState.successMsg} </strong>
-              </Alert>}
-          </Modal.Body>
-          <Modal.Footer>
-            {!usersState.successMsg &&
-              !usersState.isFetching &&
-              <div>
-                <Button bsSize="small" onClick={this.confirmResetPasswordUser}>
-                  Yes
-                </Button>
-                <Button bsSize="small" onClick={this.hideResetPasswordModal}>
-                  No
-                </Button>
-              </div>}
-            {usersState.successMsg &&
-              !usersState.isFetching &&
-              <Button bsSize="small" onClick={this.hideResetPasswordModal}>
-                Close
-              </Button>}
-          </Modal.Footer>
-        </Modal>
+          displayTitle="Reset password"
+          usersState={usersState}
+          user={usersState.userToResetPassword}
+          confirm={this.confirmResetPasswordUser}
+          hideUserModal={this.hideResetPasswordModal}
+          displayBody="Are you sure you want to trigger password reset for user"
+        />
 
         {/* Modal for unblock user */}
         <UsersConfirmationModal
