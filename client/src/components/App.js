@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Form, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import "./App.css";
 
 export default class App extends React.Component {
@@ -26,22 +27,23 @@ export default class App extends React.Component {
               </LinkContainer>
             </Nav>
             <Nav pullRight>
-              <LinkContainer
+            <LinkContainer
                 to={{ pathname: "/saving-deposits", query: {} }}
-                onClick={this.toggleAddSavingDeposit}
+                onClick={()=>{}}
               >
                 <NavItem eventKey={1}>Saving Deposits</NavItem>
               </LinkContainer>
-{/*               <LinkContainer to={{ pathname: "/users", query: {} }} @todo
-                onClick={this.toggleAddSavingDeposit}
+              <LinkContainer
+                to={{ pathname: "/profile", query: {} }}
+                onClick={()=>{}}
               >
-                <NavItem eventKey={1}>Users</NavItem>
+                <NavItem eventKey={2}><Glyphicon glyph="user" /> Profile</NavItem>
               </LinkContainer>
-*/}            </Nav>
+            </Nav>
           </Navbar.Collapse>
         </Navbar>
         <div className="container">
-            {this.props.children}
+          {this.props.children}
         </div>
       </div>
     );

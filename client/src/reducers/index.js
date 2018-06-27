@@ -4,11 +4,13 @@ import { combineReducers } from 'redux';
 import appReducer from './appReducer';
 import savingDepositReducer from './savingDepositReducer';
 import savingDepositsReportReducer from './savingDepositsReportReducer';
+import profileReducer from './profileReducer';
 
 export default combineReducers({
   appState: appReducer,
   savingDepositState: savingDepositReducer,
   savingDepositsReportState: savingDepositsReportReducer,
+  profileState: profileReducer,
   routing
   // More reducers if there are
   // can go here
