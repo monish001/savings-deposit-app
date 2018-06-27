@@ -6,7 +6,8 @@ import App from '../components/App';
 const mapStateToProps = (state) => {
   return {
     //you can now say this.props.mappedAppSate
-    mappedAppState: state.appState
+    mappedAppState: state.appState,
+    mappedProfileState: state.profileState
   }
 }
 // map actions to props

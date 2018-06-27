@@ -7,7 +7,7 @@ class EnsureLoggedInContainer extends React.Component {
   componentDidMount() {
     const { mappedProfileState } = this.props;
 
-    if (!mappedProfileState.isLoggedIn) {
+    if (!mappedProfileState.profile || !mappedProfileState.profile.email) {
       // set the current url/path for future redirection (we use a Redux action)
       // then redirect (we use a React Router method)
       // dispatch(setRedirectUrl(mappedProfileState.currentURL));
@@ -16,12 +16,7 @@ class EnsureLoggedInContainer extends React.Component {
   }
 
   render() {
-    const { mappedProfileState } = this.props;
-    if (mappedProfileState.profile && mappedProfileState.profile.email) {
-      return this.props.children;
-    } else {
-      return null;
-    }
+    return this.props.children;
   }
 }
 

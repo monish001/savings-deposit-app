@@ -12,7 +12,6 @@ import EnsureLoggedInContainer from './containers/EnsureLoggedInContainer';
 
 // @todo import Users from './containers/Users';
 // import User from './containers/User';
-// <Route path="/users" component={Users} />
 // <Route path="/users/:id" component={User} />
 
 export default (

@@ -10,7 +10,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    const appState = this.props.mappedAppState;
+    const profileState = this.props.mappedProfileState;
+    const showProfile = profileState.profile && profileState.profile.email;
+    const showSds = profileState.profile && profileState.profile.role && profileState.profile.role === 'ADMIN';
+    const showUsers = profileState.profile && profileState.profile.role && (profileState.profile.role === 'USER_MANAGER' || profileState.profile.role === 'ADMIN');
     return (
       <div>
         <Navbar inverse collapseOnSelect className="customNav">
@@ -27,20 +30,26 @@ export default class App extends React.Component {
               </LinkContainer>
             </Nav>
             <Nav pullRight>
-              <LinkContainer
+              {showSds && <LinkContainer
                 to={{ pathname: "/saving-deposits", query: {} }}
                 onClick={() => {}}
               >
                 <NavItem eventKey={1}>Saving Deposits</NavItem>
-              </LinkContainer>
-              <LinkContainer
+              </LinkContainer>}
+              {showUsers && <LinkContainer
+                to={{ pathname: "/users", query: {} }}
+                onClick={() => {}}
+              >
+                <NavItem eventKey={2}>Users</NavItem>
+              </LinkContainer>}
+              {showProfile && <LinkContainer
                 to={{ pathname: "/profile", query: {} }}
                 onClick={() => {}}
               >
-                <NavItem eventKey={2}>
+                <NavItem eventKey={3}>
                   <Glyphicon glyph="user" /> Profile
                 </NavItem>
-              </LinkContainer>
+              </LinkContainer>}
             </Nav>
           </Navbar.Collapse>
         </Navbar>

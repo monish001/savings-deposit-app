@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  profile: {},
+  profile: {email: 'test', role: 'ADMIN'},
   successMsg: null,
   error: null,
   isLoggingIn: false,
