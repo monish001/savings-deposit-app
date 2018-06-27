@@ -1,4 +1,3 @@
-// ./react-redux-client/src/components/SavingDeposits.js
 import React from "react";
 import { Form, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import {

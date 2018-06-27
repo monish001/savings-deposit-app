@@ -17,10 +17,10 @@ import EnsureLoggedInContainer from './containers/EnsureLoggedInContainer';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={SavingDeposits} />
     <Route path="/login" component={Login} />
 
     <Route component={EnsureLoggedInContainer}>
+      <IndexRoute component={SavingDeposits} />
       <Route path="/profile" component={Profile} />
       <Route path="/saving-deposits" component={SavingDeposits} />
       <Route path="/saving-deposits/create" component={SavingDepositForm} />

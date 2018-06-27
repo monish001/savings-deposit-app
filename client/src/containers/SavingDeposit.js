@@ -1,4 +1,3 @@
-// ./react-redux-client/src/containers/SavingDeposit.js
 import { connect } from "react-redux";
 import * as savingDeposit from "../actions/savingDepositActions";
 import SavingDeposit from "../components/SavingDeposit";

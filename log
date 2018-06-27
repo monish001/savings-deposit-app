@@ -1,0 +1,118 @@
+****************UI****************
+1. REGULAR_USER
+register user
+login user
+verify email
+
+see (filter by the amount - minimum and maximum, bank name and date), edit, delete his/her SDs 
+create SD
+see report 
+    User can generate a revenue report for a given period, that will show the gains and losses from interest and taxes for each deposit. The amount should be green or red if respectively it represents a gain or loss. The report should show the sum of profits and losses at the bottom for that period.
+    The computation of profit/loss is done on a daily basis. Consider that a year is 360 days.
+
+
+2. USER_MANAGER
+see, edit (unblock blocked user), delete users.
+create user
+
+ADMIN
+see (filter by the amount - minimum and maximum, bank name and date), edit, delete all users' SDs 
+create user's SD
+see, edit (unblock blocked user), delete users.
+create user
+invite new user
+    An admin should be able to invite someone to the application by typing an email address in an input field; the system should then send an invitation message automatically, prompting the user to complete the registration.
+
+
+Q. Can USER_MANAGER only see REGULAR_USERs or other USER_MANAGERs and ADMINs as well?
+Q. - same question of ADMIN user -
+Q. Can USER_MANAGERs and ADMINs change role of users they can CRUD?
+
+
+
+
+****************API****************
+REGULAR_USER
+USER_MANAGER
+POST /users
+GET /users
+GET PUT DELETE /users/:userId
+
+
+
+
+ADMIN
+POST /inviteNewUser {email: ''}
+
+
+// Syntax: authz.addPolicy(policyName, [roles]);
+authz.addPolicy("crud all users", ["admin", "user manager"]);
+authz.addPolicy("crud all records", ["admin"]);
+authz.addPolicy("crud self records", ["regular user"]);
+authz.addPolicy("crud self user", ["regular user"]);
+/** 
+ * End: AuthZ section 
+ */
+
+app.use("/", indexController);
+//  /register or create user - sends an email for verification
+//  /verify email(token)
+//  /login or /authenticateUser
+//  /login 1 facebook
+//  /login 2 google
+
+app.use(
+  "/api/users/self/records", authz.enforcePolicy("crud self records"),
+  recordsController // ALL CRUD
+);
+app.use(
+  "/api/users/self/update-pic", authz.enforcePolicy("crud self user"),
+  recordsController // ONLY UPDATE PIC FIELD
+);
+app.use("/api/users", authz.enforcePolicy("crud all users"), usersController);
+app.use("/api/records", authz.enforcePolicy("crud all records"), recordsController);
+
+
+
+
+****************SCHEMA****************
+Saving deposit is identified by a 
+    bank name, 
+    account number, 
+    an initial amount saved (currency in USD), 
+    start date, 
+    end date, 
+    interest percentage per year (The interest could be positive or negative)
+    taxes percentage (The taxes are only applied over profit.)
+
+User
+    email
+    isEmailVerified
+    password
+    retryCount (isBlocked is derivable field)
+    profilePicture (auto fetch from social media)
+
+
+
+
+
+
+Hi Jota,
+
+It is nice to e-meet you! About the project, I did not understand requirements about roles. It would be great if we can be on same page regarding project requirements. Below are the doubts - 
+Q1. Can a user-manager CRUD only regular-user or other user-managers and admins also?
+all users all roles
+Q2. - same question for ADMIN role - Can an admin CRUD only regular-user or other user-managers and admins also?
+all users all roles
+Q3. Can user-managers and admins change role of users they can CRUD?
+yes
+Q4. Can admin and user-managers act as regular user? This is, can they create their own records?
+yes from API, but not from UI.
+
+Below is what I was thinking - 
+(1) A user-manager can only CRUD regular-users.
+(2) An admin can CRUD regular-users, user-managers and other admins.
+(3) Roles can not be changes
+
+
+Please let me know if I should be making my own assumptions for these questions.

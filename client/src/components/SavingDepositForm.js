@@ -119,7 +119,7 @@ export default class SavingDepositsForm extends React.Component {
           </div>
         </div>
         <FormGroup>
-          <Button type="submit" bsStyle="success" bsSize="large" block>
+          <Button type="submit" bsStyle="info" bsSize="large" block>
             Submit
           </Button>
         </FormGroup>

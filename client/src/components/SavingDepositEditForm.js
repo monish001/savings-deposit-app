@@ -90,7 +90,7 @@ const SavingDepositEditForm = (props) => {
             </div>
         </div>
         <FormGroup>
-            <Button type="submit" bsStyle="success" bsSize="large" block>Submit</Button>
+            <Button type="submit" bsStyle="info" bsSize="large" block>Submit</Button>
         </FormGroup>
     </form>
   );
