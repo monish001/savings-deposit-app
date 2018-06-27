@@ -27,17 +27,19 @@ export default class App extends React.Component {
               </LinkContainer>
             </Nav>
             <Nav pullRight>
-            <LinkContainer
+              <LinkContainer
                 to={{ pathname: "/saving-deposits", query: {} }}
-                onClick={()=>{}}
+                onClick={() => {}}
               >
                 <NavItem eventKey={1}>Saving Deposits</NavItem>
               </LinkContainer>
               <LinkContainer
                 to={{ pathname: "/profile", query: {} }}
-                onClick={()=>{}}
+                onClick={() => {}}
               >
-                <NavItem eventKey={2}><Glyphicon glyph="user" /> Profile</NavItem>
+                <NavItem eventKey={2}>
+                  <Glyphicon glyph="user" /> Profile
+                </NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>
