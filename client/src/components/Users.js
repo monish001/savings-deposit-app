@@ -12,9 +12,21 @@ export default class Users extends React.Component {
     this.submitNewPhoto = this.submitNewPhoto.bind(this);
     this.hideDeleteModal = this.hideDeleteModal.bind(this);
     this.confirmDeleteUser = this.confirmDeleteUser.bind(this);
+    this.confirmResetPasswordUser = this.confirmResetPasswordUser.bind(this);
+    this.hideResetPasswordModal = this.hideResetPasswordModal.bind(this);
+    this.showResetPasswordModal = this.showResetPasswordModal.bind(this);
   }
   componentWillMount() {
     // this.props.mappedFetchUsers(); @todo uncomment
+  }
+  hideResetPasswordModal() {
+    this.props.mappedHideResetPasswordModal();
+  }
+  showResetPasswordModal(userToResetPassword) {
+    this.props.mappedShowResetPasswordModal(userToResetPassword);
+  }
+  confirmResetPasswordUser() {
+    this.props.mappedResetPasswordUser(this.props.mappedUsersState.userToResetPassword);
   }
   showEditModal(userToEdit) {
     this.props.mappedShowEditModal(userToEdit);
@@ -113,6 +125,7 @@ export default class Users extends React.Component {
                 <th>is Facebook Logged</th>*/}
                 <th className="textCenter">Edit</th>
                 <th className="textCenter">Delete</th>
+                <th className="textCenter">Reset password</th>
                 {showUnblock && <th className="textCenter">Unblock</th>}
               </tr>
             </thead>
@@ -150,6 +163,15 @@ export default class Users extends React.Component {
                       bsSize="small"
                     >
                       <Glyphicon glyph="trash" />
+                    </Button>
+                  </td>
+                  <td className="textCenter">
+                    <Button
+                      onClick={() => this.showResetPasswordModal(user)}
+                      bsStyle="info"
+                      bsSize="small"
+                    >
+                      <Glyphicon glyph="refresh" />
                     </Button>
                   </td>
                   {showUnblock &&
@@ -272,6 +294,62 @@ export default class Users extends React.Component {
               </Button>}
           </Modal.Footer>
         </Modal>
+
+
+        {/* Modal for reset password */}
+        <Modal
+          show={usersState.showResetPasswordModal}
+          onHide={this.hideResetPasswordModal}
+          container={this}
+          aria-labelledby="contained-modal-title"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title">
+              Reset password
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {usersState.userToResetPassword &&
+              !usersState.isFetching &&
+              <Alert bsStyle="warning">
+                Are you sure you want to trigger password reset email to this user?
+              </Alert>}
+            {usersState.userToResetPassword &&
+              usersState.error &&
+              <Alert bsStyle="danger">
+                Failed. <strong>{usersState.error} </strong>
+              </Alert>}
+            {usersState.userToResetPassword &&
+              !usersState.error &&
+              usersState.isFetching &&
+              <Alert bsStyle="success">
+                <strong>In progress... </strong>
+              </Alert>}
+            {!usersState.userToResetPassword &&
+              !usersState.error &&
+              !usersState.isFetching &&
+              <Alert bsStyle="success">
+                <strong>{usersState.successMsg} </strong>
+              </Alert>}
+          </Modal.Body>
+          <Modal.Footer>
+            {!usersState.successMsg &&
+              !usersState.isFetching &&
+              <div>
+                <Button bsSize="small" onClick={this.confirmResetPasswordUser}>
+                  Yes
+                </Button>
+                <Button bsSize="small" onClick={this.hideResetPasswordModal}>
+                  No
+                </Button>
+              </div>}
+            {usersState.successMsg &&
+              !usersState.isFetching &&
+              <Button bsSize="small" onClick={this.hideResetPasswordModal}>
+                Close
+              </Button>}
+          </Modal.Footer>
+        </Modal>        
       </div>
     );
   }

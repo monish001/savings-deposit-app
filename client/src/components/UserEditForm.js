@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 
 const UserEditForm = props => {
-  /** @todo show image upload form and Other info. form (containing only role for now)  */
   return (
     <div>
       <form

@@ -122,13 +122,13 @@ export const fetchUsersFailed = error => {
 // edit user
 export const showEditModal = userToEdit => {
   return {
-    type: "SHOW_EDIT_USER__MODAL",
+    type: "SHOW_EDIT_USER_MODAL",
     user: userToEdit
   };
 };
 export const hideEditModal = () => {
   return {
-    type: "HIDE_EDIT_USER__MODAL"
+    type: "HIDE_EDIT_USER_MODAL"
   };
 };
 export const editUser = (newUser, oldUser) => {
@@ -210,17 +210,17 @@ export const deleteUserFailed = error => {
 };
 export const showDeleteModal = userToDelete => {
   return {
-    type: "SHOW_DELETE_USER__MODAL",
+    type: "SHOW_DELETE_USER_MODAL",
     user: userToDelete
   };
 };
 export const hideDeleteModal = () => {
   return {
-    type: "HIDE_DELETE_USER__MODAL"
+    type: "HIDE_DELETE_USER_MODAL"
   };
 };
 
-
+// update profile picture
 export const uploadUserPictureInBrowser = base64Image => {
   return {
     type: "UPLOAD_USER_PICTURE_IN_BROWSER",
@@ -265,3 +265,53 @@ export const submitPictureRequestFailed = error => {
   };
 };
 
+
+// reset password
+export const resetPassword = user => {
+  return dispatch => {
+    dispatch(resetPasswordRequest(user));
+    return fetch(apiUrl + user._id, {
+      method: "post"
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          dispatch(resetPasswordSuccess(data.message));
+        });
+      } else {
+        response.json().then(error => {
+          dispatch(resetPasswordFailed(error));
+        });
+      }
+    });
+  };
+};
+export const resetPasswordRequest = user => {
+  return {
+    type: "RESET_PASSWORD_USER_REQUEST",
+    user
+  };
+};
+export const resetPasswordSuccess = message => {
+  return {
+    type: "RESET_PASSWORD_USER_SUCCESS",
+    message: message
+  };
+};
+export const resetPasswordFailed = error => {
+  return {
+    type: "RESET_PASSWORD_USER_FAILED",
+    error
+  };
+};
+export const showResetPasswordModal = userToResetPassword => {
+  console.log('showResetPasswordModal', userToResetPassword);
+  return {
+    type: "SHOW_RESET_PASSWORD_USER_MODAL",
+    userToResetPassword: userToResetPassword,
+  };
+};
+export const hideResetPasswordModal = () => {
+  return {
+    type: "HIDE_RESET_PASSWORD_USER_MODAL"
+  };
+};

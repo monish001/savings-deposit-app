@@ -34,6 +34,8 @@ const INITIAL_STATE = {
   newUser: null,
   imageToUpdate: null,
   isUpdatingPicture: false,
+  showResetPasswordModal: false,
+  userToResetPassword: null,
 };
 const userReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -159,7 +161,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         newUser: action.user
       };
       return nextState;
-    case "SHOW_EDIT_USER__MODAL":
+    case "SHOW_EDIT_USER_MODAL":
       return {
         ...currentState,
         users: currentState.users,
@@ -173,7 +175,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         userToEdit: action.user,
         newUser: null
       };
-    case "HIDE_EDIT_USER__MODAL":
+    case "HIDE_EDIT_USER_MODAL":
       return {
         ...currentState,
         users: currentState.users,
@@ -283,7 +285,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         userToEdit: null,
         newUser: null
       };
-    case "SHOW_DELETE_USER__MODAL":
+    case "SHOW_DELETE_USER_MODAL":
       return {
         ...currentState,
         users: currentState.users,
@@ -297,7 +299,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         userToEdit: null,
         newUser: null
       };
-    case "HIDE_DELETE_USER__MODAL":
+    case "HIDE_DELETE_USER_MODAL":
       return {
         ...currentState,
         users: currentState.users,
@@ -350,6 +352,63 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         error: action.error,
         isUpdatingPicture: false
       };
+
+
+      case "RESET_PASSWORD_USER_REQUEST":
+      return {
+        ...currentState,
+        isFetching: true,
+        error: null,
+        successMsg: null,
+      };
+    case "RESET_PASSWORD_USER_SUCCESS":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: action.message,
+
+      };
+    case "RESET_PASSWORD_USER_FAILED":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: action.error,
+        successMsg: null,
+      };     
+    case "SHOW_RESET_PASSWORD_USER_MODAL":
+      return {
+        ...currentState,
+        users: currentState.users,
+        user: null,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showDeleteModal: false,
+        userToDelete: null,
+        showEditModal: false,
+        userToEdit: null,
+        newUser: null,
+        showResetPasswordModal: true,
+        userToResetPassword: action.userToResetPassword,
+      };
+    case "HIDE_RESET_PASSWORD_USER_MODAL":
+      return {
+        ...currentState,
+        users: currentState.users,
+        user: null,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showDeleteModal: false,
+        userToDelete: null,
+        showEditModal: false,
+        userToEdit: null,
+        newUser: null,
+        showResetPasswordModal: false,
+        userToResetPassword: null,
+      };
+
     default:
       return currentState;
   }

@@ -27,6 +27,12 @@ const mapDispatchToProps = dispatch => {
       dispatch(userActions.showDeleteModal(userToDelete)),
     mappedHideDeleteModal: () => dispatch(userActions.hideDeleteModal()),
 
+    mappedResetPasswordUser: userToResetPassword =>
+      dispatch(userActions.resetPassword(userToResetPassword)),
+    mappedShowResetPasswordModal: userToResetPassword =>
+      dispatch(userActions.showResetPasswordModal(userToResetPassword)),
+    mappedHideResetPasswordModal: () => dispatch(userActions.hideResetPasswordModal()),
+
     mappedUploadUserPictureInBrowser: base64Image =>
       dispatch(userActions.uploadUserPictureInBrowser(base64Image)),
     mappedSubmitPicture: userToEdit =>
