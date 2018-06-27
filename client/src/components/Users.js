@@ -2,7 +2,7 @@ import React from "react";
 import { Image, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
 import UserEditForm from "./UserEditForm";
-import UsersConfirmationModal from './UsersConfirmationModal';
+import UsersConfirmationModal from "./UsersConfirmationModal";
 
 export default class Users extends React.Component {
   constructor(props) {
@@ -104,15 +104,19 @@ export default class Users extends React.Component {
             <Panel.Title componentClass="h3">Actions</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
-            <Link to={`/users/create`}>
-              <Button onClick={() => {}} bsStyle="info" bsSize="small">
-                <Glyphicon glyph="plus" /> Add new user {/*@todo*/}
-              </Button>
-            </Link>{" "}
+            <div>
+              <Link to={`/users/create`}>
+                <Button onClick={() => {}} bsStyle="info" bsSize="small">
+                  <Glyphicon glyph="plus" /> Add new user {/*@todo*/}
+                </Button>
+              </Link>
+            </div><p />
             {showInvite &&
-              <Button onClick={() => {}} bsStyle="info" bsSize="small">
-                <Glyphicon glyph="envelope" /> Invite user {/*@todo*/}
-              </Button>}
+              <div>
+                <Button onClick={() => {}} bsStyle="info" bsSize="small">
+                  <Glyphicon glyph="envelope" /> Invite user {/*@todo*/}
+                </Button>
+              </div>}
           </Panel.Body>
         </Panel>
         {!users && usersState.isFetching && <p>Loading users....</p>}
@@ -262,7 +266,7 @@ export default class Users extends React.Component {
           confirm={this.confirmDeleteUser}
           hideUserModal={this.hideDeleteModal}
           displayBody="Are you sure you want to delete the user"
-        />        
+        />
 
         {/* Modal for reset password */}
         <UsersConfirmationModal
