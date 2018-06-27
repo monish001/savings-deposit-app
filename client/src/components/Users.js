@@ -3,25 +3,46 @@ import { Image, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
 import UserEditForm from "./UserEditForm";
 import UsersConfirmationModal from "./UsersConfirmationModal";
+import UsersInviteModal from './UsersInviteModal';
 
 export default class Users extends React.Component {
   constructor(props) {
     super(props);
     this.hideEditModal = this.hideEditModal.bind(this);
     this.submitEditUser = this.submitEditUser.bind(this);
+
     this.setNewProfilePhoto = this.setNewProfilePhoto.bind(this);
     this.submitNewPhoto = this.submitNewPhoto.bind(this);
-    this.hideDeleteModal = this.hideDeleteModal.bind(this);
+
     this.confirmDeleteUser = this.confirmDeleteUser.bind(this);
+    this.hideDeleteModal = this.hideDeleteModal.bind(this);
+    this.showDeleteModal = this.showDeleteModal.bind(this);
+
     this.confirmResetPasswordUser = this.confirmResetPasswordUser.bind(this);
     this.hideResetPasswordModal = this.hideResetPasswordModal.bind(this);
     this.showResetPasswordModal = this.showResetPasswordModal.bind(this);
+
     this.confirmUnblockUser = this.confirmUnblockUser.bind(this);
     this.hideUnblockUserModal = this.hideUnblockUserModal.bind(this);
     this.showUnblockUserModal = this.showUnblockUserModal.bind(this);
-  }
+
+    this.hideInviteUserModal = this.hideInviteUserModal.bind(this);
+    this.showInviteUserModal = this.showInviteUserModal.bind(this);
+    this.inviteUser = this.inviteUser.bind(this);
+}
   componentWillMount() {
     // this.props.mappedFetchUsers(); @todo uncomment
+  }
+  inviteUser(e) {
+    e.preventDefault();
+    const form = document.getElementById("UserInviteForm");
+    this.props.mappedInviteUser(form.email.value);
+  }
+  hideInviteUserModal() {
+    this.props.mappedHideInviteUserModal();
+  }
+  showInviteUserModal() {
+    this.props.mappedShowInviteUserModal();
   }
   hideUnblockUserModal() {
     this.props.mappedHideUnblockUserModal();
@@ -113,7 +134,7 @@ export default class Users extends React.Component {
             </div><p />
             {showInvite &&
               <div>
-                <Button onClick={() => {}} bsStyle="info" bsSize="small">
+                <Button onClick={this.showInviteUserModal} bsStyle="info" bsSize="small">
                   <Glyphicon glyph="envelope" /> Invite user {/*@todo*/}
                 </Button>
               </div>}
@@ -292,6 +313,17 @@ export default class Users extends React.Component {
           confirm={this.confirmUnblockUser}
           hideUserModal={this.hideUnblockUserModal}
           displayBody="Are you sure you want to unblock the user"
+        />
+
+        {/*Invite user*/}
+        <UsersInviteModal 
+          show={usersState.showInviteUserModal}
+          onHide={this.hideInviteUserModal}
+          hideUserModal={this.hideInviteUserModal}
+          container={this}
+          displayTitle="Invite User"
+          submitAction={this.inviteUser}
+          state={usersState}
         />
       </div>
     );

@@ -365,3 +365,52 @@ export const hideUnblockUserModal = () => {
     type: "HIDE_UNBLOCK_USER_MODAL"
   };
 };
+
+
+// invite user
+export const inviteUser = email => {
+  return dispatch => {
+    dispatch(inviteUserRequest());
+    return fetch(apiUrl + 'invite', {
+      method: "post",
+      body: JSON.stringify({email}),
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          dispatch(inviteUserSuccess(data.message));
+        });
+      } else {
+        response.json().then(error => {
+          dispatch(inviteUserFailed(error));
+        });
+      }
+    });
+  };
+};
+export const inviteUserRequest = () => {
+  return {
+    type: "INVITE_USER_REQUEST",
+  };
+};
+export const inviteUserSuccess = message => {
+  return {
+    type: "INVITE_USER_SUCCESS",
+    message: message
+  };
+};
+export const inviteUserFailed = error => {
+  return {
+    type: "INVITE_USER_FAILED",
+    error
+  };
+};
+export const showInviteUserModal = () => {
+  return {
+    type: "SHOW_INVITE_USER_MODAL",
+  };
+};
+export const hideInviteUserModal = () => {
+  return {
+    type: "HIDE_INVITE_USER_MODAL"
+  };
+};

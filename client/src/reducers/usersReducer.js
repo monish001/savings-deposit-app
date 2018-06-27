@@ -438,6 +438,44 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       };
 
 
+    case "INVITE_USER_REQUEST":
+      return {
+        ...currentState,
+        isFetching: true,
+        error: null,
+        successMsg: null,
+      };
+    case "INVITE_USER_SUCCESS":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: action.message,
+
+      };
+    case "INVITE_USER_FAILED":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: action.error,
+        successMsg: null,
+      };     
+    case "SHOW_INVITE_USER_MODAL":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showInviteUserModal: true,
+      };
+    case "HIDE_INVITE_USER_MODAL":
+      return {
+        ...currentState,
+        isFetching: false,
+        error: null,
+        successMsg: null,
+        showInviteUserModal: false,
+      };
     default:
       return currentState;
   }

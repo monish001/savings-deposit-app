@@ -45,7 +45,14 @@ const mapDispatchToProps = dispatch => {
     mappedUploadUserPictureInBrowser: base64Image =>
       dispatch(userActions.uploadUserPictureInBrowser(base64Image)),
     mappedSubmitPicture: userToEdit =>
-      dispatch(userActions.submitPicture(userToEdit))
+      dispatch(userActions.submitPicture(userToEdit)),
+
+    mappedInviteUser: email =>
+      dispatch(userActions.inviteUser(email)),
+    mappedShowInviteUserModal: () =>
+      dispatch(userActions.showInviteUserModal()),
+    mappedHideInviteUserModal: () =>
+      dispatch(userActions.hideInviteUserModal()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
