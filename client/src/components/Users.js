@@ -93,7 +93,7 @@ export default class Users extends React.Component {
   }
   submitNewPhoto(e) {
     e.preventDefault();
-    const form = document.getElementById("UserEditForm");
+    const form = document.getElementById("UserEditForm"); // @todo id should be UserPhotoEditForm
     this.props.mappedSubmitPicture({
       _id: form._id.value,
       photo: this.props.mappedUsersState.imageToUpdate

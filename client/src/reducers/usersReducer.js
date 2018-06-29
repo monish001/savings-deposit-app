@@ -1,27 +1,30 @@
 const INITIAL_STATE = {
   // @todo mock data
   // users: [],
-  users: [{
-    _id: '<guid - 1>',
-    email: 'test@qw.com',
-    role: 'USER_MANAGER',
-    photo: null,
-    googleId: 12345678,
-    facebookId: null,
-    isEmailLoggedIn: false,
-    isEmailVerified: false,
-    retryCount: 0
-  }, {
-    _id: '<guid - 2>',
-    email: 'test1@qw.com',
-    role: 'ADMIN',
-    photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",
-    googleId: null,
-    facebookId: null,
-    isEmailLoggedIn: true,
-    isEmailVerified: true,
-    retryCount: 3
-  }],
+  users: [
+    {
+      _id: "<guid - 1>",
+      email: "test@qw.com",
+      role: "USER_MANAGER",
+      photo: null,
+      googleId: 12345678,
+      facebookId: null,
+      isEmailLoggedIn: false,
+      isEmailVerified: false,
+      retryCount: 0
+    },
+    {
+      _id: "<guid - 2>",
+      email: "test1@qw.com",
+      role: "ADMIN",
+      photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",
+      googleId: null,
+      facebookId: null,
+      isEmailLoggedIn: true,
+      isEmailVerified: true,
+      retryCount: 3
+    }
+  ],
 
   // user: null,
   isFetching: false,
@@ -35,7 +38,7 @@ const INITIAL_STATE = {
   imageToUpdate: null,
   isUpdatingPicture: false,
   showResetPasswordModal: false,
-  userToResetPassword: null,
+  userToResetPassword: null
 };
 const userReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -78,87 +81,73 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         showEditModal: false,
         userToEdit: null
       };
-      // case "FETCH_USER_REQUEST":
-      //   return {
-      //     ...currentState,
-      //     users: currentState.users,
-      //     user: null,
-      //     isFetching: true,
-      //     error: null,
-      //     successMsg: null,
-      //     showDeleteModal: false,
-      //     userToDelete: null,
-      //     showEditModal: false,
-      //     userToEdit: null
-      //   };
-      // case "FETCH_USER_SUCCESS":
-      //   return {
-      //     ...currentState,
-      //     users: currentState.users,
-      //     user: action.user,
-      //     isFetching: false,
-      //     error: null,
-      //     successMsg: action.message,
-      //     showDeleteModal: false,
-      //     userToDelete: null,
-      //     showEditModal: false,
-      //     userToEdit: null
-      //   };
-      // case "FETCH_USER_FAILED":
-      //   return {
-      //     ...currentState,
-      //     users: [],
-      //     user: null,
-      //     isFetching: false,
-      //     error: action.error,
-      //     successMsg: null,
-      //     showDeleteModal: false,
-      //     userToDelete: null,
-      //     showEditModal: false,
-      //     userToEdit: null
-      //   };
+    // case "FETCH_USER_REQUEST":
+    //   return {
+    //     ...currentState,
+    //     users: currentState.users,
+    //     user: null,
+    //     isFetching: true,
+    //     error: null,
+    //     successMsg: null,
+    //     showDeleteModal: false,
+    //     userToDelete: null,
+    //     showEditModal: false,
+    //     userToEdit: null
+    //   };
+    // case "FETCH_USER_SUCCESS":
+    //   return {
+    //     ...currentState,
+    //     users: currentState.users,
+    //     user: action.user,
+    //     isFetching: false,
+    //     error: null,
+    //     successMsg: action.message,
+    //     showDeleteModal: false,
+    //     userToDelete: null,
+    //     showEditModal: false,
+    //     userToEdit: null
+    //   };
+    // case "FETCH_USER_FAILED":
+    //   return {
+    //     ...currentState,
+    //     users: [],
+    //     user: null,
+    //     isFetching: false,
+    //     error: action.error,
+    //     successMsg: null,
+    //     showDeleteModal: false,
+    //     userToDelete: null,
+    //     showEditModal: false,
+    //     userToEdit: null
+    //   };
+
 
     case "ADD_NEW_USER_REQUEST":
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: true,
         error: null,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null,
         newUser: action.user
       };
     case "ADD_NEW_USER_REQUEST_FAILED":
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
-        isFetching: true,
+        isFetching: false,
         error: action.error,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null,
-        newUser: null
+        newUser: currentState.newUser
       };
     case "ADD_NEW_USER_REQUEST_SUCCESS":
       const nextState = {
         ...currentState,
         users: [...currentState.users, action.user],
-        user: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
-        showDeleteModal: false,
-        userToDelete: null,
-        showEditModal: false,
-        userToEdit: null,
-        newUser: action.user
+        newUser: null
       };
       return nextState;
     case "SHOW_EDIT_USER_MODAL":
@@ -210,7 +199,8 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
           return user;
         }
         //Otherwise, this is the one we want to return an updated value
-        return { ...user,
+        return {
+          ...user,
           ...action.user
         };
       });
@@ -314,7 +304,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         newUser: null
       };
 
-
     case "UPLOAD_USER_PICTURE_IN_BROWSER":
       return {
         ...currentState,
@@ -332,7 +321,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
           return user;
         }
         //Otherwise, this is the one we want to return an updated value
-        return { 
+        return {
           ...user,
           ...action.user
         };
@@ -343,7 +332,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         isUpdatingPicture: false,
         imageToUpdate: null,
-        users: updatedUsers1,
+        users: updatedUsers1
       };
     case "UPDATE_USER_PICTURE_FAILED":
       return {
@@ -353,29 +342,27 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         isUpdatingPicture: false
       };
 
-
-      case "RESET_PASSWORD_USER_REQUEST":
+    case "RESET_PASSWORD_USER_REQUEST":
       return {
         ...currentState,
         isFetching: true,
         error: null,
-        successMsg: null,
+        successMsg: null
       };
     case "RESET_PASSWORD_USER_SUCCESS":
       return {
         ...currentState,
         isFetching: false,
         error: null,
-        successMsg: action.message,
-
+        successMsg: action.message
       };
     case "RESET_PASSWORD_USER_FAILED":
       return {
         ...currentState,
         isFetching: false,
         error: action.error,
-        successMsg: null,
-      };     
+        successMsg: null
+      };
     case "SHOW_RESET_PASSWORD_USER_MODAL":
       return {
         ...currentState,
@@ -383,7 +370,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showResetPasswordModal: true,
-        userToResetPassword: action.userToResetPassword,
+        userToResetPassword: action.userToResetPassword
       };
     case "HIDE_RESET_PASSWORD_USER_MODAL":
       return {
@@ -392,32 +379,30 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showResetPasswordModal: false,
-        userToResetPassword: null,
+        userToResetPassword: null
       };
-
 
     case "UNBLOCK_USER_REQUEST":
       return {
         ...currentState,
         isFetching: true,
         error: null,
-        successMsg: null,
+        successMsg: null
       };
     case "UNBLOCK_USER_SUCCESS":
       return {
         ...currentState,
         isFetching: false,
         error: null,
-        successMsg: action.message,
-
+        successMsg: action.message
       };
     case "UNBLOCK_USER_FAILED":
       return {
         ...currentState,
         isFetching: false,
         error: action.error,
-        successMsg: null,
-      };     
+        successMsg: null
+      };
     case "SHOW_UNBLOCK_USER_MODAL":
       return {
         ...currentState,
@@ -425,7 +410,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showUnblockUserModal: true,
-        userToUnblock: action.userToUnblock,
+        userToUnblock: action.userToUnblock
       };
     case "HIDE_UNBLOCK_USER_MODAL":
       return {
@@ -434,39 +419,37 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showUnblockUserModal: false,
-        userToUnblock: null,
+        userToUnblock: null
       };
-
 
     case "INVITE_USER_REQUEST":
       return {
         ...currentState,
         isFetching: true,
         error: null,
-        successMsg: null,
+        successMsg: null
       };
     case "INVITE_USER_SUCCESS":
       return {
         ...currentState,
         isFetching: false,
         error: null,
-        successMsg: action.message,
-
+        successMsg: action.message
       };
     case "INVITE_USER_FAILED":
       return {
         ...currentState,
         isFetching: false,
         error: action.error,
-        successMsg: null,
-      };     
+        successMsg: null
+      };
     case "SHOW_INVITE_USER_MODAL":
       return {
         ...currentState,
         isFetching: false,
         error: null,
         successMsg: null,
-        showInviteUserModal: true,
+        showInviteUserModal: true
       };
     case "HIDE_INVITE_USER_MODAL":
       return {
@@ -474,7 +457,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         isFetching: false,
         error: null,
         successMsg: null,
-        showInviteUserModal: false,
+        showInviteUserModal: false
       };
     default:
       return currentState;
