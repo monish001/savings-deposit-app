@@ -1,5 +1,4 @@
 const INITIAL_STATE = {
-  savingDeposits: [],
   // savingDeposits: [{
   //   _id: 1,
   //   userId: 2,
@@ -21,7 +20,6 @@ const INITIAL_STATE = {
   //   interest: -12.12,
   //   tax: 40
   // }],
-  savingDepositsFilter: {},
   // savingDeposit: {
   //   _id: 1,
   //   userId: 2,
@@ -33,7 +31,9 @@ const INITIAL_STATE = {
   //   interest: 10.01,
   //   tax: 30
   // },
+  savingDeposits: [],
   savingDeposit: null,
+  savingDepositsFilter: {},
   isFetching: false,
   error: null,
   successMsg: null,
@@ -42,7 +42,7 @@ const INITIAL_STATE = {
   showGenerateReportModal: false,
   showEditModal: false,
   savingDepositToEdit: null,
-  newSavingDeposit: null
+  savingDepositToCreate: null
 };
 const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -105,32 +105,26 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
     case "ADD_NEW_SAVING_DEPOSIT_REQUEST":
       return {
         ...currentState,
-        savingDeposits: currentState.savingDeposits,
-        savingDeposit: null,
         isFetching: true,
         error: null,
         successMsg: null,
-        newSavingDeposit: action.savingDeposit
+        savingDepositToCreate: action.savingDeposit
       };
     case "ADD_NEW_SAVING_DEPOSIT_REQUEST_FAILED":
       return {
         ...currentState,
-        savingDeposits: currentState.savingDeposits,
-        savingDeposit: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
-        newSavingDeposit: null
       };
     case "ADD_NEW_SAVING_DEPOSIT_REQUEST_SUCCESS":
       const nextState = {
         ...currentState,
         savingDeposits: [...currentState.savingDeposits, action.savingDeposit],
-        savingDeposit: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
-        newSavingDeposit: action.savingDeposit
+        savingDepositToCreate: null,
       };
       return nextState;
     case "SHOW_EDIT_SD_MODAL":
@@ -143,7 +137,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showEditModal: true,
         savingDepositToEdit: action.savingDeposit,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "HIDE_EDIT_SD_MODAL":
       return {
@@ -155,7 +149,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showEditModal: false,
         savingDepositToEdit: null,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "EDIT_SAVING_DEPOSIT_REQUEST":
       return {
@@ -166,7 +160,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showEditModal: true,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "EDIT_SAVING_DEPOSIT_SUCCESS":
       const updatedSavingDeposits = currentState.savingDeposits.map(savingDeposit => {
@@ -188,7 +182,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: action.message,
         showEditModal: true,
         savingDepositToEdit: null,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "EDIT_SAVING_DEPOSIT_FAILED":
       return {
@@ -200,7 +194,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showEditModal: true,
         savingDepositToEdit: currentState.savingDepositToEdit,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "DELETE_SAVING_DEPOSIT_REQUEST":
       return {
@@ -212,7 +206,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showDeleteModal: true,
         savingDepositToDelete: action.savingDeposit,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "DELETE_SAVING_DEPOSIT_SUCCESS":
       const filteredSavingDeposits = currentState.savingDeposits.filter(
@@ -227,7 +221,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: action.message,
         showDeleteModal: true,
         savingDepositToDelete: null,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "DELETE_SAVING_DEPOSIT_FAILED":
       return {
@@ -239,7 +233,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showDeleteModal: true,
         savingDepositToDelete: currentState.savingDepositToDelete,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "SHOW_DELETE_SD_MODAL":
       return {
@@ -251,7 +245,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showDeleteModal: true,
         savingDepositToDelete: action.savingDeposit,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "HIDE_DELETE_SD_MODAL":
       return {
@@ -263,7 +257,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         successMsg: null,
         showDeleteModal: false,
         savingDepositToDelete: null,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "SHOW_GENERATE_REPORT_SD_MODAL":
       return {
@@ -274,7 +268,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showGenerateReportModal: true,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     case "HIDE_GENERATE_REPORT_SD_MODAL":
       return {
@@ -285,7 +279,7 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         error: null,
         successMsg: null,
         showGenerateReportModal: false,
-        newSavingDeposit: null
+        savingDepositToCreate: null
       };
     default:
       return currentState;

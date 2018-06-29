@@ -3,7 +3,7 @@ const apiUrl = "/api/users/";
 export const addNewUser = user => {
   return dispatch => {
     dispatch(addNewUserRequest(user));
-    const _apiUrl = apiUrl + 'create-' + user.role.toLowerCase();
+    const _apiUrl = apiUrl + user.role.toLowerCase();
     return fetch(_apiUrl, {
       method: "post",
       body: JSON.stringify(user),
@@ -96,10 +96,10 @@ export const hideEditModal = () => {
 export const editUser = (newUser, oldUser) => {
   return dispatch => {
     dispatch(editUserRequest(newUser));
-    const _apiUrl = apiUrl + oldUser._id + '/update-role-to-' + newUser.role.toLowerCase();
+    const _apiUrl = apiUrl + oldUser._id + '/' + oldUser.role.toLowerCase() + '/' + newUser.role.toLowerCase();
     return fetch(_apiUrl, {
       method: "put",
-      body: newUser
+      body: JSON.stringify(newUser),
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -137,7 +137,7 @@ export const editUserFailed = error => {
 export const deleteUser = user => {
   return dispatch => {
     dispatch(deleteUserRequest(user));
-    return fetch(apiUrl + user._id, {
+    return fetch(apiUrl + user.role.toLowerCase() + '/' + user._id, {
       method: "delete"
     }).then(response => {
       if (response.ok) {

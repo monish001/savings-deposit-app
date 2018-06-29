@@ -1,5 +1,4 @@
 const INITIAL_STATE = {
-  users: [],
   // users: [
   //   {
   //     _id: "1",
@@ -25,6 +24,7 @@ const INITIAL_STATE = {
   //   }
   // ],
 
+  users: [],
   isFetching: false,
   error: null,
   successMsg: null,
@@ -32,6 +32,7 @@ const INITIAL_STATE = {
   userToDelete: null,
   showEditModal: false,
   userToEdit: null,
+  editUserRequest: null,
   newUser: null,
   imageToUpdate: null,
   isUpdatingPicture: false,
@@ -108,27 +109,23 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
     case "SHOW_EDIT_USER_MODAL":
       return {
         ...currentState,
-        users: currentState.users,
         isFetching: false,
         error: null,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
         showEditModal: true,
         userToEdit: action.user,
+        editUserRequest: action.user,
         newUser: null
       };
     case "HIDE_EDIT_USER_MODAL":
       return {
         ...currentState,
-        users: currentState.users,
         isFetching: false,
         error: null,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
         showEditModal: false,
         userToEdit: null,
+        editUserRequest: null,
         newUser: null
       };
     case "EDIT_USER_REQUEST":
@@ -138,10 +135,8 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         isFetching: true,
         error: null,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
         showEditModal: true,
-        userToEdit: action.user,
+        editUserRequest: action.user,
         newUser: null
       };
     case "EDIT_USER_SUCCESS":
@@ -162,11 +157,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         isFetching: false,
         error: null,
         successMsg: action.message,
-        showDeleteModal: false,
-        userToDelete: null,
         showEditModal: true,
-        userToEdit: action.user,
-        newUser: null
       };
     case "EDIT_USER_FAILED":
       return {
@@ -175,11 +166,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         isFetching: false,
         error: action.error,
         successMsg: null,
-        showDeleteModal: false,
-        userToDelete: null,
         showEditModal: true,
-        userToEdit: currentState.userToEdit,
-        newUser: null
       };
     case "DELETE_USER_REQUEST":
       return {

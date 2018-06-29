@@ -115,8 +115,7 @@ export default class Users extends React.Component {
       profileState.profile.role &&
       profileState.profile.role === "ADMIN";
     const usersState = this.props.mappedUsersState;
-    const users = usersState.users;
-    const editUser = usersState.userToEdit;
+    const { userToEdit, editUserRequest, users } = usersState;
     return (
       <div className="col-md-12">
         <h3 className="centerAlign">Users</h3>
@@ -242,31 +241,32 @@ export default class Users extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <div className="col-md-12" style={{ float: "initial" }}>
-              {editUser &&
+              {userToEdit &&
                 <UserEditForm
-                  userData={editUser}
+                  userToEdit={userToEdit}
+                  editUserRequest={editUserRequest}
                   submitEditUser={this.submitEditUser}
                   setNewProfilePhoto={this.setNewProfilePhoto}
                   submitNewPhoto={this.submitNewPhoto}
                 />}
-              {editUser &&
+              {userToEdit &&
                 usersState.isFetching &&
                 <Alert bsStyle="info">
                   <strong>Updating... </strong>
                 </Alert>}
-              {editUser &&
+              {userToEdit &&
                 !usersState.isFetching &&
                 usersState.error &&
                 <Alert bsStyle="danger">
                   <strong>Failed. {usersState.error} </strong>
                 </Alert>}
-              {editUser &&
+              {userToEdit &&
                 !usersState.isFetching &&
                 usersState.successMsg &&
                 <Alert bsStyle="success">
                   Book
                   {" "}
-                  <strong> {editUser.userText} </strong>
+                  <strong> {userToEdit.userText} </strong>
                   {usersState.successMsg}
                 </Alert>}
             </div>

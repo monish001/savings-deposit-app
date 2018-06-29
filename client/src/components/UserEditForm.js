@@ -20,16 +20,16 @@ const UserEditForm = props => {
           <div className="col-md-12">
             <FormGroup>
               <ControlLabel>Role</ControlLabel>
-              <input type="hidden" value={props.userData._id} name="_id" />
+              <input type="hidden" value={props.editUserRequest._id} name="_id" />
               <FormControl
                 componentClass="select"
                 placeholder="Select role"
-                defaultValue={props.userData.role}
+                defaultValue={props.editUserRequest.role}
                 name="role"
               >
-                <option value="REGULAR_USER">User</option>
-                <option value="USER_MANAGER">User Manager</option>
-                <option value="ADMIN">Admin</option>
+                <option value="REGULAR_USER">{`User${props.userToEdit.role === 'REGULAR_USER'?' (current)':''}`}</option>
+                <option value="USER_MANAGER">{`User Manager${props.userToEdit.role === 'USER_MANAGER'?' (current)':''}`}</option>
+                <option value="ADMIN">{`Admin${props.userToEdit.role === 'ADMIN'?' (current)':''}`}</option>
               </FormControl>
             </FormGroup>
           </div>
@@ -42,9 +42,9 @@ const UserEditForm = props => {
       </form>
 
       <div style={{ "text-align": "center" }}>
-        {props.userData.photo &&
-          <Image src={`${props.userData.photo}`} rounded />}
-        {!props.userData.photo &&
+        {props.editUserRequest.photo &&
+          <Image src={`${props.editUserRequest.photo}`} rounded />}
+        {!props.editUserRequest.photo &&
           <Glyphicon style={{ "font-size": "20rem" }} glyph="user" />}
       </div>
 
@@ -57,7 +57,7 @@ const UserEditForm = props => {
           <div className="col-md-12">
             <FormGroup>
               <ControlLabel>Upload new picture</ControlLabel>
-              <input type="hidden" value={props.userData._id} name="_id" />
+              <input type="hidden" value={props.editUserRequest._id} name="_id" />
               <FormControl
                 name="picture"
                 type="file"

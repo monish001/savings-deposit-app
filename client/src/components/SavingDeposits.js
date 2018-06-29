@@ -31,10 +31,9 @@ export default class SavingDeposits extends React.Component {
     );
   }
   componentWillMount() {
-    this.props.mappedFetchSavingDeposits({}); // comment to mock
-    if (this.props.mappedProfileState.profile.role === "ADMIN") { // comment to mock
-      this.props.mappedFetchUsers();
-    }
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    this.props.mappedFetchSavingDeposits({}, isAdmin); // comment to mock
+    isAdmin && this.props.mappedFetchUsers(); // comment to mock
   }
   generateSavingDepositsReport(e) {
     e.preventDefault();
@@ -257,7 +256,7 @@ export default class SavingDeposits extends React.Component {
                 <DatePicker
                   id="start-date-picker"
                   name="startDate"
-                  defaultValue={
+                  value={
                     (savingDepositsFilter && savingDepositsFilter.startDate) ||
                       ""
                   }
@@ -270,7 +269,7 @@ export default class SavingDeposits extends React.Component {
                 <DatePicker
                   id="end-date-picker"
                   name="endDate"
-                  defaultValue={
+                  value={
                     (savingDepositsFilter && savingDepositsFilter.endDate) || ""
                   }
                 />

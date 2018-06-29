@@ -1,5 +1,5 @@
 function getApiUrl(isAdmin) {
-  return (isAdmin ? "/api/admin/saving-deposits/" : "/api/users/self/saving-deposits/");
+  return (isAdmin ? "/api/saving-deposits/" : "/api/users/self/saving-deposits/");
 }
 export const addNewSavingDeposit = (savingDeposit, isAdmin = false) => {
   return dispatch => {

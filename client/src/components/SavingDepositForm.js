@@ -28,20 +28,20 @@ export default class SavingDepositsForm extends React.Component {
   addSavingDeposit(e) {
     e.preventDefault();
     const form = document.getElementById("addSavingDepositForm"); // @todo dont use getElementById
-    const newSavingDeposit = {
+    const savingDepositToCreate = {
       bankName: form.bankName.value,
       accountNumber: form.accountNumber.value,
       initialAmount: form.initialAmount.value,
       startDate: form.startDate.value,
-      endDate: form.startDate.value,
+      endDate: form.endDate.value,
       interest: form.interest.value,
       tax: form.tax.value
     };
     const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
     if(isAdmin) {
-      newSavingDeposit.userId = form.userId.value;
+      savingDepositToCreate.userId = form.userId.value;
     }
-    this.props.mappedAddNewSavingDeposit(newSavingDeposit, isAdmin);
+    this.props.mappedAddNewSavingDeposit(savingDepositToCreate, isAdmin);
   }
 
   render() {
@@ -104,6 +104,7 @@ export default class SavingDepositsForm extends React.Component {
                 <DatePicker
                   id="start-date-picker"
                   name="startDate"
+                  value={this.props.mappedSavingDepositState.savingDepositToCreate && this.props.mappedSavingDepositState.savingDepositToCreate.startDate}
                 />
               </FormGroup>
               <FormGroup>
@@ -111,6 +112,7 @@ export default class SavingDepositsForm extends React.Component {
                 <DatePicker
                   id="end-date-picker"
                   name="endDate"
+                  value={this.props.mappedSavingDepositState.savingDepositToCreate && this.props.mappedSavingDepositState.savingDepositToCreate.endDate}
                 />
               </FormGroup>
               <FormGroup>
