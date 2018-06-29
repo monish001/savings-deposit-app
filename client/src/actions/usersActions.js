@@ -81,45 +81,6 @@ export const fetchUsersFailed = error => {
   };
 };
 
-// /* get a single user */
-// export const fetchUserById = userId => {
-//   return dispatch => {
-//     dispatch(fetchUserRequest());
-//     // Returns a promise
-//     return fetch(apiUrl + userId).then(response => {
-//       if (response.ok) {
-//         response.json().then(data => {
-//           dispatch(fetchUserSuccess(data.user[0], data.message));
-//         });
-//       } else {
-//         response.json().then(error => {
-//           dispatch(fetchUserFailed(error));
-//         });
-//       }
-//     });
-//   };
-// };
-// export const fetchUserRequest = () => {
-//   return {
-//     type: "FETCH_USER_REQUEST"
-//   };
-// };
-// //Sync action
-// export const fetchUserSuccess = (user, message) => {
-//   return {
-//     type: "FETCH_USER_SUCCESS",
-//     user: user,
-//     message: message,
-//     receivedAt: Date.now
-//   };
-// };
-// export const fetchUserFailed = error => {
-//   return {
-//     type: "FETCH_USER_FAILED",
-//     error
-//   };
-// };
-
 // edit user
 export const showEditModal = userToEdit => {
   return {

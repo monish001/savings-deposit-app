@@ -40,7 +40,7 @@ export default class App extends React.Component {
   render() {
     const profileState = this.props.mappedProfileState;
     const showProfile = profileState.profile && profileState.profile.email;
-    const showSds = // @todo handle admin and reg_user diffs.
+    const showSds =
       profileState.profile &&
       profileState.profile.role &&
       (profileState.profile.role === "ADMIN" ||

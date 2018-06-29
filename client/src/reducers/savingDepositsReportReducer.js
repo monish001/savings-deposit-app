@@ -1,45 +1,44 @@
 const INITIAL_STATE = {
-  // savingDepositsReport: {},
-  // @todo mock data
-  savingDepositsReport: {
-    rows: [
-      {
-        _id: 1,
-        userId: 2,
-        bankName: "SBI",
-        accountNumber: "6502349832489433",
-        initialAmount: '300.00',
-        startDate: "2018-06-01T06:30:00.000Z",
-        endDate: "2018-06-02T06:30:00.000Z",
-        interest: '10.01',
-        tax: '30.00',
-        gainsInUsd: '30.50',
-        taxInUsd: '30.00'
-      },
-      {
-        _id: 3,
-        userId: 1,
-        bankName: "HDFC BANK",
-        accountNumber: "3534534534545",
-        initialAmount: '200.00',
-        startDate: "2018-06-03T06:30:00.000Z",
-        endDate: "2018-06-04T06:30:00.000Z",
-        interest: '-12.12',
-        tax: '40.00',
-        gainsInUsd: '-45.00',
-        taxInUsd: '0.00'
-      }
-    ],
-    summary: {
-      totalGains: '12.00',
-      totalLoss: '13.00',
-      totalTax: '14.00'
-    },
-    request: {
-      startDate: "2018-06-01",
-      endDate: "2018-07-01"
-    }
-  },
+  savingDepositsReport: {},
+  // savingDepositsReport: {
+  //   rows: [
+  //     {
+  //       _id: 1,
+  //       userId: 2,
+  //       bankName: "SBI",
+  //       accountNumber: "6502349832489433",
+  //       initialAmount: '300.00',
+  //       startDate: "2018-06-01T06:30:00.000Z",
+  //       endDate: "2018-06-02T06:30:00.000Z",
+  //       interest: '10.01',
+  //       tax: '30.00',
+  //       gainsInUsd: '30.50',
+  //       taxInUsd: '30.00'
+  //     },
+  //     {
+  //       _id: 3,
+  //       userId: 1,
+  //       bankName: "HDFC BANK",
+  //       accountNumber: "3534534534545",
+  //       initialAmount: '200.00',
+  //       startDate: "2018-06-03T06:30:00.000Z",
+  //       endDate: "2018-06-04T06:30:00.000Z",
+  //       interest: '-12.12',
+  //       tax: '40.00',
+  //       gainsInUsd: '-45.00',
+  //       taxInUsd: '0.00'
+  //     }
+  //   ],
+  //   summary: {
+  //     totalGains: '12.00',
+  //     totalLoss: '13.00',
+  //     totalTax: '14.00'
+  //   },
+  //   request: {
+  //     startDate: "2018-06-01",
+  //     endDate: "2018-07-01"
+  //   }
+  // },
   savingDepositsFilter: {},
   isFetching: false,
   error: null,

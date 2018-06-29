@@ -31,10 +31,10 @@ export default class SavingDeposits extends React.Component {
     );
   }
   componentWillMount() {
-    // this.props.mappedFetchSavingDeposits({}); // @todo uncomment
-    // if (this.props.mappedProfileState.profile.role === "ADMIN") {
-    //   this.props.mappedFetchUsers();
-    // }
+    this.props.mappedFetchSavingDeposits({}); // comment to mock
+    if (this.props.mappedProfileState.profile.role === "ADMIN") { // comment to mock
+      this.props.mappedFetchUsers();
+    }
   }
   generateSavingDepositsReport(e) {
     e.preventDefault();

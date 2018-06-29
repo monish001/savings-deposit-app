@@ -1,39 +1,39 @@
 const INITIAL_STATE = {
-  // savingDeposits: [],
-  savingDeposits: [{ // @todo mock data
-    _id: 1,
-    userId: 2,
-    bankName: 'SBI',
-    accountNumber: '6502349832489433',
-    initialAmount: 300.00,
-    startDate: "2018-06-01T06:30:00.000Z",
-    endDate: "2018-06-02T06:30:00.000Z",
-    interest: 10.01,
-    tax: 30
-  },{ // @todo mock data
-    _id: 3,
-    userId: 1,
-    bankName: 'HDFC BANK',
-    accountNumber: '3534534534545',
-    initialAmount: 200.00,
-    startDate: "2018-06-03T06:30:00.000Z",
-    endDate: "2018-06-04T06:30:00.000Z",
-    interest: -12.12,
-    tax: 40
-  }],
+  savingDeposits: [],
+  // savingDeposits: [{
+  //   _id: 1,
+  //   userId: 2,
+  //   bankName: 'SBI',
+  //   accountNumber: '6502349832489433',
+  //   initialAmount: 300.00,
+  //   startDate: "2018-06-01T06:30:00.000Z",
+  //   endDate: "2018-06-02T06:30:00.000Z",
+  //   interest: 10.01,
+  //   tax: 30
+  // },{
+  //   _id: 3,
+  //   userId: 1,
+  //   bankName: 'HDFC BANK',
+  //   accountNumber: '3534534534545',
+  //   initialAmount: 200.00,
+  //   startDate: "2018-06-03T06:30:00.000Z",
+  //   endDate: "2018-06-04T06:30:00.000Z",
+  //   interest: -12.12,
+  //   tax: 40
+  // }],
   savingDepositsFilter: {},
-  savingDeposit: { // @todo mock data
-    _id: 1,
-    userId: 2,
-    bankName: 'SBI',
-    accountNumber: '6502349832489433',
-    initialAmount: 300.00,
-    startDate: "2018-06-01T06:30:00.000Z",
-    endDate: "2018-06-02T06:30:00.000Z",
-    interest: 10.01,
-    tax: 30
-  },
-  // savingDeposit: null,
+  // savingDeposit: {
+  //   _id: 1,
+  //   userId: 2,
+  //   bankName: 'SBI',
+  //   accountNumber: '6502349832489433',
+  //   initialAmount: 300.00,
+  //   startDate: "2018-06-01T06:30:00.000Z",
+  //   endDate: "2018-06-02T06:30:00.000Z",
+  //   interest: 10.01,
+  //   tax: 30
+  // },
+  savingDeposit: null,
   isFetching: false,
   error: null,
   successMsg: null,

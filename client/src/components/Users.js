@@ -31,7 +31,7 @@ export default class Users extends React.Component {
     this.inviteUser = this.inviteUser.bind(this);
 }
   componentWillMount() {
-    // this.props.mappedFetchUsers(); @todo uncomment
+    this.props.mappedFetchUsers(); //comment to mock
   }
   inviteUser(e) {
     e.preventDefault();
@@ -128,19 +128,19 @@ export default class Users extends React.Component {
             <div>
               <Link to={`/users/create`}>
                 <Button onClick={() => {}} bsStyle="info" bsSize="small">
-                  <Glyphicon glyph="plus" /> Add new user {/*@todo*/}
+                  <Glyphicon glyph="plus" /> Add new user
                 </Button>
               </Link>
             </div><p />
             {showInvite &&
               <div>
                 <Button onClick={this.showInviteUserModal} bsStyle="info" bsSize="small">
-                  <Glyphicon glyph="envelope" /> Invite user {/*@todo*/}
+                  <Glyphicon glyph="envelope" /> Invite user
                 </Button>
               </div>}
           </Panel.Body>
         </Panel>
-        {!users && usersState.isFetching && <p>Loading users....</p>}
+        {!users && usersState.isFetching && <p>Loading users...</p>}
         {users.length <= 0 &&
           !usersState.isFetching &&
           !usersState.error &&
@@ -252,7 +252,7 @@ export default class Users extends React.Component {
               {editUser &&
                 usersState.isFetching &&
                 <Alert bsStyle="info">
-                  <strong>Updating...... </strong>
+                  <strong>Updating... </strong>
                 </Alert>}
               {editUser &&
                 !usersState.isFetching &&

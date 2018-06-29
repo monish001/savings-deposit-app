@@ -9,8 +9,8 @@ import {
 
 export default class SavingDepositsReport extends React.Component {
   componentDidMount() {
-    // const { startDate, endDate } = this.props.params;
-    // this.props.mappedFetchSavingDepositsReport({ startDate, endDate }); // @todo uncomment
+    const { startDate, endDate } = this.props.params;
+    this.props.mappedFetchSavingDepositsReport({ startDate, endDate }); // comment to mock
   }
   render() {
     const savingDepositsReportState = this.props

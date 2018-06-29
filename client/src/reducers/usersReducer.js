@@ -1,32 +1,30 @@
 const INITIAL_STATE = {
-  // @todo mock data
-  // users: [],
-  users: [
-    {
-      _id: "1",
-      email: "test@qw.com",
-      role: "USER_MANAGER",
-      photo: null,
-      googleId: 12345678,
-      facebookId: null,
-      isEmailLoggedIn: false,
-      isEmailVerified: false,
-      retryCount: 0
-    },
-    {
-      _id: "2",
-      email: "test1@qw.com",
-      role: "ADMIN",
-      photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",
-      googleId: null,
-      facebookId: null,
-      isEmailLoggedIn: true,
-      isEmailVerified: true,
-      retryCount: 3
-    }
-  ],
+  users: [],
+  // users: [
+  //   {
+  //     _id: "1",
+  //     email: "test@qw.com",
+  //     role: "USER_MANAGER",
+  //     photo: null,
+  //     googleId: 12345678,
+  //     facebookId: null,
+  //     isEmailLoggedIn: false,
+  //     isEmailVerified: false,
+  //     retryCount: 0
+  //   },
+  //   {
+  //     _id: "2",
+  //     email: "test1@qw.com",
+  //     role: "ADMIN",
+  //     photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",
+  //     googleId: null,
+  //     facebookId: null,
+  //     isEmailLoggedIn: true,
+  //     isEmailVerified: true,
+  //     retryCount: 3
+  //   }
+  // ],
 
-  // user: null,
   isFetching: false,
   error: null,
   successMsg: null,
@@ -46,7 +44,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: [],
-        user: null,
         isFetching: true,
         error: null,
         successMsg: null,
@@ -59,7 +56,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: action.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
@@ -72,7 +68,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: [],
-        user: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
@@ -81,46 +76,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         showEditModal: false,
         userToEdit: null
       };
-    // case "FETCH_USER_REQUEST":
-    //   return {
-    //     ...currentState,
-    //     users: currentState.users,
-    //     user: null,
-    //     isFetching: true,
-    //     error: null,
-    //     successMsg: null,
-    //     showDeleteModal: false,
-    //     userToDelete: null,
-    //     showEditModal: false,
-    //     userToEdit: null
-    //   };
-    // case "FETCH_USER_SUCCESS":
-    //   return {
-    //     ...currentState,
-    //     users: currentState.users,
-    //     user: action.user,
-    //     isFetching: false,
-    //     error: null,
-    //     successMsg: action.message,
-    //     showDeleteModal: false,
-    //     userToDelete: null,
-    //     showEditModal: false,
-    //     userToEdit: null
-    //   };
-    // case "FETCH_USER_FAILED":
-    //   return {
-    //     ...currentState,
-    //     users: [],
-    //     user: null,
-    //     isFetching: false,
-    //     error: action.error,
-    //     successMsg: null,
-    //     showDeleteModal: false,
-    //     userToDelete: null,
-    //     showEditModal: false,
-    //     userToEdit: null
-    //   };
-
 
     case "ADD_NEW_USER_REQUEST":
       return {
@@ -154,7 +109,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: null,
@@ -168,7 +122,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: null,
@@ -182,7 +135,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: true,
         error: null,
         successMsg: null,
@@ -207,7 +159,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: updatedUsers,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
@@ -221,7 +172,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
@@ -235,7 +185,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: true,
         error: null,
         successMsg: null,
@@ -252,7 +201,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: filteredUsers,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: action.message,
@@ -266,7 +214,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: false,
         error: action.error,
         successMsg: null,
@@ -279,7 +226,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: null,
@@ -293,7 +239,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        user: null,
         isFetching: false,
         error: null,
         successMsg: null,
