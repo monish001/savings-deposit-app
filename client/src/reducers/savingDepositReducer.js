@@ -1,7 +1,17 @@
 const INITIAL_STATE = {
   savingDeposits: [],
   savingDepositsFilter: {},
-  savingDeposit: null,
+  savingDeposit: { // @todo mock data
+    _id: 1,
+    bankName: 1,
+    accountNumber: 2,
+    initialAmount: 3,
+    startDate: "2018-06-01T06:30:00.000Z",
+    endDate: "2018-06-02T06:30:00.000Z",
+    interest: 12.12,
+    tax: 1.12
+  },
+  // savingDeposit: null,
   isFetching: false,
   error: null,
   successMsg: null,

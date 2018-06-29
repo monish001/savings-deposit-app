@@ -168,10 +168,17 @@ export default class SavingDeposits extends React.Component {
           savingDepositState.isFetching &&
           <p>Loading saving deposits...</p>}
         {savingDeposits.length <= 0 &&
+          !savingDepositState.error &&
           !savingDepositState.isFetching &&
           <p>
             No Saving Deposits Available. Add A Saving Deposit to List here.
           </p>}
+        {savingDeposits.length <= 0 &&
+          savingDepositState.error &&
+          !savingDepositState.isFetching &&
+          <Alert bsStyle="danger">
+            <strong>Failed. {savingDepositState.error} </strong>
+          </Alert>}
         {savingDeposits &&
           savingDeposits.length > 0 &&
           !savingDepositState.isFetching &&
@@ -181,8 +188,8 @@ export default class SavingDeposits extends React.Component {
                 {/*Amount gteq : min
                 Amount lteq : max
                 Bank: ABC
-                Active on or after date: sldfkj
-                Active on or before date: sdlfj*/}
+                start date: sldfkj
+                end date: sdlfj*/}
                 <form
                   className="form"
                   id="searchSavingDepositForm"

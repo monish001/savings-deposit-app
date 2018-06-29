@@ -10,8 +10,6 @@ import Profile from './containers/Profile';
 import Login from './containers/Login';
 import EnsureLoggedInContainer from './containers/EnsureLoggedInContainer';
 import Users from './containers/Users';
-// import Users from './containers/User';
-// <Route path="/users/:id" component={User} />
 
 export default (
   <Route path="/" component={App}>
