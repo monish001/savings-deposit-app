@@ -2,13 +2,38 @@ import React from "react";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Form, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
+import { browserHistory } from "react-router";
 import "./App.css";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    const profileState = this.props.mappedProfileState;
+    const isLoggedIn = profileState.profile && profileState.profile.email;
+    const isRootRoute = this.props.location.pathname === "/";
 
+    if (isLoggedIn && isRootRoute) {
+      const role = profileState.profile && profileState.profile.role;
+      this.redirectToLandingPage(role);
+    }
+  }
+  redirectToLandingPage(role) {
+    let url;
+    switch (role) {
+      case "ADMIN":
+      case "USER_MANAGER":
+        url = "/users";
+        break;
+      case "REGULAR_USER":
+        url = "/saving-deposits";
+        break;
+      default:
+        url = "/profile";
+    }
+    browserHistory.replace(url);
+  }
   render() {
     const profileState = this.props.mappedProfileState;
     const showProfile = profileState.profile && profileState.profile.email;

@@ -1,13 +1,13 @@
 const INITIAL_STATE = {
   // @todo mock data
-  //   profile: null,
-  //   profile: {email: 'reg_user@abc.com', role: 'REGULAR_USER'},
+  // profile: null,
+  // profile: {email: 'reg_user@abc.com', role: 'REGULAR_USER'},
   // profile: {
   //   email: "user_man@abc.com",
   //   role: "USER_MANAGER"
   //   //   photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7"
   // },
-    profile: {email: 'admin@abc.com', role: 'ADMIN'},
+  profile: {email: 'admin@abc.com', role: 'ADMIN'},
   successMsg: null,
   error: null,
   isLoggingIn: false,
