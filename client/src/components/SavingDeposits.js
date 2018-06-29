@@ -31,7 +31,10 @@ export default class SavingDeposits extends React.Component {
     );
   }
   componentWillMount() {
-    this.props.mappedFetchSavingDeposits();
+    // this.props.mappedFetchSavingDeposits({}); // @todo uncomment
+    // if (this.props.mappedProfileState.profile.role === "ADMIN") {
+    //   this.props.mappedFetchUsers();
+    // }
   }
   generateSavingDepositsReport(e) {
     e.preventDefault();
@@ -53,7 +56,11 @@ export default class SavingDeposits extends React.Component {
       startDate: searchForm.startDate.value,
       endDate: searchForm.endDate.value
     };
-    this.props.mappedFetchSavingDeposits(filters);
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    if (isAdmin) {
+      filters.userId = searchForm.userId.value;
+    }
+    this.props.mappedFetchSavingDeposits(filters, isAdmin);
   }
   getNumberOfDays(startDate, endDate) {
     const numberMsInDay = 1000 * 60 * 60 * 24;
@@ -97,6 +104,7 @@ export default class SavingDeposits extends React.Component {
   }
   submitEditSavingDeposit(e) {
     e.preventDefault();
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
     const editForm = document.getElementById("EditSavingDepositForm");
     const data = new FormData();
     data.append("_id", editForm.id.value);
@@ -107,7 +115,7 @@ export default class SavingDeposits extends React.Component {
     data.append("endDate", editForm.endDate.value);
     data.append("interest", editForm.interest.value);
     data.append("tax", editForm.tax.value);
-    this.props.mappedEditSavingDeposit(data);
+    this.props.mappedEditSavingDeposit(data, isAdmin);
   }
   hideDeleteModal() {
     this.props.mappedHideDeleteModal();
@@ -116,28 +124,20 @@ export default class SavingDeposits extends React.Component {
     this.props.mappedShowDeleteModal(savingDepositToDelete);
   }
   confirmDeleteSavingDeposit() {
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
     this.props.mappedDeleteSavingDeposit(
-      this.props.mappedSavingDepositState.savingDepositToDelete
+      this.props.mappedSavingDepositState.savingDepositToDelete,
+      isAdmin
     );
   }
 
   render() {
     const savingDepositState = this.props.mappedSavingDepositState;
-    let savingDeposits = savingDepositState.savingDeposits;
-    savingDeposits = [
-      {
-        _id: 1,
-        bankName: 1,
-        accountNumber: 2,
-        initialAmount: 3,
-        startDate: "2018-06-01T06:30:00.000Z",
-        endDate: "2018-06-02T06:30:00.000Z",
-        interest: 12.12,
-        tax: 1.12
-      }
-    ];
+    const usersState = this.props.mappedUsersState;
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const savingDeposits = savingDepositState.savingDeposits;
     const { savingDepositsFilter, savingDepositToDelete } = savingDepositState;
-    const editSavingDeposit = savingDepositState.savingDepositToEdit;
+    const savingDepositToEdit = savingDepositState.savingDepositToEdit;
     return (
       <div className="col-md-12">
         <h3 className="centerAlign">Saving Deposits</h3>
@@ -165,23 +165,23 @@ export default class SavingDeposits extends React.Component {
           </Panel.Body>
         </Panel>
         {!savingDeposits &&
-          savingDepositState.isFetching &&
+          (savingDepositState.isFetching || usersState.isFetching) &&
           <p>Loading saving deposits...</p>}
         {savingDeposits.length <= 0 &&
           !savingDepositState.error &&
-          !savingDepositState.isFetching &&
+          !(savingDepositState.isFetching || usersState.isFetching) &&
           <p>
             No Saving Deposits Available. Add A Saving Deposit to List here.
           </p>}
         {savingDeposits.length <= 0 &&
           savingDepositState.error &&
-          !savingDepositState.isFetching &&
+          !(savingDepositState.isFetching || usersState.isFetching) &&
           <Alert bsStyle="danger">
             <strong>Failed. {savingDepositState.error} </strong>
           </Alert>}
         {savingDeposits &&
           savingDeposits.length > 0 &&
-          !savingDepositState.isFetching &&
+          !(savingDepositState.isFetching || usersState.isFetching) &&
           <div>
             <Panel>
               <Panel.Heading>
@@ -195,6 +195,21 @@ export default class SavingDeposits extends React.Component {
                   id="searchSavingDepositForm"
                   onSubmit={this.searchSavingDeposits}
                 >
+                  {isAdmin &&
+                    <FormGroup>
+                      <ControlLabel>User</ControlLabel>
+                      <FormControl
+                        componentClass="select"
+                        placeholder="Select user"
+                        name="userId"
+                      >
+                        {usersState.users.map((user, i) => (
+                          <option key={`${user._id}-${i}`} value={user._id}>
+                            {user.email}
+                          </option>
+                        ))}
+                      </FormControl>
+                    </FormGroup>}
                   <FormGroup>
                     <ControlLabel>Bank name: </ControlLabel>
                     <FormControl
@@ -280,6 +295,7 @@ export default class SavingDeposits extends React.Component {
                 <table className="table">
                   <thead>
                     <tr>
+                      {isAdmin && <th>User</th>}
                       <th>Bank name</th>
                       <th>Initial amount</th>
                       <th>Current amount</th>
@@ -291,48 +307,58 @@ export default class SavingDeposits extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {savingDeposits.map((savingDeposit, i) => (
-                      <tr key={`sd-${savingDeposit._id}-${i}`}>
-                        <td>{savingDeposit.bankName}</td>
-                        <td>{savingDeposit.initialAmount}</td>
-                        <td>
-                          {this.getCompoundAmount(
-                            savingDeposit.initialAmount,
-                            savingDeposit.interest,
-                            this.getNumberOfDays(
-                              savingDeposit.startDate,
-                              savingDeposit.endDate
-                            )
-                          )}
-                        </td>
-                        <td>{savingDeposit.startDate}</td>
-                        <td>{savingDeposit.endDate}</td>
-                        <td className="textCenter">
-                          <Button
-                            onClick={() => this.showEditModal(savingDeposit)}
-                            bsStyle="info"
-                            bsSize="small"
-                          >
-                            <Glyphicon glyph="pencil" />
-                          </Button>
-                        </td>
-                        <td className="textCenter">
-                          <Button
-                            onClick={() => this.showDeleteModal(savingDeposit)}
-                            bsStyle="danger"
-                            bsSize="small"
-                          >
-                            <Glyphicon glyph="trash" />
-                          </Button>
-                        </td>
-                        <td className="textCenter">
-                          <Link to={`/saving-deposits/${savingDeposit._id}`}>
-                            View Details
-                          </Link>
-                          {" "}
-                        </td>
-                      </tr>
-                    ))}
+                    {savingDeposits.map((savingDeposit, i) => {
+                      let userEmail;
+                      if (isAdmin) {
+                        userEmail = usersState.users.find(
+                          user => user._id == savingDeposit.userId
+                        ).email;
+                      }
+                      return (
+                        <tr key={`sd-${savingDeposit._id}-${i}`}>
+                          {isAdmin && <th>{userEmail}</th>}
+                          <td>{savingDeposit.bankName}</td>
+                          <td>{savingDeposit.initialAmount}</td>
+                          <td>
+                            {this.getCompoundAmount(
+                              savingDeposit.initialAmount,
+                              savingDeposit.interest,
+                              this.getNumberOfDays(
+                                savingDeposit.startDate,
+                                savingDeposit.endDate
+                              )
+                            )}
+                          </td>
+                          <td>{savingDeposit.startDate.substr(0, 10)}</td>
+                          <td>{savingDeposit.endDate.substr(0, 10)}</td>
+                          <td className="textCenter">
+                            <Button
+                              onClick={() => this.showEditModal(savingDeposit)}
+                              bsStyle="info"
+                              bsSize="small"
+                            >
+                              <Glyphicon glyph="pencil" />
+                            </Button>
+                          </td>
+                          <td className="textCenter">
+                            <Button
+                              onClick={() =>
+                                this.showDeleteModal(savingDeposit)}
+                              bsStyle="danger"
+                              bsSize="small"
+                            >
+                              <Glyphicon glyph="trash" />
+                            </Button>
+                          </td>
+                          <td className="textCenter">
+                            <Link to={`/saving-deposits/${savingDeposit._id}`}>
+                              View Details
+                            </Link>
+                            {" "}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </Panel.Body>
@@ -354,29 +380,37 @@ export default class SavingDeposits extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <div className="col-md-12" style={{ float: "initial" }}>
-              {editSavingDeposit &&
+              {savingDepositToEdit &&
                 <SavingDepositEditForm
-                  savingDepositData={editSavingDeposit}
+                  savingDepositData={savingDepositToEdit}
+                  isAdmin={isAdmin}
+                  userEmail={
+                    isAdmin && savingDepositToEdit
+                      ? usersState.users.find(
+                          user => user._id == savingDepositToEdit.userId
+                        ).email
+                      : ""
+                  }
                   editSavingDeposit={this.submitEditSavingDeposit}
                 />}
-              {editSavingDeposit &&
+              {savingDepositToEdit &&
                 savingDepositState.isFetching &&
                 <Alert bsStyle="info">
                   <strong>Updating... </strong>
                 </Alert>}
-              {editSavingDeposit &&
+              {savingDepositToEdit &&
                 !savingDepositState.isFetching &&
                 savingDepositState.error &&
                 <Alert bsStyle="danger">
                   <strong>Failed. {savingDepositState.error} </strong>
                 </Alert>}
-              {editSavingDeposit &&
+              {savingDepositToEdit &&
                 !savingDepositState.isFetching &&
                 savingDepositState.successMsg &&
                 <Alert bsStyle="success">
                   Book
                   {" "}
-                  <strong> {editSavingDeposit.savingDepositText} </strong>
+                  <strong> {savingDepositToEdit.savingDepositText} </strong>
                   {savingDepositState.successMsg}
                 </Alert>}
             </div>

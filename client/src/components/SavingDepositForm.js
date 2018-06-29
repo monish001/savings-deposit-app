@@ -82,8 +82,6 @@ export default class SavingDepositsForm extends React.Component {
                 <ControlLabel>Start date: </ControlLabel>
                 <DatePicker
                   id="start-date-picker"
-                  value={this.state && this.state.startDate}
-                  onChange={this.handleChange}
                   name="startDate"
                 />
               </FormGroup>
@@ -91,8 +89,6 @@ export default class SavingDepositsForm extends React.Component {
                 <ControlLabel>End date: </ControlLabel>
                 <DatePicker
                   id="end-date-picker"
-                  value={this.state && this.state.endDate}
-                  onChange={this.handleChange}
                   name="endDate"
                 />
               </FormGroup>

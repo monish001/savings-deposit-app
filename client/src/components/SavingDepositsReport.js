@@ -39,7 +39,7 @@ export default class SavingDepositsReport extends React.Component {
           !savingDepositsReportState.error &&
           <div>
             <h2
-            >{`Saving Deposits Report for period ${savingDepositsReportState.savingDepositsReport.request.startDate} - ${savingDepositsReportState.savingDepositsReport.request.endDate}`}</h2>
+            >{`Saving Deposits Report for period ${savingDepositsReportState.savingDepositsReport.request.startDate.substr(0,10)} - ${savingDepositsReportState.savingDepositsReport.request.endDate.substr(0,10)}`}</h2>
             <table className="table">
               <thead>
                 <tr>

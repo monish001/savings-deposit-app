@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   // users: [],
   users: [
     {
-      _id: "<guid - 1>",
+      _id: "1",
       email: "test@qw.com",
       role: "USER_MANAGER",
       photo: null,
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
       retryCount: 0
     },
     {
-      _id: "<guid - 2>",
+      _id: "2",
       email: "test1@qw.com",
       role: "ADMIN",
       photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",

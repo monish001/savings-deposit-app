@@ -9,6 +9,8 @@ import {
 import DatePicker from "react-16-bootstrap-date-picker";
 
 const SavingDepositEditForm = props => {
+  const { userEmail, isAdmin } = props;
+
   return (
     <form
       className="form form-horizontal"
@@ -18,8 +20,16 @@ const SavingDepositEditForm = props => {
       <div className="row">
         <div className="col-md-12">
 
+          {isAdmin &&
+            <FormGroup controlId="EditSavingDepositFormEmail">
+              <ControlLabel>Email</ControlLabel>
+              <FormControl.Static>
+                {userEmail}
+              </FormControl.Static>
+            </FormGroup>}
+
           <FormGroup>
-            <ControlLabel>Bank name: </ControlLabel>
+            <ControlLabel>Bank name</ControlLabel>
             <input
               type="hidden"
               value={props.savingDepositData._id}
@@ -33,7 +43,7 @@ const SavingDepositEditForm = props => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Account number: </ControlLabel>
+            <ControlLabel>Account number</ControlLabel>
             <FormControl
               type="text"
               placeholder="Enter account number"
@@ -42,7 +52,7 @@ const SavingDepositEditForm = props => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Initial amount saved: </ControlLabel>
+            <ControlLabel>Initial amount saved</ControlLabel>
             <InputGroup>
               <InputGroup.Addon>$</InputGroup.Addon>
               <FormControl
@@ -54,25 +64,23 @@ const SavingDepositEditForm = props => {
             </InputGroup>
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Start date: </ControlLabel>
+            <ControlLabel>Start date</ControlLabel>
             <DatePicker
               id="start-date-picker"
-              onChange={this.handleChange}
               name="startDate"
-              defaultValue={props.savingDepositData.startDate}
+              value={props.savingDepositData.startDate}
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>End date: </ControlLabel>
+            <ControlLabel>End date</ControlLabel>
             <DatePicker
               id="end-date-picker"
-              onChange={this.handleChange}
               name="endDate"
-              defaultValue={props.savingDepositData.endDate}
+              value={props.savingDepositData.endDate}
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Interest per year: </ControlLabel>
+            <ControlLabel>Interest per year</ControlLabel>
             <InputGroup>
               <FormControl
                 type="text"
@@ -84,7 +92,7 @@ const SavingDepositEditForm = props => {
             </InputGroup>
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Tax: </ControlLabel>
+            <ControlLabel>Tax</ControlLabel>
             <InputGroup>
               <FormControl
                 type="text"

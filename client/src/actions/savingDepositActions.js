@@ -1,7 +1,10 @@
-const apiUrl = "/api/users/self/saving-deposits/";
-export const addNewSavingDeposit = savingDeposit => {
+function getApiUrl(isAdmin) {
+  return (isAdmin ? "/api/admin/saving-deposits/" : "/api/users/self/saving-deposits/");
+}
+export const addNewSavingDeposit = (savingDeposit, isAdmin = false) => {
   return dispatch => {
     dispatch(addNewSavingDepositRequest(savingDeposit));
+    const apiUrl = getApiUrl(isAdmin);
     return fetch(apiUrl, {
       method: "post",
       body: JSON.stringify(savingDeposit)
@@ -41,9 +44,10 @@ export const addNewSavingDepositRequestFailed = error => {
 };
 
 //Async action
-export const fetchSavingDeposits = (filters={}) => {
+export const fetchSavingDeposits = (filters={}, isAdmin) => {
   // Returns a dispatcher function
   // that dispatches an action at later time
+  const apiUrl = getApiUrl(isAdmin);
   const queryParams = filters && Object.keys(filters)
     .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(filters[k]))
     .join("&");
@@ -89,10 +93,11 @@ export const fetchSavingDepositsFailed = error => {
   };
 };
 
-export const fetchSavingDepositById = savingDepositId => {
+export const fetchSavingDepositById = (savingDepositId, isAdmin=false) => {
   return dispatch => {
     dispatch(fetchSavingDepositRequest());
     // Returns a promise
+    const apiUrl = getApiUrl(isAdmin);
     return fetch(apiUrl + savingDepositId).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -140,9 +145,10 @@ export const hideEditModal = () => {
     type: "HIDE_EDIT_SD_MODAL"
   };
 };
-export const editSavingDeposit = savingDeposit => {
+export const editSavingDeposit = (savingDeposit, isAdmin=false) => {
   return dispatch => {
     dispatch(editSavingDepositRequest(savingDeposit));
+    const apiUrl = getApiUrl(isAdmin);
     return fetch(apiUrl, {
       method: "put",
       body: savingDeposit
@@ -179,9 +185,10 @@ export const editSavingDepositFailed = error => {
   };
 };
 
-export const deleteSavingDeposit = savingDeposit => {
+export const deleteSavingDeposit = (savingDeposit, isAdmin=false) => {
   return dispatch => {
     dispatch(deleteSavingDepositRequest(savingDeposit));
+    const apiUrl = getApiUrl(isAdmin);
     return fetch(apiUrl + savingDeposit._id, {
       method: "delete"
     }).then(response => {

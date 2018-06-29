@@ -48,13 +48,13 @@ export default class SavingDeposit extends React.Component {
                 <FormGroup>
                   <ControlLabel>Start date: </ControlLabel>
                   <FormControl.Static>
-                    {savingDepositState.savingDeposit.startDate}
+                    {savingDepositState.savingDeposit.startDate.substr(0,10)}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>End date: </ControlLabel>
                   <FormControl.Static>
-                    {savingDepositState.savingDeposit.endDate}
+                    {savingDepositState.savingDeposit.endDate.substr(0,10)}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
