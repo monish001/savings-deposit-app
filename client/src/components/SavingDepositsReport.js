@@ -46,6 +46,8 @@ export default class SavingDepositsReport extends React.Component {
                   <th>Bank name</th>
                   <th>Account number</th>
                   <th>Initial amount (in USD)</th>
+                  <th>Interest %</th>
+                  <th>Tax %</th>
                   <th>Gain (+ve) / Loss (-ve) (in USD)</th>
                   <th>Taxes (in USD)</th>
                 </tr>
@@ -57,14 +59,16 @@ export default class SavingDepositsReport extends React.Component {
                       <td>{savingDeposit.bankName}</td>
                       <td>{savingDeposit.accountNumber}</td>
                       <td>{savingDeposit.initialAmount}</td>
+                      <td>{savingDeposit.interest}</td>
+                      <td>{savingDeposit.tax}</td>
                       <td
                         style={{
-                          color: `${savingDeposit.gains > 0 ? "green" : "red"}`
+                          color: `${Number(savingDeposit.gainsInUsd) > 0 ? "green" : "red"}`
                         }}
                       >
-                        {savingDeposit.gains}
+                        {savingDeposit.gainsInUsd}
                       </td>
-                      <td>{savingDeposit.tax}</td>
+                      <td>{savingDeposit.taxInUsd}</td>
                     </tr>
                   )
                 )}

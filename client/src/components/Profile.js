@@ -1,6 +1,4 @@
 import React from "react";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
 import {
   FormGroup,
   ControlLabel,
@@ -10,7 +8,8 @@ import {
   Grid,
   Col,
   Button,
-  Glyphicon
+  Glyphicon,
+  Alert
 } from "react-bootstrap";
 
 export default class Profile extends React.Component {
@@ -76,10 +75,22 @@ export default class Profile extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <Button type="submit" bsStyle="info" bsSize="small" block>
-                    Update picture
+                    {!profileState.isUpdatingPicture
+                      ? "Update picture"
+                      : "Updating..."}
                   </Button>
                 </FormGroup>
               </form>
+              {!profileState.isUpdatingPicture &&
+                profileState.pictureSuccess &&
+                <Alert bsStyle="success">
+                  <strong>Success. {profileState.pictureSuccess}</strong>
+                </Alert>}
+              {!profileState.isUpdatingPicture &&
+                profileState.pictureError &&
+                <Alert bsStyle="danger">
+                  <strong>Failed. {profileState.pictureError} </strong>
+                </Alert>}
             </Col>
             <Col md={1} />
             <Col xs={12} md={7}>
@@ -136,10 +147,24 @@ export default class Profile extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <Button type="submit" bsStyle="info" bsSize="small" block>
-                    Update password
+                    {profileState.isUpdatingPassword
+                      ? "Updating..."
+                      : "Update password"}
                   </Button>
                 </FormGroup>
               </form>
+
+              {!profileState.isUpdatingPassword &&
+                profileState.passwordChangeSuccess &&
+                <Alert bsStyle="success">
+                  <strong>Success. {profileState.passwordChangeSuccess}</strong>
+                </Alert>}
+              {!profileState.isUpdatingPassword &&
+                profileState.passwordChangeError &&
+                <Alert bsStyle="danger">
+                  <strong>Failed. {profileState.passwordChangeError} </strong>
+                </Alert>}
+
             </Col>
           </Row>
         </Grid>

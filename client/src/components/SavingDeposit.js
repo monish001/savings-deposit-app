@@ -28,42 +28,42 @@ export default class SavingDeposit extends React.Component {
             <div className="row">
               <div className="col-md-12">
                 <FormGroup>
-                  <ControlLabel>Bank name: </ControlLabel>
+                  <ControlLabel>Bank name</ControlLabel>
                   <FormControl.Static>
                     {savingDepositState.savingDeposit.bankName}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Account number: </ControlLabel>
+                  <ControlLabel>Account number</ControlLabel>
                   <FormControl.Static>
                     {savingDepositState.savingDeposit.accountNumber}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Initial amount saved: </ControlLabel>
+                  <ControlLabel>Initial amount saved (in USD)</ControlLabel>
                   <FormControl.Static>
                     {savingDepositState.savingDeposit.initialAmount}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Start date: </ControlLabel>
+                  <ControlLabel>Start date</ControlLabel>
                   <FormControl.Static>
                     {savingDepositState.savingDeposit.startDate.substr(0,10)}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>End date: </ControlLabel>
+                  <ControlLabel>End date</ControlLabel>
                   <FormControl.Static>
                     {savingDepositState.savingDeposit.endDate.substr(0,10)}
                   </FormControl.Static>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Interest per year: </ControlLabel>
+                  <ControlLabel>Interest per year</ControlLabel>
                   <FormControl.Static
                   >{`${savingDepositState.savingDeposit.interest}%`}</FormControl.Static>
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Tax: </ControlLabel>
+                  <ControlLabel>Tax</ControlLabel>
                   <FormControl.Static
                   >{`${savingDepositState.savingDeposit.tax}%`}</FormControl.Static>
                 </FormGroup>

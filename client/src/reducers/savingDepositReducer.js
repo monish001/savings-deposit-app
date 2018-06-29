@@ -18,20 +18,20 @@ const INITIAL_STATE = {
     initialAmount: 200.00,
     startDate: "2018-06-03T06:30:00.000Z",
     endDate: "2018-06-04T06:30:00.000Z",
-    interest: 12.12,
+    interest: -12.12,
     tax: 40
   }],
   savingDepositsFilter: {},
   savingDeposit: { // @todo mock data
     _id: 1,
     userId: 2,
-    bankName: 1,
-    accountNumber: 2,
-    initialAmount: 3,
+    bankName: 'SBI',
+    accountNumber: '6502349832489433',
+    initialAmount: 300.00,
     startDate: "2018-06-01T06:30:00.000Z",
     endDate: "2018-06-02T06:30:00.000Z",
-    interest: 12.12,
-    tax: 1.12
+    interest: 10.01,
+    tax: 30
   },
   // savingDeposit: null,
   isFetching: false,

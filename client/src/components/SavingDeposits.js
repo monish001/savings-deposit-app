@@ -22,9 +22,9 @@ export default class SavingDeposits extends React.Component {
     );
     this.hideGenerateReportModal = this.hideGenerateReportModal.bind(this);
     this.showGenerateReportModal = this.showGenerateReportModal.bind(this);
-    this.getSimpleAmount = this.getSimpleAmount.bind(this);
-    this.getCompoundAmount = this.getCompoundAmount.bind(this);
-    this.getNumberOfDays = this.getNumberOfDays.bind(this);
+    // this.getSimpleAmount = this.getSimpleAmount.bind(this);
+    // this.getCompoundAmount = this.getCompoundAmount.bind(this);
+    // this.getNumberOfDays = this.getNumberOfDays.bind(this);
     this.searchSavingDeposits = this.searchSavingDeposits.bind(this);
     this.generateSavingDepositsReport = this.generateSavingDepositsReport.bind(
       this
@@ -62,34 +62,43 @@ export default class SavingDeposits extends React.Component {
     }
     this.props.mappedFetchSavingDeposits(filters, isAdmin);
   }
-  getNumberOfDays(startDate, endDate) {
-    const numberMsInDay = 1000 * 60 * 60 * 24;
-    const startDayNumber = Math.floor(
-      new Date(startDate).getTime() / numberMsInDay
-    );
-    const endDayNumber = Math.floor(
-      new Date(endDate).getTime() / numberMsInDay
-    );
-    const currentDayNumber = Math.floor(Date.now() / numberMsInDay);
-    const numberOfDays = currentDayNumber <= endDayNumber
-      ? currentDayNumber - startDayNumber
-      : endDayNumber - startDayNumber + 1;
-    return numberOfDays;
-  }
-  getSimpleAmount(p, r, t) {
-    // p initial amount,
-    // r interest per yr
-    // t time in years
-    return Number(p * (1 + r * t / 100.0)).toFixed(2);
-  }
-  getCompoundAmount(p, r, t, N = 360) {
-    // p initial amount,
-    // r interest per yr
-    // t time in years
-    // N number of times that interest is compounded per year
-    // See https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php for more details
-    return Number(p * Math.pow(1 + r / (N * 100.0), N * t)).toFixed(2);
-  }
+
+  // Usage:
+  //   this.getCompoundAmount(
+  //     savingDeposit.initialAmount,
+  //     savingDeposit.interest,
+  //     this.getNumberOfDays(savingDeposit.startDate, savingDeposit.endDate)
+  //   );
+
+  // getNumberOfDays(startDate, endDate) {
+  //   const numberMsInDay = 1000 * 60 * 60 * 24;
+  //   const startDayNumber = Math.floor(
+  //     new Date(startDate).getTime() / numberMsInDay
+  //   );
+  //   const endDayNumber = Math.floor(
+  //     new Date(endDate).getTime() / numberMsInDay
+  //   );
+  //   const currentDayNumber = Math.floor(Date.now() / numberMsInDay);
+  //   const numberOfDays = currentDayNumber <= endDayNumber
+  //     ? currentDayNumber - startDayNumber
+  //     : endDayNumber - startDayNumber + 1;
+  //   return numberOfDays;
+  // }
+  // getSimpleAmount(p, r, t) {
+  //   // p initial amount,
+  //   // r interest per yr
+  //   // t time in years
+  //   return Number(p * (1 + r * t / 100.0)).toFixed(2);
+  // }
+  // getCompoundAmount(p, r, t, N = 360) {
+  //   // p initial amount,
+  //   // r interest per yr
+  //   // t time in years
+  //   // N number of times that interest is compounded per year
+  //   // See https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php for more details
+  //   return Number(p * Math.pow(1 + r / (N * 100.0), N * t)).toFixed(2);
+  // }
+
   showGenerateReportModal() {
     this.props.mappedShowGenerateReportModal();
   }
@@ -153,17 +162,127 @@ export default class SavingDeposits extends React.Component {
               </Button>
             </Link>{" "}
 
-            <Button
-              onClick={() => {
-                this.showGenerateReportModal();
-              }}
-              bsStyle="info"
-              bsSize="small"
-            >
-              <Glyphicon glyph="tasks" /> Generate report
-            </Button>
+            {!isAdmin &&
+              <Button
+                onClick={() => {
+                  this.showGenerateReportModal();
+                }}
+                bsStyle="info"
+                bsSize="small"
+              >
+                <Glyphicon glyph="tasks" /> Generate report
+              </Button>}
           </Panel.Body>
         </Panel>
+
+        <Panel>
+          {" "}<Panel.Heading>
+            <Panel.Title componentClass="h3">Search</Panel.Title>
+          </Panel.Heading>
+          <Panel.Body>
+            {/*Amount gteq : min
+                Amount lteq : max
+                Bank: ABC
+                start date: sldfkj
+                end date: sdlfj*/}
+            <form
+              className="form"
+              id="searchSavingDepositForm"
+              onSubmit={this.searchSavingDeposits}
+            >
+              {isAdmin &&
+                <FormGroup>
+                  <ControlLabel>User</ControlLabel>
+                  <FormControl
+                    componentClass="select"
+                    placeholder="Select user"
+                    name="userId"
+                  >
+                    {usersState.users.map((user, i) => (
+                      <option key={`${user._id}-${i}`} value={user._id}>
+                        {user.email}
+                      </option>
+                    ))}
+                  </FormControl>
+                </FormGroup>}
+              <FormGroup>
+                <ControlLabel>Bank name: </ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter bank name"
+                  name="bankName"
+                  defaultValue={
+                    (savingDepositsFilter && savingDepositsFilter.bankName) ||
+                      ""
+                  }
+                />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Minimum invested amount </ControlLabel>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    type="text"
+                    placeholder="Enter minimum amount"
+                    name="minAmount"
+                    defaultValue={
+                      (savingDepositsFilter &&
+                        savingDepositsFilter.minAmount) ||
+                        ""
+                    }
+                  />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Maximum invested amount </ControlLabel>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    type="text"
+                    placeholder="Enter maximum amount"
+                    name="maxAmount"
+                    defaultValue={
+                      (savingDepositsFilter &&
+                        savingDepositsFilter.maxAmount) ||
+                        ""
+                    }
+                  />
+                </InputGroup>
+              </FormGroup>
+
+              <FormGroup>
+                <ControlLabel>Start date: </ControlLabel>
+                <DatePicker
+                  id="start-date-picker"
+                  name="startDate"
+                  defaultValue={
+                    (savingDepositsFilter && savingDepositsFilter.startDate) ||
+                      ""
+                  }
+                />
+                {" "}
+              </FormGroup>
+              <FormGroup>
+
+                <ControlLabel>End date: </ControlLabel>
+                <DatePicker
+                  id="end-date-picker"
+                  name="endDate"
+                  defaultValue={
+                    (savingDepositsFilter && savingDepositsFilter.endDate) || ""
+                  }
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Button type="submit" bsStyle="info" bsSize="small" block>
+                  Search
+                </Button>
+              </FormGroup>
+            </form>
+          </Panel.Body>
+        </Panel>
+
         {!savingDeposits &&
           (savingDepositState.isFetching || usersState.isFetching) &&
           <p>Loading saving deposits...</p>}
@@ -184,112 +303,7 @@ export default class SavingDeposits extends React.Component {
           !(savingDepositState.isFetching || usersState.isFetching) &&
           <div>
             <Panel>
-              <Panel.Heading>
-                {/*Amount gteq : min
-                Amount lteq : max
-                Bank: ABC
-                start date: sldfkj
-                end date: sdlfj*/}
-                <form
-                  className="form"
-                  id="searchSavingDepositForm"
-                  onSubmit={this.searchSavingDeposits}
-                >
-                  {isAdmin &&
-                    <FormGroup>
-                      <ControlLabel>User</ControlLabel>
-                      <FormControl
-                        componentClass="select"
-                        placeholder="Select user"
-                        name="userId"
-                      >
-                        {usersState.users.map((user, i) => (
-                          <option key={`${user._id}-${i}`} value={user._id}>
-                            {user.email}
-                          </option>
-                        ))}
-                      </FormControl>
-                    </FormGroup>}
-                  <FormGroup>
-                    <ControlLabel>Bank name: </ControlLabel>
-                    <FormControl
-                      type="text"
-                      placeholder="Enter bank name"
-                      name="bankName"
-                      defaultValue={
-                        (savingDepositsFilter &&
-                          savingDepositsFilter.bankName) ||
-                          ""
-                      }
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <ControlLabel>Minimum invested amount </ControlLabel>
-                    <InputGroup>
-                      <InputGroup.Addon>$</InputGroup.Addon>
-                      <FormControl
-                        type="text"
-                        placeholder="Enter minimum amount"
-                        name="minAmount"
-                        defaultValue={
-                          (savingDepositsFilter &&
-                            savingDepositsFilter.minAmount) ||
-                            ""
-                        }
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                  <FormGroup>
-                    <ControlLabel>Maximum invested amount </ControlLabel>
-                    <InputGroup>
-                      <InputGroup.Addon>$</InputGroup.Addon>
-                      <FormControl
-                        type="text"
-                        placeholder="Enter maximum amount"
-                        name="maxAmount"
-                        defaultValue={
-                          (savingDepositsFilter &&
-                            savingDepositsFilter.maxAmount) ||
-                            ""
-                        }
-                      />
-                    </InputGroup>
-                  </FormGroup>
 
-                  <FormGroup>
-                    <ControlLabel>Start date: </ControlLabel>
-                    <DatePicker
-                      id="start-date-picker"
-                      name="startDate"
-                      defaultValue={
-                        (savingDepositsFilter &&
-                          savingDepositsFilter.startDate) ||
-                          ""
-                      }
-                    />
-                    {" "}
-                  </FormGroup>
-                  <FormGroup>
-
-                    <ControlLabel>End date: </ControlLabel>
-                    <DatePicker
-                      id="end-date-picker"
-                      name="endDate"
-                      defaultValue={
-                        (savingDepositsFilter &&
-                          savingDepositsFilter.endDate) ||
-                          ""
-                      }
-                    />
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Button type="submit" bsStyle="info" bsSize="small" block>
-                      Search
-                    </Button>
-                  </FormGroup>
-                </form>
-              </Panel.Heading>
               <Panel.Body>
 
                 <table className="table">
@@ -298,7 +312,6 @@ export default class SavingDeposits extends React.Component {
                       {isAdmin && <th>User</th>}
                       <th>Bank name</th>
                       <th>Initial amount</th>
-                      <th>Current amount</th>
                       <th>Start date</th>
                       <th>End date</th>
                       <th className="textCenter">Edit</th>
@@ -319,16 +332,6 @@ export default class SavingDeposits extends React.Component {
                           {isAdmin && <th>{userEmail}</th>}
                           <td>{savingDeposit.bankName}</td>
                           <td>{savingDeposit.initialAmount}</td>
-                          <td>
-                            {this.getCompoundAmount(
-                              savingDeposit.initialAmount,
-                              savingDeposit.interest,
-                              this.getNumberOfDays(
-                                savingDeposit.startDate,
-                                savingDeposit.endDate
-                              )
-                            )}
-                          </td>
                           <td>{savingDeposit.startDate.substr(0, 10)}</td>
                           <td>{savingDeposit.endDate.substr(0, 10)}</td>
                           <td className="textCenter">
@@ -408,7 +411,7 @@ export default class SavingDeposits extends React.Component {
                 !savingDepositState.isFetching &&
                 savingDepositState.successMsg &&
                 <Alert bsStyle="success">
-                  Book
+                  Success.
                   {" "}
                   <strong> {savingDepositToEdit.savingDepositText} </strong>
                   {savingDepositState.successMsg}

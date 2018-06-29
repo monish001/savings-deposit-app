@@ -18,6 +18,9 @@ export default class App extends React.Component {
       const role = profileState.profile && profileState.profile.role;
       this.redirectToLandingPage(role);
     }
+    if(!isLoggedIn && isRootRoute) {
+      browserHistory.replace('/login');
+    }
   }
   redirectToLandingPage(role) {
     let url;

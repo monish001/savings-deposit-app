@@ -6,8 +6,10 @@ import {
   Button,
   Row,
   Grid,
-  Col
+  Col,
+  Alert
 } from "react-bootstrap";
+import { browserHistory } from "react-router";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -34,6 +36,9 @@ export default class Login extends React.Component {
 
   render() {
     const profileState = this.props.mappedProfileState;
+    if(profileState.loginSuccessMsg) {
+      browserHistory.replace('/');
+    }
     return (
       <div>
         <Grid>
@@ -80,13 +85,9 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 {profileState.loginError &&
-                  <FormGroup controlId="formHorizontalFeedback">
-                    <Col sm={12}>
-                      <FormControl.Static>
-                        {profileState.loginError}
-                      </FormControl.Static>
-                    </Col>
-                  </FormGroup>}
+                  <Alert bsStyle="danger">
+                    <strong>Failed. {profileState.loginError} </strong>
+                  </Alert>}
 
                 <FormGroup controlId="">
                   <Col componentClass={ControlLabel} sm={2} />
@@ -159,14 +160,14 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 {profileState.signUpError &&
-                  <FormGroup controlId="formHorizontalFeedback">
-                    <Col sm={12}>
-                      <FormControl.Static>
-                        {profileState.signUpError}
-                      </FormControl.Static>
-                    </Col>
-                  </FormGroup>}
+                  <Alert bsStyle="danger">
+                    <strong>Failed. {profileState.signUpError} </strong>
+                  </Alert>}
 
+                {profileState.signUpSuccessMsg &&
+                  <Alert bsStyle="success">
+                    <strong>Verification email is sent. Please check!</strong>
+                  </Alert>}
               </form>
             </Col>
           </Row>
