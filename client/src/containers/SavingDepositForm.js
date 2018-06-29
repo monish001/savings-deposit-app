@@ -6,15 +6,17 @@ import SavingDepositForm from "../components/SavingDepositForm";
 const mapStateToProps = (state, ownProps) => {
   return {
     //you can now say this.props.mappedAppSate
-    mappedSavingDepositState: state.savingDepositState
+    mappedSavingDepositState: state.savingDepositState,
+    mappedUsersState: state.usersState,
+    mappedProfileState: state.profileState,
   };
 };
 // map actions to props
 const mapDispatchToProps = dispatch => {
   return {
     //you can now say this.props.mappedAppActions
-    mappedAddNewSavingDeposit: savingDeposit =>
-      dispatch(savingDepositActions.addNewSavingDeposit(savingDeposit))
+    mappedAddNewSavingDeposit: (savingDeposit, isAdmin=false) =>
+      dispatch(savingDepositActions.addNewSavingDeposit(savingDeposit, isAdmin))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SavingDepositForm);

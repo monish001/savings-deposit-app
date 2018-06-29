@@ -37,10 +37,16 @@ export default class SavingDepositsForm extends React.Component {
       interest: form.interest.value,
       tax: form.tax.value
     };
-    this.props.mappedAddNewSavingDeposit(newSavingDeposit);
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    if(isAdmin) {
+      newSavingDeposit.userId = form.userId.value;
+    }
+    this.props.mappedAddNewSavingDeposit(newSavingDeposit, isAdmin);
   }
 
   render() {
+    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const usersState = this.props.mappedUsersState;
     return (
       <div>
         <form
@@ -51,8 +57,23 @@ export default class SavingDepositsForm extends React.Component {
           <div className="row">
             <h3 className="centerAlign">Add your saving deposit</h3>
             <div className="col-md-12">
+            {isAdmin &&
+                    <FormGroup>
+                      <ControlLabel>User</ControlLabel>
+                      <FormControl
+                        componentClass="select"
+                        placeholder="Select user"
+                        name="userId"
+                      >
+                        {usersState.users.map((user, i) => (
+                          <option key={`${user._id}-${i}`} value={user._id}>
+                            {user.email}
+                          </option>
+                        ))}
+                      </FormControl>
+                    </FormGroup>}            
               <FormGroup>
-                <ControlLabel>Bank name: </ControlLabel>
+                <ControlLabel>Bank name</ControlLabel>
                 <FormControl
                   type="text"
                   placeholder="Enter bank name"
@@ -60,7 +81,7 @@ export default class SavingDepositsForm extends React.Component {
                 />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Account number: </ControlLabel>
+                <ControlLabel>Account number</ControlLabel>
                 <FormControl
                   type="text"
                   placeholder="Enter account number"
@@ -68,7 +89,7 @@ export default class SavingDepositsForm extends React.Component {
                 />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Initial amount saved: </ControlLabel>
+                <ControlLabel>Initial amount saved</ControlLabel>
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
@@ -79,21 +100,21 @@ export default class SavingDepositsForm extends React.Component {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Start date: </ControlLabel>
+                <ControlLabel>Start date</ControlLabel>
                 <DatePicker
                   id="start-date-picker"
                   name="startDate"
                 />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>End date: </ControlLabel>
+                <ControlLabel>End date</ControlLabel>
                 <DatePicker
                   id="end-date-picker"
                   name="endDate"
                 />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Interest per year: </ControlLabel>
+                <ControlLabel>Interest per year</ControlLabel>
                 <InputGroup>
                   <FormControl
                     type="text"
@@ -104,7 +125,7 @@ export default class SavingDepositsForm extends React.Component {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Tax: </ControlLabel>
+                <ControlLabel>Tax</ControlLabel>
                 <InputGroup>
                   <FormControl type="text" placeholder="Enter tax" name="tax" />
                   <InputGroup.Addon>%</InputGroup.Addon>
