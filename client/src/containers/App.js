@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
   return {
     //you can now say this.props.mappedAppSate
     mappedAppState: state.appState,
-    mappedProfileState: state.profileState
+    mappedProfileState: state.profileState,
   }
 }
 // map actions to props

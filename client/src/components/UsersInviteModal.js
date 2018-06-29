@@ -7,7 +7,6 @@ import {
   ControlLabel,
   FormControl
 } from "react-bootstrap";
-import DatePicker from "react-16-bootstrap-date-picker";
 
 const UsersInviteModal = props => {
   const {

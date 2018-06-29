@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
+import { Alert, Button, Modal } from "react-bootstrap";
 
 const UsersConfirmationModal = props => {
   const {

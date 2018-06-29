@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Form, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
+import { Image, Glyphicon } from "react-bootstrap";
 import { browserHistory } from "react-router";
 import "./App.css";
 
@@ -18,8 +18,8 @@ export default class App extends React.Component {
       const role = profileState.profile && profileState.profile.role;
       this.redirectToLandingPage(role);
     }
-    if(!isLoggedIn && isRootRoute) {
-      browserHistory.replace('/login');
+    if (!isLoggedIn && isRootRoute) {
+      browserHistory.replace("/login");
     }
   }
   redirectToLandingPage(role) {
@@ -81,7 +81,14 @@ export default class App extends React.Component {
                   onClick={() => {}}
                 >
                   <NavItem eventKey={3}>
-                    <Glyphicon glyph="user" /> Profile
+                    {profileState &&
+                      profileState.profile &&
+                      profileState.profile.photo &&
+                      <Image style={{"height": "14px"}} src={`${profileState.profile.photo}`} rounded />}
+                    {!(profileState &&
+                      profileState.profile &&
+                      profileState.profile.photo) && <Glyphicon glyph="user" />}
+                      {" "}Profile
                   </NavItem>
                 </LinkContainer>}
             </Nav>

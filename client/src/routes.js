@@ -1,6 +1,6 @@
 // ./client/src/routes.js
 import React from 'react';
-import { Route, IndexRoute, Redirect } from 'react-router';
+import { Route } from 'react-router';
 import App from './containers/App';
 import SavingDeposits from './containers/SavingDeposits';
 import SavingDepositForm from './containers/SavingDepositForm';
