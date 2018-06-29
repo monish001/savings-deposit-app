@@ -3,7 +3,8 @@ const apiUrl = "/api/users/";
 export const addNewUser = user => {
   return dispatch => {
     dispatch(addNewUserRequest(user));
-    return fetch(apiUrl, {
+    const _apiUrl = apiUrl + 'create-' + user.role.toLowerCase();
+    return fetch(_apiUrl, {
       method: "post",
       body: JSON.stringify(user),
     }).then(response => {

@@ -64,7 +64,7 @@ export default class UserCreate extends React.Component {
         {!usersState.isFetching &&
           usersState.error &&
           <Alert bsStyle="danger">
-            Failed!
+            Failed!{" "}
             <strong>{usersState.error}</strong>
           </Alert>}
         {usersState.isFetching &&
