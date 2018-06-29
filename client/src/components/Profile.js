@@ -22,7 +22,9 @@ export default class Profile extends React.Component {
 
   submitPicture(e) {
     e.preventDefault();
-    this.props.mappedSubmitPicture(this.props.mappedProfileState.imageToUpdate);
+    this.props.mappedSubmitPicture({
+      photo: this.props.mappedProfileState.imageToUpdate,
+    });
   }
 
   uploadPicture(e) {

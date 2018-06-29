@@ -88,8 +88,8 @@ export const uploadPictureInBrowser = base64Image => {
 export const submitPicture = args => {
   return dispatch => {
     dispatch(submitPictureRequest());
-    return fetch(apiUrl + "users/self/update-picture", {
-      method: "post",
+    return fetch(apiUrl + "users/self/photo", {
+      method: "put",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -126,8 +126,8 @@ export const submitPictureRequestFailed = error => {
 export const updatePassword = args => {
   return dispatch => {
     dispatch(updatePasswordRequest());
-    return fetch(apiUrl + "users/self/update-password", {
-      method: "post",
+    return fetch(apiUrl + "users/self/password", {
+      method: "put",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {

@@ -149,9 +149,9 @@ export const editSavingDeposit = (savingDeposit, isAdmin=false) => {
   return dispatch => {
     dispatch(editSavingDepositRequest(savingDeposit));
     const apiUrl = getApiUrl(isAdmin);
-    return fetch(apiUrl, {
+    return fetch(apiUrl + savingDeposit._id, {
       method: "put",
-      body: savingDeposit
+      body: JSON.stringify(savingDeposit),
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {

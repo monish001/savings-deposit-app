@@ -115,15 +115,17 @@ export default class SavingDeposits extends React.Component {
     e.preventDefault();
     const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
     const editForm = document.getElementById("EditSavingDepositForm");
-    const data = new FormData();
-    data.append("_id", editForm.id.value);
-    data.append("bankName", editForm.bankName.value);
-    data.append("accountNumber", editForm.accountNumber.value);
-    data.append("initialAmount", editForm.initialAmount.value);
-    data.append("startDate", editForm.startDate.value);
-    data.append("endDate", editForm.endDate.value);
-    data.append("interest", editForm.interest.value);
-    data.append("tax", editForm.tax.value);
+    const data = {
+      _id: editForm.id.value,
+      bankName: editForm.bankName.value,
+      accountNumber: editForm.accountNumber.value,
+      initialAmount: editForm.initialAmount.value,
+      startDate: editForm.startDate.value,
+      endDate: editForm.endDate.value,
+      interest: editForm.interest.value,
+      tax: editForm.tax.value
+    };
+
     this.props.mappedEditSavingDeposit(data, isAdmin);
   }
   hideDeleteModal() {

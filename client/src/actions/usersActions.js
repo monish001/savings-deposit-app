@@ -193,8 +193,8 @@ export const submitPicture = args => {
   return dispatch => {
     console.log('submitPicture', args);
     dispatch(submitPictureRequest());
-    return fetch(apiUrl + args._id + "/update-picture", {
-      method: "post",
+    return fetch(apiUrl + args._id + "/photo", {
+      method: "put",
       body: JSON.stringify(args),
     }).then(response => {
       if (response.ok) {
@@ -232,8 +232,8 @@ export const submitPictureRequestFailed = error => {
 export const resetPassword = user => {
   return dispatch => {
     dispatch(resetPasswordRequest(user));
-    return fetch(apiUrl + user._id + '/reset-password', {
-      method: "post"
+    return fetch(apiUrl + user._id + '/password/reset', {
+      method: "put"
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -283,8 +283,8 @@ export const hideResetPasswordModal = () => {
 export const unblockUser = user => {
   return dispatch => {
     dispatch(unblockUserRequest(user));
-    return fetch(apiUrl + user._id + '/unblock', {
-      method: "post"
+    return fetch(apiUrl + user._id + '/login-retry-count/reset', {
+      method: "put"
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
