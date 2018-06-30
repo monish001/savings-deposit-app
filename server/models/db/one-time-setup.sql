@@ -1,0 +1,4 @@
+SELECT VERSION();
+
+CREATE DATABASE IF NOT EXISTS `saving-deposits-app`;
+

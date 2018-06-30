@@ -3,5 +3,8 @@
         "google": {
             "secret": "GOOGLE_SECRET"
         }
+    },
+    "session": {
+        "secret": "SESSION_SECRET"
     }
 }
