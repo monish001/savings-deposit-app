@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('sd:www');
 var http = require('http');
-require('dotenv').config() // Read environment variable from .env file
 
 /**
  * Get port from environment and store in Express.
