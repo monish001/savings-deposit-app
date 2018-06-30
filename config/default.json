@@ -1,4 +1,5 @@
 {
+    "domain": "",
     "authentication": {
         "google": {
             "secret": ""
@@ -19,6 +20,18 @@
             "min": 0,
             "acquire": 30000,
             "idle": 10000
+        }
+    },
+    "api": {
+        "salt": "",
+        "fromEmail": "saving.deposits.app@gmail.com",
+        "emailPassword": ""
+    },
+    "email": {
+        "verify": {
+            "subject": "Email verification! Welcome to saving deposits app!",
+            "text": "Hello there,\n\n Thanks for registering on the Saving deposits app. Please open below email verification link to start using the application.\n%EmailLink%\n\nCheers\nSaving deposits app team",
+            "html": "Hello there,\n\n Thanks for registering on the Saving deposits app. Please open below email verification link to start using the application.\n<a href=\"%EmailLink%\">%EmailLink%</a>\n\nCheers\nSaving deposits app team"
         }
     }
 }

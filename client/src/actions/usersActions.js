@@ -193,7 +193,7 @@ export const submitPicture = args => {
   return dispatch => {
     console.log('submitPicture', args);
     dispatch(submitPictureRequest());
-    return fetch(apiUrl + args._id + "/photo", {
+    return fetch(apiUrl + args._id, {
       method: "put",
       body: JSON.stringify(args),
     }).then(response => {

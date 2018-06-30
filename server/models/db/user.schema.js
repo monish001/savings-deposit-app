@@ -20,60 +20,56 @@ const user = sequelize.define(
             type: Sequelize.STRING,
             validate: {
                 notEmpty: true
-            }
+            },
+            allowNull: false
         },
         role: {
             type: Sequelize.ENUM('REGULAR_USER', 'USER_MANAGER', 'ADMIN'),
             validate: {
                 notEmpty: true
-            }
+            },
+            allowNull: false,
+            defaultValue: 'REGULAR_USER'
         },
         password: {
             type: Sequelize.STRING,
-            validate: {
-            }
+            validate: {}
         },
         photo: {
             type: Sequelize.STRING,
-            validate: {
-            }
+            validate: {}
         },
         googleId: {
             type: Sequelize.STRING,
-            validate: {
-            }
+            validate: {}
         },
         facebookId: {
             type: Sequelize.STRING,
-            validate: {
-            }
-        },
-        isLoggedInByEmail: {
-            type: Sequelize.BOOLEAN,
-            validate: {
-            }
+            validate: {}
         },
         isEmailVerified: {
             type: Sequelize.BOOLEAN,
             validate: {
                 notEmpty: true
-            }
+            },
+            defaultValue: false
         },
         retryCount: {
             type: Sequelize.INTEGER,
             validate: {
                 notEmpty: true
-            }
+            },
+            allowNull: false,
+            defaultValue: 0
         },
-        tax: {
-            type: Sequelize.DECIMAL(10, 2),
+        emailVerificationCode: {
+            type: Sequelize.STRING,
             validate: {
-                notEmpty: true
             }
         }
     }, {
         // add the timestamp attributes (updatedAt, createdAt)
-        timestamps: true, 
+        timestamps: true,
 
         // don't delete database entries but set the newly added attribute deletedAt
         // to the current date (when deletion was done). paranoid will only work if
@@ -87,9 +83,11 @@ const user = sequelize.define(
     }
 );
 
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({
+    force: false
+}).then(() => {
     debug('User table created if not there, successfully.');
-  }).catch(error => {
+}).catch(error => {
     debug('// oooh, did you enter wrong database credentials?', error);
-  });
+});
 module.exports = user;

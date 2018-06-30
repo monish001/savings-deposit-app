@@ -1,18 +1,47 @@
 const savingDepositSchema = require("./db/saving-deposit.schema");
+const debug = require('debug')('sd:models:saving-deposit.model');
 
-async function getAll() {
-    const sds = await savingDepositSchema.findAll().map(el => el.get({
+async function getAll(where) {
+    const {
+        userId,
+        bankName,
+        minAmount,
+        maxAmount,
+        startDate,
+        endDate
+    } = where;
+    const sds = await savingDepositSchema.findAll({
+        where: {
+            userId,
+            bankName,
+            minAmount,
+            maxAmount,
+            startDate,
+            endDate
+        }
+    }).map(el => el.get({
         plain: true
     }));
-    console.log(sds);
     return sds;
 }
 
-async function getById(id) {
-    const sd = await savingDepositSchema.findById(id);
-    return sd.get({
+async function getById(where) {
+    const {
+        _id,
+        userId
+    } = where;
+    const sd = await savingDepositSchema.findAll({
+        where: {
+            _id,
+            userId
+        }
+    }).map(el => el.get({
         plain: true
-    });
+    }));
+    debug('getById', sd);
+    if(sd.length === 1) {
+        return sd[0];
+    }
 }
 
 async function create(args) {
@@ -41,8 +70,17 @@ async function create(args) {
     });
 }
 
-async function remove(_id) {
-    const sd = await savingDepositSchema.destroy({where: {_id}});
+async function remove(where) {
+    const {
+        _id,
+        userId
+    } = where;
+    const sd = await savingDepositSchema.destroy({
+        where: {
+            _id,
+            userId
+        }
+    });
     return sd;
 }
 
@@ -68,7 +106,8 @@ async function update(_id, args) {
         tax
     }, {
         where: {
-            _id
+            _id,
+            userId
         }
     });
     return sd;

@@ -88,7 +88,7 @@ export const uploadPictureInBrowser = base64Image => {
 export const submitPicture = args => {
   return dispatch => {
     dispatch(submitPictureRequest());
-    return fetch(apiUrl + "users/self/photo", {
+    return fetch(apiUrl + "users/self", {
       method: "put",
       body: JSON.stringify(args)
     }).then(response => {

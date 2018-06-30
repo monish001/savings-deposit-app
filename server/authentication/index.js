@@ -1,5 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const userModel = require("../models/user.model");
+const bcrypt = require('bcrypt');
+const debug = require('debug')('sd:authentication:index');
 
 // Configure the local strategy for use by Passport.
 //
@@ -8,23 +11,34 @@ const LocalStrategy = require("passport-local").Strategy;
 // that the password is correct and then invoke `done` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
 passport.use(
-    new LocalStrategy(function verify(email, password, done) {
-        userApi
-            .findOne("email", email)
-            .then(user => {
-                if(!user){
-                    return done(null, false, { message: 'Incorrect email' });
-                }
-                if (userUtility.verifyPassword(user, password)) {
-                    delete user.Password; // This step is a must. Else encrypted password will be exposed.
-                    return done(null, user);
-                }
-                return done(null, false, { message: 'Incorrect password.' });
-            })
-            .catch(err => {
-                debug("ERROR", err.message, err);
-                done(err);
+    new LocalStrategy({
+        usernameField: 'email'
+    }, async function verify(email, password, done) {
+        try {
+            debug(email, password);
+            const errorMessage = 'Incorrect email or password!';
+            const user = await userModel.findOne({
+                email
             });
+            debug(user);
+
+            if (!user) {
+                return done(null, false, {
+                    message: errorMessage
+                });
+            }
+            const isCorrectPassword = await bcrypt.compare(password, user.password);
+            if (isCorrectPassword) {
+                delete user.password; // This step is a must. Else encrypted password will be exposed.
+                return done(null, user);
+            }
+            return done(null, false, {
+                message: errorMessage
+            });
+        } catch (error) {
+            debug("ERROR", error.message, error);
+            done(error);
+        }
     })
 );
 // Configure Passport authenticated session persistence.
@@ -35,9 +49,13 @@ passport.use(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function (user, cb) {
-    cb(null, JSON.stringify(user));
+    debug('serializeUser', user);
+    cb(null, JSON.stringify({
+        _id: user._id
+    }));
 });
 passport.deserializeUser(function (userStr, cb) {
+    debug('deserializeUser', userStr);
     try {
         cb(null, JSON.parse(userStr));
     } catch (err) {

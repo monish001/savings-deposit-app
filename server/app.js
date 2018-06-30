@@ -7,6 +7,8 @@ var compression = require('compression');
 var helmet = require('helmet');
 var session = require("express-session");
 var config = require('config');
+var validate = require('express-validation');
+var debug = require('debug')('sd');
 var app = express();
 app.use(compression()); //Compress all routes. For a high-traffic website in production you wouldn't use this middleware. Instead you would use a reverse proxy like Nginx.
 app.use(helmet()); // See https://helmetjs.github.io/docs/ for more information on what headers it sets/vulnerabilities it protects against
@@ -28,19 +30,25 @@ var authentication = require('./authentication');
 app.use(authentication.initialize());
 app.use(authentication.session());
 
-// var loginRoutes = require('./routes/login.routes');
-// app.use('/api', loginRoutes);
+var loginRoutes = require('./routes/login.routes');
+app.use('/api', loginRoutes);
 var savingDepositRoutes = require('./routes/saving-deposit.routes');
 app.use('/api', savingDepositRoutes);
+var userRoutes = require('./routes/user.routes');
+app.use('/api', userRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  next(new createError.NotFound());
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  console.error(err.stack);
+  if(err instanceof validate.ValidationError) {
+    return res.status(err.status).json(err);
+  }
+
+  debug(err.stack);
   res.status(err.status || 500);
   res.json(err.message || 'Something went wrong. Please try in a bit.');
 });

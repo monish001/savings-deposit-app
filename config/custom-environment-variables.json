@@ -6,5 +6,9 @@
     },
     "session": {
         "secret": "SESSION_SECRET"
+    },
+    "api": {
+        "salt": "ENCRYPTION_SALT",
+        "emailPassword": "EMAIL_PASSWORD"
     }
 }
