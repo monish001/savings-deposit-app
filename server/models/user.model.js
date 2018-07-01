@@ -31,21 +31,33 @@ async function findOne(where) {
 }
 
 async function create(args) {
+    debug('create');
     const {
         email,
         password,
-        emailVerificationCode
+        emailVerificationCode,
+        isEmailVerified,
+        role,
     } = args;
-    const user = await userSchema.create({
-        email,
-        password,
-        emailVerificationCode
-    });
+    let user;
+    try {
+        user = await userSchema.create(removeUndefinedKeys({
+            email,
+            password,
+            emailVerificationCode,
+            isEmailVerified,
+            role,
+        }));
+    } catch(error){
+        debug('create', 'error', JSON.stringify(error));            
+        return error && error.errors;
+    }
+    debug('create', 'user', user);            
     const userJson = user.get({
         plain: true
     });
     delete userJson.password;
-    debug('create', userJson)
+    debug('create', 'userJson', userJson)
     return userJson;
 }
 
@@ -91,9 +103,25 @@ async function increment(field, where) {
     return affectedCount;
 }
 
+async function remove(where) {
+    const {
+        _id,
+        role
+    } = where;
+    const affectedCount = await userSchema.destroy({
+        where: removeUndefinedKeys({
+            _id,
+            role
+        })
+    });
+    debug('remove', 'affectedCount', affectedCount);
+    return affectedCount;
+}
+
 module.exports = {
     findOne,
     create,
     update,
     increment,
+    remove,
 };

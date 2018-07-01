@@ -21,7 +21,8 @@ const user = sequelize.define(
             validate: {
                 notEmpty: true
             },
-            allowNull: false
+            allowNull: false,
+            unique: true,
         },
         role: {
             type: Sequelize.ENUM('REGULAR_USER', 'USER_MANAGER', 'ADMIN'),

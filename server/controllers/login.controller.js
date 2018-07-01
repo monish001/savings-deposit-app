@@ -30,6 +30,7 @@ const loginController = {
         if (user && user.email) {
             // already user present
             next(new createError.Conflict('You already have an account. Hit Sign in!'));
+            return;
         } else {
             const {
                 subject,
@@ -47,11 +48,16 @@ const loginController = {
                     password: passwordHash,
                     emailVerificationCode
                 });
-                debug('register', 'user created', user);
-                res.json({
-                    ok: true,
-                    message: 'Registration is successful.'
-                });
+                debug('register', 'user', user);
+                if(user && user.email) {
+                    res.json({
+                        ok: true,
+                        message: 'Registration is successful.'
+                    });    
+                } else {
+                    debug('register', 'Error in create new user');
+                    next(new createError.InternalServerError('User registration failed. Please ignore the email sent.'));
+                }
             } else {
                 debug('register', 'Error in sending email');
                 next(new createError.InternalServerError());

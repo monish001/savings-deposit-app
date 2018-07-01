@@ -25,13 +25,13 @@ router.route('/users/:userId')
     });
 router.route('/users/regular_user')
     .all(authentication.authenticate)
-    .post(userController.createRegularUser);
+    .post((req, res, next) => {userController.create(req, res, next, 'REGULAR_USER');});
 router.route('/users/user_manager')
     .all(authentication.authenticate)
-    .post(userController.createUserManager);
+    .post((req, res, next) => {userController.create(req, res, next, 'USER_MANAGER');});
 router.route('/users/admin')
     .all(authentication.authenticate)
-    .post(userController.createAdmin);
+    .post((req, res, next) => {userController.create(req, res, next, 'ADMIN');});
 router.route('/users/invite')
     .all(authentication.authenticate)
     .post(userController.invite);
@@ -57,13 +57,13 @@ router.route('/users/:userId/:oldRole/user_manager')
     });
 router.route('/users/regular_user/:userId')
     .all(authentication.authenticate)
-    .delete(userController.removeRegularUser);
+    .delete((req, res, next) => {userController.remove(req, res, next, 'REGULAR_USER')});
 router.route('/users/user_manager/:userId')
     .all(authentication.authenticate)
-    .delete(userController.removeUserManager);
+    .delete((req, res, next) => {userController.remove(req, res, next, 'USER_MANAGER')});
 router.route('/users/admin/:userId')
     .all(authentication.authenticate)
-    .delete(userController.removeAdmin);
+    .delete((req, res, next) => {userController.remove(req, res, next, 'ADMIN')});
 router.route('/users')
     .all(authentication.authenticate)
     .get(userController.getAll);

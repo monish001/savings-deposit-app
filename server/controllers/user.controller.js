@@ -7,6 +7,17 @@ const imageHelper = require('../helpers/image.helper');
 var emailHelper = require('../helpers/email.helper');
 const uuidv4 = require('uuid/v4');
 
+async function sendAccountCreationNotificationEmail(email, newPassword) {
+    const {
+        subject,
+        text,
+        html
+    } = config.email.accountCreation;
+    const emailText = text.replace(/%NewPassword%/g, newPassword);
+    const emailHtml = html.replace(/%NewPassword%/g, newPassword);
+    const isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+    return isOk;
+}
 const userController = {
     update: async (req, res, next, userId) => {
         const {
@@ -131,7 +142,7 @@ const userController = {
             _id: userId
         });
         debug('resetRetryCount', 'affectedCount', affectedCount);
-        if(!affectedCount) {
+        if (!affectedCount) {
             debug('resetRetryCount', 'affectedCount', affectedCount);
             next(new createError.InternalServerError('Request for unblock user log in failed.'));
             return;
@@ -141,14 +152,40 @@ const userController = {
             message: `User log in unblocked successfully.`
         });
     },
-    createRegularUser: async (req, res, next) => {
-        next(new createError.NotImplemented());
-    },
-    createUserManager: async (req, res, next) => {
-        next(new createError.NotImplemented());
-    },
-    createAdmin: async (req, res, next) => {
-        next(new createError.NotImplemented());
+    create: async (req, res, next, role) => {
+        debug('create');
+        const {
+            email
+        } = req.body;
+        const newPassword = uuidv4();
+        const newPasswordHash = await bcrypt.hash(newPassword, Number(config.api.salt));
+        const user = await userModel.create({
+            email,
+            password: newPasswordHash,
+            isEmailVerified: true,
+            role
+        });
+        debug('create', 'user', user);
+        if (!user || !user.email) {
+            const errors = user;
+            if(errors[0] && errors[0].type === "unique violation") {
+                next(new createError.BadRequest(`Request for new user creation failed. ${errors[0].message}`));
+                return;
+            }
+            next(new createError.InternalServerError(`Request for new user creation failed.`));
+            return;
+        }
+
+        const isOk = await sendAccountCreationNotificationEmail(user.email, newPassword);
+        if (!isOk) {
+            debug('create', 'isOk', isOk);
+            next(new createError.InternalServerError('New user record created but email notification to the user failed.'));
+            return;
+        }
+        return res.json({
+            ok: true,
+            message: `New user record created successfully with role - ${user.role}.`
+        });
     },
     invite: async (req, res, next) => {
         next(new createError.NotImplemented());
@@ -159,14 +196,18 @@ const userController = {
     updateRole: async (req, res, next, currentRole, newRole) => {
         next(new createError.NotImplemented());
     },
-    removeRegularUser: async (req, res, next) => {
-        next(new createError.NotImplemented());
-    },
-    removeUserManager: async (req, res, next) => {
-        next(new createError.NotImplemented());
-    },
-    removeAdmin: async (req, res, next) => {
-        next(new createError.NotImplemented());
+    remove: async (req, res, next, allowedRoleToDelete) => {
+        debug('remove');
+        const {userId} = req.params;
+        const affectedCount = await userModel.remove({_id: userId, role: allowedRoleToDelete});
+        debug('remove', 'affectedCount', affectedCount);
+        if(affectedCount) {
+            return res.json({
+                ok: true,
+                message: "User deleted successfully.",
+            });
+        }
+        next(new createError.BadRequest('User deletion failed.'));
     },
 };
 
