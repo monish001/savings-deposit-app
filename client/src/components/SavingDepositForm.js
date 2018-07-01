@@ -37,7 +37,7 @@ export default class SavingDepositsForm extends React.Component {
       interest: form.interest.value,
       tax: form.tax.value
     };
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     if(isAdmin) {
       savingDepositToCreate.userId = form.userId.value;
     }
@@ -45,7 +45,7 @@ export default class SavingDepositsForm extends React.Component {
   }
 
   render() {
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     const usersState = this.props.mappedUsersState;
     return (
       <div>

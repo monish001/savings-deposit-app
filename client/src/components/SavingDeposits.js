@@ -31,7 +31,7 @@ export default class SavingDeposits extends React.Component {
     );
   }
   componentWillMount() {
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     this.props.mappedFetchSavingDeposits({}, isAdmin); // comment to mock
     isAdmin && this.props.mappedFetchUsers(); // comment to mock
   }
@@ -55,7 +55,7 @@ export default class SavingDeposits extends React.Component {
       startDate: searchForm.startDate.value,
       endDate: searchForm.endDate.value
     };
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     if (isAdmin) {
       filters.userId = searchForm.userId.value;
     }
@@ -112,7 +112,7 @@ export default class SavingDeposits extends React.Component {
   }
   submitEditSavingDeposit(e) {
     e.preventDefault();
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     const editForm = document.getElementById("EditSavingDepositForm");
     const data = {
       _id: editForm.id.value,
@@ -134,7 +134,7 @@ export default class SavingDeposits extends React.Component {
     this.props.mappedShowDeleteModal(savingDepositToDelete);
   }
   confirmDeleteSavingDeposit() {
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     this.props.mappedDeleteSavingDeposit(
       this.props.mappedSavingDepositState.savingDepositToDelete,
       isAdmin
@@ -144,7 +144,7 @@ export default class SavingDeposits extends React.Component {
   render() {
     const savingDepositState = this.props.mappedSavingDepositState;
     const usersState = this.props.mappedUsersState;
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     const savingDeposits = savingDepositState.savingDeposits;
     const { savingDepositsFilter, savingDepositToDelete } = savingDepositState;
     const savingDepositToEdit = savingDepositState.savingDepositToEdit;
@@ -408,14 +408,12 @@ export default class SavingDeposits extends React.Component {
                 <Alert bsStyle="danger">
                   <strong>Failed. {savingDepositState.error} </strong>
                 </Alert>}
-              {savingDepositToEdit &&
-                !savingDepositState.isFetching &&
+              {!savingDepositState.isFetching &&
                 savingDepositState.successMsg &&
                 <Alert bsStyle="success">
                   Success.
                   {" "}
-                  <strong> {savingDepositToEdit.savingDepositText} </strong>
-                  {savingDepositState.successMsg}
+                  <strong> {savingDepositState.successMsg} </strong>
                 </Alert>}
             </div>
           </Modal.Body>

@@ -121,7 +121,7 @@ export const fetchSavingDepositById = (savingDepositId, isAdmin = false) => {
       if (response.ok) {
         response.json().then(data => {
           dispatch(
-            fetchSavingDepositSuccess(data.savingDeposit[0], data.message)
+            fetchSavingDepositSuccess(data.savingDeposit, data.message)
           );
         });
       } else {
@@ -141,8 +141,8 @@ export const fetchSavingDepositRequest = () => {
 export const fetchSavingDepositSuccess = (savingDeposit, message) => {
   return {
     type: "FETCH_SAVING_DEPOSIT_SUCCESS",
-    savingDeposit: savingDeposit,
-    message: message,
+    savingDeposit,
+    message,
     receivedAt: Date.now
   };
 };
@@ -198,8 +198,8 @@ export const editSavingDepositRequest = savingDeposit => {
 export const editSavingDepositSuccess = (savingDeposit, message) => {
   return {
     type: "EDIT_SAVING_DEPOSIT_SUCCESS",
-    savingDeposit: savingDeposit,
-    message: message
+    savingDeposit,
+    message
   };
 };
 export const editSavingDepositFailed = error => {

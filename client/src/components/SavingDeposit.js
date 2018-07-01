@@ -3,7 +3,7 @@ import { FormGroup, ControlLabel, FormControl, Alert } from "react-bootstrap";
 
 export default class SavingDeposit extends React.Component {
   componentDidMount() {
-    const isAdmin = this.props.mappedProfileState.profile.role === "ADMIN";
+    const isAdmin = this.props.mappedProfileState.profile && this.props.mappedProfileState.profile.role === "ADMIN";
     this.props.mappedFetchSavingDepositById(this.props.params.id, isAdmin); // comment to mock
   }
   render() {

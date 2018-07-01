@@ -53,10 +53,10 @@ async function getById(where) {
         userId
     } = where;
     const sd = await savingDepositSchema.findAll({
-        where: {
+        where: removeUndefinedKeys({
             _id,
             userId
-        }
+        })
     }).map(el => el.get({
         plain: true
     }));
@@ -117,8 +117,7 @@ async function update(_id, args) {
         interest,
         tax
     } = args;
-    const sd = await savingDepositSchema.update({
-        userId,
+    const response = await savingDepositSchema.update(removeUndefinedKeys({
         bankName,
         accountNumber,
         initialAmount,
@@ -126,13 +125,15 @@ async function update(_id, args) {
         endDate,
         interest,
         tax
-    }, {
-        where: {
+    }), {
+        where: removeUndefinedKeys({
             _id,
             userId
-        }
+        })
     });
-    return sd;
+    const affectedCount = response[0];
+    debug('update', affectedCount);
+    return affectedCount;
 }
 
 module.exports = {
