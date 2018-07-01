@@ -10,6 +10,7 @@ export const addNewUser = user => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(user)
     }).then(response => {
       if (response.ok) {
@@ -52,6 +53,7 @@ export const fetchUsers = () => {
     dispatch(fetchUsersRequest());
     // Returns a promise
     return fetch(apiUrl, {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -118,6 +120,7 @@ export const editUser = (newUser, oldUser) => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(newUser)
     }).then(response => {
       if (response.ok) {
@@ -157,6 +160,7 @@ export const deleteUser = user => {
   return dispatch => {
     dispatch(deleteUserRequest(user));
     return fetch(apiUrl + user.role.toLowerCase() + "/" + user._id, {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -222,6 +226,7 @@ export const submitPicture = args => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -259,6 +264,7 @@ export const resetPassword = user => {
   return dispatch => {
     dispatch(resetPasswordRequest(user));
     return fetch(apiUrl + user._id + "/password/reset", {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -313,6 +319,7 @@ export const unblockUser = user => {
   return dispatch => {
     dispatch(unblockUserRequest(user));
     return fetch(apiUrl + user._id + "/login-retry-count/reset", {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -371,6 +378,7 @@ export const inviteUser = email => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify({ email })
     }).then(response => {
       if (response.ok) {

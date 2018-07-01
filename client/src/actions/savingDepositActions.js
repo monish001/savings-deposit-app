@@ -11,6 +11,7 @@ export const addNewSavingDeposit = (savingDeposit, isAdmin = false) => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(savingDeposit)
     }).then(response => {
       if (response.ok) {
@@ -63,6 +64,7 @@ export const fetchSavingDeposits = (filters = {}, isAdmin) => {
     dispatch(fetchSavingDepositsRequest(filters));
     // Returns a promise
     return fetch(_apiUrl, {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -109,7 +111,8 @@ export const fetchSavingDepositById = (savingDepositId, isAdmin = false) => {
     dispatch(fetchSavingDepositRequest());
     // Returns a promise
     const apiUrl = getApiUrl(isAdmin);
-    return fetch(apiUrl + '/' + savingDepositId, {
+    return fetch(apiUrl + "/" + savingDepositId, {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -165,12 +168,13 @@ export const editSavingDeposit = (savingDeposit, isAdmin = false) => {
   return dispatch => {
     dispatch(editSavingDepositRequest(savingDeposit));
     const apiUrl = getApiUrl(isAdmin);
-    return fetch(apiUrl + '/' + savingDeposit._id, {
+    return fetch(apiUrl + "/" + savingDeposit._id, {
       method: "put",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(savingDeposit)
     }).then(response => {
       if (response.ok) {
@@ -209,7 +213,8 @@ export const deleteSavingDeposit = (savingDeposit, isAdmin = false) => {
   return dispatch => {
     dispatch(deleteSavingDepositRequest(savingDeposit));
     const apiUrl = getApiUrl(isAdmin);
-    return fetch(apiUrl + '/' + savingDeposit._id, {
+    return fetch(apiUrl + "/" + savingDeposit._id, {
+      credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"

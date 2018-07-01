@@ -9,6 +9,7 @@ export const login = args => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -53,6 +54,7 @@ export const register = args => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -102,6 +104,7 @@ export const submitPicture = args => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+      credentials: "same-origin",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -144,6 +147,8 @@ export const updatePassword = args => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
+
+      credentials: "same-origin",
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
