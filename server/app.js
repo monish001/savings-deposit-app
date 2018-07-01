@@ -28,8 +28,8 @@ app.use(session({
 
 // Initialize Passport and restore authentication state, if any, from the session.
 var authentication = require('./authentication');
-app.use(authentication.initialize());
-app.use(authentication.session());
+app.use(authentication.passport.initialize());
+app.use(authentication.passport.session());
 
 app.use((req, res, next) => {
   debug('reqBody', req.body);

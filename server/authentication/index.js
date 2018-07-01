@@ -1,8 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const userModel = require("../models/user.model");
-const bcrypt = require('bcrypt');
-const debug = require('debug')('sd:authentication:index');
+const bcrypt = require("bcrypt");
+const debug = require("debug")("sd:authentication:index");
 
 // Configure the local strategy for use by Passport.
 //
@@ -12,34 +12,36 @@ const debug = require('debug')('sd:authentication:index');
 // will be set at `req.user` in route handlers after authentication.
 passport.use(
     new LocalStrategy({
-        usernameField: 'email'
-    }, async function verify(email, password, done) {
-        try {
-            debug(email, password);
-            const errorMessage = 'Incorrect email or password!';
-            const user = await userModel.findOne({
-                email
-            });
-            debug(user);
+            usernameField: "email"
+        },
+        async function verify(email, password, done) {
+            try {
+                debug(email, password);
+                const errorMessage = "Incorrect email or password!";
+                const user = await userModel.findOne({
+                    email
+                });
+                debug(user);
 
-            if (!user) {
+                if (!user) {
+                    return done(null, false, {
+                        message: errorMessage
+                    });
+                }
+                const isCorrectPassword = await bcrypt.compare(password, user.password);
+                if (isCorrectPassword) {
+                    delete user.password; // This step is a must. Else encrypted password will be exposed.
+                    return done(null, user);
+                }
                 return done(null, false, {
                     message: errorMessage
                 });
+            } catch (error) {
+                debug("ERROR", error.message, error);
+                done(error);
             }
-            const isCorrectPassword = await bcrypt.compare(password, user.password);
-            if (isCorrectPassword) {
-                delete user.password; // This step is a must. Else encrypted password will be exposed.
-                return done(null, user);
-            }
-            return done(null, false, {
-                message: errorMessage
-            });
-        } catch (error) {
-            debug("ERROR", error.message, error);
-            done(error);
         }
-    })
+    )
 );
 // Configure Passport authenticated session persistence.
 //
@@ -49,18 +51,42 @@ passport.use(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function (user, cb) {
-    debug('serializeUser', user);
-    cb(null, JSON.stringify({
-        _id: user._id
-    }));
+    debug("serializeUser", user);
+    cb(
+        null,
+        JSON.stringify({
+            _id: user._id,
+            email: user.email
+        })
+    );
 });
 passport.deserializeUser(function (userStr, cb) {
-    debug('deserializeUser', userStr);
+    debug("deserializeUser", userStr);
     try {
         cb(null, JSON.parse(userStr));
     } catch (err) {
-        debug('deserializeUser', err);
+        debug("deserializeUser", err);
         return cb(err);
     }
 });
-module.exports = passport;
+
+function authenticate(req, res, next) {
+    if (
+        req.user &&
+        req.user._id
+    ) {
+        next();
+    // } else if (!req.body.XHRRequest) { // UI layer authentication
+    //     // req.originalUrl is a combination of req.baseUrl and req.path along with query parameters.
+    //     req.session.currentPath = req.originalUrl;
+    //     res.redirect(constants.basePath + "login");
+    } else {
+        res.status(401).json({
+            error: "Not Authorized"
+        });
+    }
+}
+module.exports = {
+    passport,
+    authenticate
+};

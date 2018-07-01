@@ -36,7 +36,7 @@ const userController = {
                 message: `Password is successfully updated.`
             });
         }
-        next(new createError.InternalServerError('Password change failed.'));
+        next(new createError.InternalServerError('Password change failed. Please check your old password.'));
     },
     resetPassword: (req, res, next) => {
         next(new createError.NotImplemented());
