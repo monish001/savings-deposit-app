@@ -18,7 +18,7 @@ async function getAll(req, res, next, userId) {
         startDate,
         endDate
     });
-    return res.json(sds);
+    return res.json({savingDeposits: sds, message: 'Saving deposits successfully retrieved.'});
 }
 
 async function getById(req, res, next, userId) {
@@ -27,7 +27,7 @@ async function getById(req, res, next, userId) {
         _id,
         userId
     });
-    return res.json(sd);
+    return res.json({savingDeposit: sd, message: 'Saving deposit successfully retrieved.'});
 }
 
 async function create(req, res, next, userId) {
@@ -51,7 +51,7 @@ async function create(req, res, next, userId) {
         interest,
         tax
     });
-    return res.json(sd);
+    return res.json({savingDeposit: sd, message: 'Saving deposit successfully created.'});
 }
 
 async function remove(req, res, next, userId) {
@@ -60,7 +60,7 @@ async function remove(req, res, next, userId) {
         _id,
         userId
     });
-    return res.json(sd);
+    return res.json({message: 'The saving deposit is successfully deleted.'});
 }
 
 async function update(req, res, next, userId) {
@@ -86,7 +86,7 @@ async function update(req, res, next, userId) {
             interest,
             tax
         });
-    return res.json(sd);
+    return res.json({savingDeposit: sd, message: 'The saving deposit is successfully updated.'});
 }
 
 module.exports = {

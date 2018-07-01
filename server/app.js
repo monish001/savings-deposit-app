@@ -13,12 +13,13 @@ var app = express();
 app.use(compression()); //Compress all routes. For a high-traffic website in production you wouldn't use this middleware. Instead you would use a reverse proxy like Nginx.
 app.use(helmet()); // See https://helmetjs.github.io/docs/ for more information on what headers it sets/vulnerabilities it protects against
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(express.json());
 app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client/build')));
+debug('config.session.secret', config.session.secret);
 app.use(session({
   secret: config.session.secret,
   resave: false,
@@ -30,6 +31,13 @@ var authentication = require('./authentication');
 app.use(authentication.initialize());
 app.use(authentication.session());
 
+app.use((req, res, next) => {
+  debug('reqBody', req.body);
+  debug('reqParams', req.params);
+  debug('reqQuery', req.query);
+  next();
+});
+debug('Registering routes.');
 var loginRoutes = require('./routes/login.routes');
 app.use('/api', loginRoutes);
 var savingDepositRoutes = require('./routes/saving-deposit.routes');
@@ -43,14 +51,14 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-  if(err instanceof validate.ValidationError) {
-    return res.status(err.status).json(err);
+app.use(function (error, req, res, next) {
+  debug(error.stack);
+  if(error instanceof validate.ValidationError) {
+    return res.status(error.status).json({error});
   }
 
-  debug(err.stack);
-  res.status(err.status || 500);
-  res.json(err.message || 'Something went wrong. Please try in a bit.');
+  res.status(error.status || 500);
+  res.json({error: error.message || 'Something went wrong. Please try in a bit.'});
 });
 
 module.exports = app;

@@ -43,17 +43,21 @@ async function create(args) {
 }
 
 async function update(args, where) {
+    debug(args, where);
     const {
         isEmailVerified,
-        emailVerificationCode
+        emailVerificationCode,
+        password
     } = args;
     const oldEmailVerificationCode = where.emailVerificationCode;
     const response = await userSchema.update({
         isEmailVerified,
-        emailVerificationCode
+        emailVerificationCode,
+        password
     }, {
         where: {
-            emailVerificationCode: oldEmailVerificationCode
+            emailVerificationCode: oldEmailVerificationCode,
+            password: where.password,
         }
     });
     const affectedCount = response[0];

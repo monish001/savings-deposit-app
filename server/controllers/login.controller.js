@@ -5,7 +5,6 @@ const config = require('config');
 var createError = require('http-errors');
 var emailHelper = require('../helpers/email.helper');
 const uuidv4 = require('uuid/v4');
-const passport = require('../authentication');
 
 const loginController = {
     register: async (req, res, next) => {
@@ -17,8 +16,9 @@ const loginController = {
             cpassword
         } = req.body;
 
-        if(password !== cpassword) {
-            next(new createError.BadRequest('Passwords do not match!'));
+        if (password !== cpassword) {
+            debug('Passwords do not match.');
+            next(new createError.BadRequest('Passwords do not match.'));
             return;
         }
 
@@ -48,7 +48,10 @@ const loginController = {
                     emailVerificationCode
                 });
                 debug('register', 'user created', user);
-                res.json('Registration is successful.');
+                res.json({
+                    ok: true,
+                    message: 'Registration is successful.'
+                });
             } else {
                 debug('register', 'Error in sending email');
                 next(new createError.InternalServerError());
@@ -63,37 +66,41 @@ const loginController = {
         }, {
             emailVerificationCode
         });
-        if(affectedCount){
-            return res.json(`Email is successfully verified! Please login here - ${config.domain}.`);
+        if (affectedCount) {
+            return res.json({
+                ok: true,
+                message: `Email is successfully verified! Please login here - ${config.domain}.`
+            });
         } else {
+            debug('Email verification failed.');
             next(new createError.BadRequest('Email verification failed.'));
         }
     },
     login: (req, res, next) => {
+        // If this function gets called, authentication was successful.
+        // `req.user` contains the authenticated user.
+        debug('login', req.user);
         const {
             email,
-            password
-        } = req.body;
-
-        passport.authenticate("local", function (err, user, info) {
-            if (err) {
-                return next(err);
+            role,
+            photo
+        } = req.user;
+        return res.json({
+            ok: true,
+            message: 'Sign in successful.',
+            profile: {
+                email,
+                role,
+                photo
             }
-            debug('login', user);
-            if (!user) {
-                return next(new createError.Forbidden());
-            }
-            req.logIn(user, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                return res.json('Sign in successful.');
-            });
-        })(req, res, next);
+        });
     },
     logout: (req, res, next) => {
         req.logout();
-        res.json('Logout is successful.');
+        res.json({
+            ok: true,
+            message: 'Logout is successful.'
+        });
     },
     googleCallback: (req, res, next) => {
         next(new createError.NotImplemented());

@@ -6,7 +6,11 @@ export const addNewUser = user => {
     const _apiUrl = apiUrl + user.role.toLowerCase();
     return fetch(_apiUrl, {
       method: "post",
-      body: JSON.stringify(user),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -47,7 +51,12 @@ export const fetchUsers = () => {
   return dispatch => {
     dispatch(fetchUsersRequest());
     // Returns a promise
-    return fetch(apiUrl).then(response => {
+    return fetch(apiUrl, {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
       if (response.ok) {
         response.json().then(data => {
           dispatch(fetchUsersSuccess(data.users, data.message));
@@ -96,10 +105,20 @@ export const hideEditModal = () => {
 export const editUser = (newUser, oldUser) => {
   return dispatch => {
     dispatch(editUserRequest(newUser));
-    const _apiUrl = apiUrl + oldUser._id + '/' + oldUser.role.toLowerCase() + '/' + newUser.role.toLowerCase();
+    const _apiUrl =
+      apiUrl +
+      oldUser._id +
+      "/" +
+      oldUser.role.toLowerCase() +
+      "/" +
+      newUser.role.toLowerCase();
     return fetch(_apiUrl, {
       method: "put",
-      body: JSON.stringify(newUser),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newUser)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -137,7 +156,11 @@ export const editUserFailed = error => {
 export const deleteUser = user => {
   return dispatch => {
     dispatch(deleteUserRequest(user));
-    return fetch(apiUrl + user.role.toLowerCase() + '/' + user._id, {
+    return fetch(apiUrl + user.role.toLowerCase() + "/" + user._id, {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
       method: "delete"
     }).then(response => {
       if (response.ok) {
@@ -191,11 +214,15 @@ export const uploadUserPictureInBrowser = base64Image => {
 };
 export const submitPicture = args => {
   return dispatch => {
-    console.log('submitPicture', args);
+    console.log("submitPicture", args);
     dispatch(submitPictureRequest());
     return fetch(apiUrl + args._id, {
       method: "put",
-      body: JSON.stringify(args),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -227,12 +254,15 @@ export const submitPictureRequestFailed = error => {
   };
 };
 
-
 // reset password
 export const resetPassword = user => {
   return dispatch => {
     dispatch(resetPasswordRequest(user));
-    return fetch(apiUrl + user._id + '/password/reset', {
+    return fetch(apiUrl + user._id + "/password/reset", {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
       method: "put"
     }).then(response => {
       if (response.ok) {
@@ -266,10 +296,10 @@ export const resetPasswordFailed = error => {
   };
 };
 export const showResetPasswordModal = userToResetPassword => {
-  console.log('showResetPasswordModal', userToResetPassword);
+  console.log("showResetPasswordModal", userToResetPassword);
   return {
     type: "SHOW_RESET_PASSWORD_USER_MODAL",
-    userToResetPassword: userToResetPassword,
+    userToResetPassword: userToResetPassword
   };
 };
 export const hideResetPasswordModal = () => {
@@ -278,12 +308,15 @@ export const hideResetPasswordModal = () => {
   };
 };
 
-
 // unblock user
 export const unblockUser = user => {
   return dispatch => {
     dispatch(unblockUserRequest(user));
-    return fetch(apiUrl + user._id + '/login-retry-count/reset', {
+    return fetch(apiUrl + user._id + "/login-retry-count/reset", {
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
       method: "put"
     }).then(response => {
       if (response.ok) {
@@ -319,7 +352,7 @@ export const unblockUserFailed = error => {
 export const showUnblockUserModal = userToUnblock => {
   return {
     type: "SHOW_UNBLOCK_USER_MODAL",
-    userToUnblock: userToUnblock,
+    userToUnblock: userToUnblock
   };
 };
 export const hideUnblockUserModal = () => {
@@ -328,14 +361,17 @@ export const hideUnblockUserModal = () => {
   };
 };
 
-
 // invite user
 export const inviteUser = email => {
   return dispatch => {
     dispatch(inviteUserRequest());
-    return fetch(apiUrl + 'invite', {
+    return fetch(apiUrl + "invite", {
       method: "post",
-      body: JSON.stringify({email}),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email })
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -351,7 +387,7 @@ export const inviteUser = email => {
 };
 export const inviteUserRequest = () => {
   return {
-    type: "INVITE_USER_REQUEST",
+    type: "INVITE_USER_REQUEST"
   };
 };
 export const inviteUserSuccess = message => {
@@ -368,7 +404,7 @@ export const inviteUserFailed = error => {
 };
 export const showInviteUserModal = () => {
   return {
-    type: "SHOW_INVITE_USER_MODAL",
+    type: "SHOW_INVITE_USER_MODAL"
   };
 };
 export const hideInviteUserModal = () => {

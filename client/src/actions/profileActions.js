@@ -5,7 +5,11 @@ export const login = args => {
     dispatch(loginRequest(args));
     return fetch(apiUrl + "login", {
       method: "post",
-      body: JSON.stringify(args),
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
         response.json().then(data => {
@@ -45,6 +49,10 @@ export const register = args => {
     dispatch(registerRequest(args));
     return fetch(apiUrl + "register", {
       method: "post",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -90,6 +98,10 @@ export const submitPicture = args => {
     dispatch(submitPictureRequest());
     return fetch(apiUrl + "users/self", {
       method: "put",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -128,6 +140,10 @@ export const updatePassword = args => {
     dispatch(updatePasswordRequest());
     return fetch(apiUrl + "users/self/password", {
       method: "put",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(args)
     }).then(response => {
       if (response.ok) {
@@ -144,7 +160,7 @@ export const updatePassword = args => {
 };
 export const updatePasswordRequest = () => {
   return {
-    type: "UPDATE_PASSWORD_REQUEST",
+    type: "UPDATE_PASSWORD_REQUEST"
   };
 };
 export const updatePasswordRequestSuccess = message => {
