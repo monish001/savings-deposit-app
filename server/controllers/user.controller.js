@@ -121,7 +121,25 @@ const userController = {
         });
     },
     resetRetryCount: async (req, res, next) => {
-        next(new createError.NotImplemented());
+        debug('resetRetryCount');
+        const {
+            userId
+        } = req.params;
+        const affectedCount = await userModel.update({
+            'retryCount': 0
+        }, {
+            _id: userId
+        });
+        debug('resetRetryCount', 'affectedCount', affectedCount);
+        if(!affectedCount) {
+            debug('resetRetryCount', 'affectedCount', affectedCount);
+            next(new createError.InternalServerError('Request for unblock user log in failed.'));
+            return;
+        }
+        return res.json({
+            ok: true,
+            message: `User log in unblocked successfully.`
+        });
     },
     createRegularUser: async (req, res, next) => {
         next(new createError.NotImplemented());

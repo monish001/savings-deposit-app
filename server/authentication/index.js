@@ -46,7 +46,7 @@ passport.use(
                 const isCorrectPassword = await bcrypt.compare(password, user.password);
                 if (isCorrectPassword) {
                     delete user.password; // This step is a must. Else encrypted password will be exposed.
-                    if (user.retryCount) { // @todo not working
+                    if (user.retryCount) {
                         const affectedCount = await userModel.update({
                             'retryCount': 0
                         }, {
