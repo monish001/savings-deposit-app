@@ -80,7 +80,7 @@ export default class SavingDepositsReport extends React.Component {
                 <Col componentClass={ControlLabel} sm={2}>
                   Total Gains (in USD)
                 </Col>
-                <Col sm={10}>
+                <Col style={{color: 'green'}} sm={10}>
                   <FormControl.Static>
                     {
                       savingDepositsReportState.savingDepositsReport.summary
@@ -94,7 +94,7 @@ export default class SavingDepositsReport extends React.Component {
                 <Col componentClass={ControlLabel} sm={2}>
                   Total Loss (in USD)
                 </Col>
-                <Col sm={10}>
+                <Col style={{color: 'red'}} sm={10}>
                   <FormControl.Static>
                     {
                       savingDepositsReportState.savingDepositsReport.summary
@@ -107,7 +107,7 @@ export default class SavingDepositsReport extends React.Component {
                 <Col componentClass={ControlLabel} sm={2}>
                   Total tax (in USD)
                 </Col>
-                <Col sm={10}>
+                <Col style={{color: 'red'}} sm={10}>
                   <FormControl.Static>
                     {
                       savingDepositsReportState.savingDepositsReport.summary

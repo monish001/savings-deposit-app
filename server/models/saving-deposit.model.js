@@ -11,6 +11,8 @@ function removeUndefinedKeys(args) {
 async function getAll(where) {
     const {
         userId,
+        minStartDate,
+        maxEndDate
     } = where;
     let bankName;
     if (where.bankName) {
@@ -29,9 +31,19 @@ async function getAll(where) {
     if (where.startDate && where.startDate !== '') {
         startDate = where.startDate
     }
+    if (minStartDate) {
+        startDate = {
+            '$gte': minStartDate
+        };
+    }
     let endDate;
     if (where.endDate && where.endDate !== '') {
         endDate = where.endDate
+    }
+    if (maxEndDate) {
+        endDate = {
+            '$lte': maxEndDate
+        };
     }
     const sds = await savingDepositSchema.findAll({
         where: removeUndefinedKeys({

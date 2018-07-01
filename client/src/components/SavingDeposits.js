@@ -22,9 +22,6 @@ export default class SavingDeposits extends React.Component {
     );
     this.hideGenerateReportModal = this.hideGenerateReportModal.bind(this);
     this.showGenerateReportModal = this.showGenerateReportModal.bind(this);
-    // this.getSimpleAmount = this.getSimpleAmount.bind(this);
-    // this.getCompoundAmount = this.getCompoundAmount.bind(this);
-    // this.getNumberOfDays = this.getNumberOfDays.bind(this);
     this.searchSavingDeposits = this.searchSavingDeposits.bind(this);
     this.generateSavingDepositsReport = this.generateSavingDepositsReport.bind(
       this
@@ -61,42 +58,6 @@ export default class SavingDeposits extends React.Component {
     }
     this.props.mappedFetchSavingDeposits(filters, isAdmin);
   }
-
-  // Usage:
-  //   this.getCompoundAmount(
-  //     savingDeposit.initialAmount,
-  //     savingDeposit.interest,
-  //     this.getNumberOfDays(savingDeposit.startDate, savingDeposit.endDate)
-  //   );
-
-  // getNumberOfDays(startDate, endDate) {
-  //   const numberMsInDay = 1000 * 60 * 60 * 24;
-  //   const startDayNumber = Math.floor(
-  //     new Date(startDate).getTime() / numberMsInDay
-  //   );
-  //   const endDayNumber = Math.floor(
-  //     new Date(endDate).getTime() / numberMsInDay
-  //   );
-  //   const currentDayNumber = Math.floor(Date.now() / numberMsInDay);
-  //   const numberOfDays = currentDayNumber <= endDayNumber
-  //     ? currentDayNumber - startDayNumber
-  //     : endDayNumber - startDayNumber + 1;
-  //   return numberOfDays;
-  // }
-  // getSimpleAmount(p, r, t) {
-  //   // p initial amount,
-  //   // r interest per yr
-  //   // t time in years
-  //   return Number(p * (1 + r * t / 100.0)).toFixed(2);
-  // }
-  // getCompoundAmount(p, r, t, N = 360) {
-  //   // p initial amount,
-  //   // r interest per yr
-  //   // t time in years
-  //   // N number of times that interest is compounded per year
-  //   // See https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php for more details
-  //   return Number(p * Math.pow(1 + r / (N * 100.0), N * t)).toFixed(2);
-  // }
 
   showGenerateReportModal() {
     this.props.mappedShowGenerateReportModal();

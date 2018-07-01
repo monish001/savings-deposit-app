@@ -45,12 +45,11 @@ export const fetchSavingDepositsReportRequest = filters => {
   };
 };
 //Sync action
-export const fetchSavingDepositsReportSuccess = (savingDeposits, message) => {
+export const fetchSavingDepositsReportSuccess = (savingDepositsReport, message) => {
   return {
     type: "FETCH_SAVING_DEPOSITS_REPORT_SUCCESS",
-    savingDeposits: savingDeposits,
-    message: message,
-    receivedAt: Date.now
+    savingDepositsReport,
+    message,
   };
 };
 export const fetchSavingDepositsReportFailed = error => {

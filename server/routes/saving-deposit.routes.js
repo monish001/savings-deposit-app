@@ -4,6 +4,12 @@ const router = express.Router();
 const debug = require('debug')('sd:routes:saving-deposit.routes');
 const authentication = require('../authentication');
 
+router.route('/users/self/saving-deposits/report')
+    .all(authentication.authenticate)
+    .get((req, res, next) => {
+        savingDepositController.getReport(req, res, next);
+    });
+
 router.route('/users/self/saving-deposits')
     .all(authentication.authenticate)
     .get((req, res, next) => {
