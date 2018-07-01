@@ -2,11 +2,27 @@ const userModel = require("../models/user.model");
 const debug = require('debug')('sd:controllers:user.controller');
 const bcrypt = require('bcrypt');
 const config = require('config');
-var createError = require('http-errors');
+const createError = require('http-errors');
+const imageHelper = require('../helpers/image.helper');
 
 const userController = {
-    update: (req, res, next, userId) => {
-        next(new createError.NotImplemented());
+    update: async (req, res, next, userId) => {
+        const {
+            photo
+        } = req.body;
+        const fileName = await imageHelper.saveImageAndGetPath(photo);
+        const affectedCount = await userModel.update({
+            photo: `/static/${fileName}`
+        }, {
+            _id: userId
+        });
+        if (affectedCount) {
+            return res.json({
+                ok: true,
+                message: `Profile picture is successfully updated.`
+            });
+        }
+        next(new createError.InternalServerError());
     },
     updatePassword: async (req, res, next) => {
         debug('updatePassword');
