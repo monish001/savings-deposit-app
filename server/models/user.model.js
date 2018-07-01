@@ -68,7 +68,8 @@ async function update(args, where) {
         emailVerificationCode,
         password,
         retryCount,
-        photo
+        photo,
+        role,
     } = args;
     const response = await userSchema.update(removeUndefinedKeys({
         isEmailVerified,
@@ -76,11 +77,13 @@ async function update(args, where) {
         password,
         retryCount,
         photo,
+        role,
     }), {
         where: removeUndefinedKeys({
             emailVerificationCode: where.emailVerificationCode,
             password: where.password,
             _id: where._id,
+            role: where.role,
         })
     });
     const affectedCount = response[0];

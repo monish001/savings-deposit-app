@@ -35,7 +35,7 @@ const userController = {
                 message: `Profile picture is successfully updated.`
             });
         }
-        next(new createError.InternalServerError());
+        next(new createError.BadRequest());
     },
     updatePassword: async (req, res, next) => {
         debug('updatePassword');
@@ -56,7 +56,7 @@ const userController = {
         });
         if (!user) {
             debug('updatePassword', 'user', user);
-            next(new createError.InternalServerError());
+            next(new createError.BadRequest());
             return;
         }
         const isCorrectPassword = await bcrypt.compare(oldPassword, user.password);
@@ -84,7 +84,7 @@ const userController = {
                 message: `Password is successfully updated.`
             });
         }
-        next(new createError.InternalServerError());
+        next(new createError.BadRequest());
     },
     resetPassword: async (req, res, next) => {
         debug('resetPassword');
@@ -96,7 +96,7 @@ const userController = {
         });
         if (!user) {
             debug('resetPassword', 'user', user);
-            next(new createError.InternalServerError());
+            next(new createError.BadRequest());
             return;
         }
         const newPassword = uuidv4();
@@ -112,7 +112,7 @@ const userController = {
         const isOk = await emailHelper.sendEmail(user.email, subject, emailText, emailHtml);
         if (!isOk) {
             debug('resetPassword', 'isOk', isOk);
-            next(new createError.InternalServerError());
+            next(new createError.BadRequest());
             return;
         }
 
@@ -123,7 +123,7 @@ const userController = {
         });
         if (!affectedCount) {
             debug('resetPassword', 'affectedCount', affectedCount);
-            next(new createError.InternalServerError('Reset password failed. Please ignore the related email.'));
+            next(new createError.BadRequest('Reset password failed. Please ignore the related email.'));
             return;
         }
         return res.json({
@@ -144,7 +144,7 @@ const userController = {
         debug('resetRetryCount', 'affectedCount', affectedCount);
         if (!affectedCount) {
             debug('resetRetryCount', 'affectedCount', affectedCount);
-            next(new createError.InternalServerError('Request for unblock user log in failed.'));
+            next(new createError.BadRequest('Request for unblock user log in failed.'));
             return;
         }
         return res.json({
@@ -172,14 +172,14 @@ const userController = {
                 next(new createError.BadRequest(`Request for new user creation failed. ${errors[0].message}`));
                 return;
             }
-            next(new createError.InternalServerError(`Request for new user creation failed.`));
+            next(new createError.BadRequest(`Request for new user creation failed.`));
             return;
         }
 
         const isOk = await sendAccountCreationNotificationEmail(user.email, newPassword);
         if (!isOk) {
             debug('create', 'isOk', isOk);
-            next(new createError.InternalServerError('New user record created but email notification to the user failed.'));
+            next(new createError.BadRequest('New user record created but email notification to the user failed.'));
             return;
         }
         return res.json({
@@ -200,7 +200,20 @@ const userController = {
         });
     },
     updateRole: async (req, res, next, currentRole, newRole) => {
-        next(new createError.NotImplemented());
+        debug('updateRole', 'currentRole', currentRole);
+        debug('updateRole', 'newRole', newRole);
+        const {
+            userId
+        } = req.params;
+        const affectedCount = await userModel.update({role: newRole}, {_id: userId, role: currentRole});
+        debug('updateRole', 'affectedCount', affectedCount);
+        if (affectedCount) {
+            return res.json({
+                ok: true,
+                message: `New role is updated successfully.`
+            });
+        }
+        next(new createError.BadRequest());
     },
     remove: async (req, res, next, allowedRoleToDelete) => {
         debug('remove');

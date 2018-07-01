@@ -38,22 +38,22 @@ router.route('/users/invite')
 router.route('/users/:userId/admin/:newRole')
     .all(authentication.authenticate)
     .put((req, res, next) => {
-        userController.updateRole(req, res, next, 'admin', req.params.newRole)
+        userController.updateRole(req, res, next, 'ADMIN', req.params.newRole.toUpperCase())
     });
 router.route('/users/:userId/:oldRole/admin')
     .all(authentication.authenticate)
     .put((req, res, next) => {
-        userController.updateRole(req, res, next, req.params.oldRole, 'admin')
+        userController.updateRole(req, res, next, req.params.oldRole.toUpperCase(), 'ADMIN')
     });
 router.route('/users/:userId/:oldRole/regular_user')
     .all(authentication.authenticate)
     .put((req, res, next) => {
-        userController.updateRole(req, res, next, req.params.oldRole, 'regular_user')
+        userController.updateRole(req, res, next, req.params.oldRole.toUpperCase(), 'REGULAR_USER')
     });
 router.route('/users/:userId/:oldRole/user_manager')
     .all(authentication.authenticate)
     .put((req, res, next) => {
-        userController.updateRole(req, res, next, req.params.oldRole, 'user_manager')
+        userController.updateRole(req, res, next, req.params.oldRole.toUpperCase(), 'USER_MANAGER')
     });
 router.route('/users/regular_user/:userId')
     .all(authentication.authenticate)
