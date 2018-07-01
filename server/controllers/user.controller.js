@@ -168,7 +168,7 @@ const userController = {
         debug('create', 'user', user);
         if (!user || !user.email) {
             const errors = user;
-            if(errors[0] && errors[0].type === "unique violation") {
+            if (errors[0] && errors[0].type === "unique violation") {
                 next(new createError.BadRequest(`Request for new user creation failed. ${errors[0].message}`));
                 return;
             }
@@ -191,17 +191,28 @@ const userController = {
         next(new createError.NotImplemented());
     },
     getAll: async (req, res, next) => {
-        next(new createError.NotImplemented());
+        debug('getAll');
+        const users = await userModel.getAll();
+        return res.json({
+            ok: true,
+            users,
+            message: 'Users successfully retrieved.'
+        });
     },
     updateRole: async (req, res, next, currentRole, newRole) => {
         next(new createError.NotImplemented());
     },
     remove: async (req, res, next, allowedRoleToDelete) => {
         debug('remove');
-        const {userId} = req.params;
-        const affectedCount = await userModel.remove({_id: userId, role: allowedRoleToDelete});
+        const {
+            userId
+        } = req.params;
+        const affectedCount = await userModel.remove({
+            _id: userId,
+            role: allowedRoleToDelete
+        });
         debug('remove', 'affectedCount', affectedCount);
-        if(affectedCount) {
+        if (affectedCount) {
             return res.json({
                 ok: true,
                 message: "User deleted successfully.",

@@ -48,11 +48,11 @@ async function create(args) {
             isEmailVerified,
             role,
         }));
-    } catch(error){
-        debug('create', 'error', JSON.stringify(error));            
+    } catch (error) {
+        debug('create', 'error', JSON.stringify(error));
         return error && error.errors;
     }
-    debug('create', 'user', user);            
+    debug('create', 'user', user);
     const userJson = user.get({
         plain: true
     });
@@ -118,10 +118,22 @@ async function remove(where) {
     return affectedCount;
 }
 
+async function getAll(where) {
+    const users = await userSchema.findAll().map(el => {
+        let user = el.get({
+            plain: true
+        });
+        delete user.password;
+        return user;
+    });
+    return users;
+}
+
 module.exports = {
     findOne,
     create,
     update,
     increment,
     remove,
+    getAll,
 };
