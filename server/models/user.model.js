@@ -6,6 +6,7 @@ function removeUndefinedKeys(args) {
 }
 
 async function findOne(where) {
+    debug('findOne', 'where', where);
     const {
         email,
         _id

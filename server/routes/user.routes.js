@@ -12,13 +12,13 @@ router.route('/users/self')
     .put((req, res, next) => {
         userController.update(req, res, next, req.user._id);
     });
-router.route('/users/:id/password/reset')
+router.route('/users/:userId/password/reset')
     .all(authentication.authenticate)
     .put(userController.resetPassword);
-router.route('/users/:id/login-retry-count/reset')
+router.route('/users/:userId/login-retry-count/reset')
     .all(authentication.authenticate)
     .put(userController.resetRetryCount); //unblock user's login
-router.route('/users/:id')
+router.route('/users/:userId')
     .all(authentication.authenticate)
     .put((req, res, next) => {
         userController.update(req, res, next, req.params.id);
@@ -35,33 +35,33 @@ router.route('/users/admin')
 router.route('/users/invite')
     .all(authentication.authenticate)
     .post(userController.invite);
-router.route('/users/:id/admin/:newRole')
+router.route('/users/:userId/admin/:newRole')
     .all(authentication.authenticate)
     .put((req, res, next) => {
         userController.updateRole(req, res, next, 'admin', req.params.newRole)
     });
-router.route('/users/:id/:oldRole/admin')
+router.route('/users/:userId/:oldRole/admin')
     .all(authentication.authenticate)
     .put((req, res, next) => {
         userController.updateRole(req, res, next, req.params.oldRole, 'admin')
     });
-router.route('/users/:id/:oldRole/regular_user')
+router.route('/users/:userId/:oldRole/regular_user')
     .all(authentication.authenticate)
     .put((req, res, next) => {
         userController.updateRole(req, res, next, req.params.oldRole, 'regular_user')
     });
-router.route('/users/:id/:oldRole/user_manager')
+router.route('/users/:userId/:oldRole/user_manager')
     .all(authentication.authenticate)
     .put((req, res, next) => {
         userController.updateRole(req, res, next, req.params.oldRole, 'user_manager')
     });
-router.route('/users/regular_user/:id')
+router.route('/users/regular_user/:userId')
     .all(authentication.authenticate)
     .delete(userController.removeRegularUser);
-router.route('/users/user_manager/:id')
+router.route('/users/user_manager/:userId')
     .all(authentication.authenticate)
     .delete(userController.removeUserManager);
-router.route('/users/admin/:id')
+router.route('/users/admin/:userId')
     .all(authentication.authenticate)
     .delete(userController.removeAdmin);
 router.route('/users')

@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const config = require('config');
 const createError = require('http-errors');
 const imageHelper = require('../helpers/image.helper');
+var emailHelper = require('../helpers/email.helper');
+const uuidv4 = require('uuid/v4');
 
 const userController = {
     update: async (req, res, next, userId) => {
@@ -41,6 +43,11 @@ const userController = {
         const user = await userModel.findOne({
             _id
         });
+        if (!user) {
+            debug('updatePassword', 'user', user);
+            next(new createError.InternalServerError());
+            return;
+        }
         const isCorrectPassword = await bcrypt.compare(oldPassword, user.password);
         if (!isCorrectPassword) {
             debug('Password change failed. Please check your old password.');
@@ -54,7 +61,6 @@ const userController = {
             return;
         }
         debug('config.api.salt', config.api.salt);
-        const oldPasswordHash = await bcrypt.hash(oldPassword, Number(config.api.salt));
         const newPasswordHash = await bcrypt.hash(newPassword, Number(config.api.salt));
         const affectedCount = await userModel.update({
             password: newPasswordHash
@@ -69,37 +75,79 @@ const userController = {
         }
         next(new createError.InternalServerError());
     },
-    resetPassword: (req, res, next) => {
+    resetPassword: async (req, res, next) => {
+        debug('resetPassword');
+        const {
+            userId
+        } = req.params;
+        const user = await userModel.findOne({
+            _id: userId
+        });
+        if (!user) {
+            debug('resetPassword', 'user', user);
+            next(new createError.InternalServerError());
+            return;
+        }
+        const newPassword = uuidv4();
+        const newPasswordHash = await bcrypt.hash(newPassword, Number(config.api.salt));
+
+        const {
+            subject,
+            text,
+            html
+        } = config.email.passwordReset;
+        const emailText = text.replace(/%NewPassword%/g, newPassword);
+        const emailHtml = html.replace(/%NewPassword%/g, newPassword);
+        const isOk = await emailHelper.sendEmail(user.email, subject, emailText, emailHtml);
+        if (!isOk) {
+            debug('resetPassword', 'isOk', isOk);
+            next(new createError.InternalServerError());
+            return;
+        }
+
+        const affectedCount = await userModel.update({
+            password: newPasswordHash
+        }, {
+            _id: userId
+        });
+        if (!affectedCount) {
+            debug('resetPassword', 'affectedCount', affectedCount);
+            next(new createError.InternalServerError('Reset password failed. Please ignore the related email.'));
+            return;
+        }
+        return res.json({
+            ok: true,
+            message: `Password is successfully reset.`
+        });
+    },
+    resetRetryCount: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    resetRetryCount: (req, res, next) => {
+    createRegularUser: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    createRegularUser: (req, res, next) => {
+    createUserManager: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    createUserManager: (req, res, next) => {
+    createAdmin: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    createAdmin: (req, res, next) => {
+    invite: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    invite: (req, res, next) => {
+    getAll: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    getAll: (req, res, next) => {
+    updateRole: async (req, res, next, currentRole, newRole) => {
         next(new createError.NotImplemented());
     },
-    updateRole: (req, res, next, currentRole, newRole) => {
+    removeRegularUser: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    removeRegularUser: (req, res, next) => {
+    removeUserManager: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
-    removeUserManager: (req, res, next) => {
-        next(new createError.NotImplemented());
-    },
-    removeAdmin: (req, res, next) => {
+    removeAdmin: async (req, res, next) => {
         next(new createError.NotImplemented());
     },
 };
