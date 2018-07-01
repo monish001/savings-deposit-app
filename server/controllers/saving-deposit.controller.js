@@ -73,14 +73,18 @@ async function create(req, res, next, userId) {
 
 async function remove(req, res, next, userId) {
     const _id = req.params.id;
-    const sd = await savingDepositModel.remove({
+    const affectedCount = await savingDepositModel.remove({
         _id,
         userId
     });
-    return res.json({
-        ok: true,
-        message: 'The saving deposit is successfully deleted.'
-    });
+    if(affectedCount) {
+        return res.json({
+            ok: true,
+            message: 'The saving deposit is successfully deleted.'
+        });
+    }else{
+        return next(new createError.NotFound());
+    }
 }
 
 async function update(req, res, next, userId) {

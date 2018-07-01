@@ -97,13 +97,14 @@ async function remove(where) {
         _id,
         userId
     } = where;
-    const sd = await savingDepositSchema.destroy({
-        where: {
+    const affectedCount = await savingDepositSchema.destroy({
+        where: removeUndefinedKeys({
             _id,
             userId
-        }
+        })
     });
-    return sd;
+    debug('remove', affectedCount);
+    return affectedCount;
 }
 
 async function update(_id, args) {
