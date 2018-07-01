@@ -1,24 +1,46 @@
 const savingDepositSchema = require("./db/saving-deposit.schema");
 const debug = require('debug')('sd:models:saving-deposit.model');
 
+function removeUndefinedKeys(args) {
+    debug('removeUndefinedKeys', args);
+    const result = JSON.parse(JSON.stringify(args));
+    debug('removeUndefinedKeys', result);
+    return result;
+}
+
 async function getAll(where) {
     const {
         userId,
-        bankName,
-        minAmount,
-        maxAmount,
-        startDate,
-        endDate
     } = where;
+    let bankName;
+    if (where.bankName) {
+        bankName = where.bankName;
+    }
+    let initialAmount;
+    if (where.minAmount === '0' || where.minAmount) {
+        initialAmount = initialAmount || {};
+        initialAmount.$gte = Number(where.minAmount);
+    }
+    if (where.maxAmount === '0' || where.maxAmount) {
+        initialAmount = initialAmount || {};
+        initialAmount.$lte = Number(where.maxAmount);
+    }
+    let startDate;
+    if (where.startDate && where.startDate !== '') {
+        startDate = where.startDate
+    }
+    let endDate;
+    if (where.endDate && where.endDate !== '') {
+        endDate = where.endDate
+    }
     const sds = await savingDepositSchema.findAll({
-        where: {
+        where: removeUndefinedKeys({
             userId,
             bankName,
-            minAmount,
-            maxAmount,
+            initialAmount,
             startDate,
             endDate
-        }
+        })
     }).map(el => el.get({
         plain: true
     }));
@@ -39,7 +61,7 @@ async function getById(where) {
         plain: true
     }));
     debug('getById', sd);
-    if(sd.length === 1) {
+    if (sd.length === 1) {
         return sd[0];
     }
 }

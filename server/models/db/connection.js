@@ -2,13 +2,16 @@ const Sequelize = require('sequelize');
 const db = require('config').db;
 const debug = require('debug')('sd:models:db:connection');
 const dbPool = db.pool;
-
+const operatorsAliases = {
+  $gte: Sequelize.Op.gte,
+  $lte: Sequelize.Op.lte,
+}
 const sequelize = new Sequelize(db.name, db.username, db.password, {
   host: db.host,
   port: db.port,
   dialect: 'mysql',
   logging: db.logging && debug,
-  operatorsAliases: false,
+  operatorsAliases,
   pool: {
     max: dbPool.max,
     min: dbPool.min,

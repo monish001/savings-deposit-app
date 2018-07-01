@@ -42,13 +42,13 @@ const SavingDeposit = sequelize.define(
             }
         },
         startDate: {
-            type: Sequelize.DATEONLY,
+            type: Sequelize.DATE,
             validate: {
                 notEmpty: true
             }
         },
         endDate: {
-            type: Sequelize.DATEONLY,
+            type: Sequelize.DATE,
             validate: {
                 notEmpty: true
             }

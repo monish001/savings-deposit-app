@@ -17,7 +17,7 @@ router.route('/users/self/saving-deposits')
 router.route('/saving-deposits')
     .all(authentication.authenticate)
     .get((req, res, next) => {
-        savingDepositController.getAll(req, res, next, req.params.userId);
+        savingDepositController.getAll(req, res, next, req.query.userId);
     })
     .post((req, res, next) => {
         savingDepositController.create(req, res, next, req.body.userId);
