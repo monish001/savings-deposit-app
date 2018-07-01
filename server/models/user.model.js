@@ -1,6 +1,10 @@
 const userSchema = require("./db/user.schema");
 const debug = require('debug')('sd:models:user.model');
 
+function removeUndefinedKeys(args) {
+    return JSON.parse(JSON.stringify(args));
+}
+
 async function findOne(where) {
     const {
         email
@@ -16,7 +20,7 @@ async function findOne(where) {
         plain: true
     }));
     let result;
-    if(user.length === 1) {
+    if (user.length === 1) {
         result = user[0];
     }
     debug('findOne', result);
@@ -37,7 +41,7 @@ async function create(args) {
     const userJson = user.get({
         plain: true
     });
-    delete userJson.password;    
+    delete userJson.password;
     debug('create', userJson)
     return userJson;
 }
@@ -47,21 +51,39 @@ async function update(args, where) {
     const {
         isEmailVerified,
         emailVerificationCode,
-        password
+        password,
+        retryCount
     } = args;
     const oldEmailVerificationCode = where.emailVerificationCode;
-    const response = await userSchema.update({
+    const response = await userSchema.update(removeUndefinedKeys({
         isEmailVerified,
         emailVerificationCode,
-        password
-    }, {
-        where: {
+        password,
+        retryCount
+    }), {
+        where: removeUndefinedKeys({
             emailVerificationCode: oldEmailVerificationCode,
             password: where.password,
-        }
+            _id: where._id
+        })
     });
     const affectedCount = response[0];
-    debug('update', affectedCount)
+    debug('update', affectedCount);
+    return affectedCount;
+}
+
+async function increment(field, where) {
+    const {
+        _id
+    } = where;
+    const response = await userSchema.increment(field, {
+        where: {
+            _id
+        }
+    });
+    debug('increment', response);
+    const affectedCount = response[0];
+    debug('increment', affectedCount);
     return affectedCount;
 }
 
@@ -69,4 +91,5 @@ module.exports = {
     findOne,
     create,
     update,
+    increment,
 };
