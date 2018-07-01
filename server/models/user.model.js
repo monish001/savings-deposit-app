@@ -7,12 +7,14 @@ function removeUndefinedKeys(args) {
 
 async function findOne(where) {
     const {
-        email
+        email,
+        _id
     } = where;
     const user = await userSchema.findAll({
-        where: {
-            email
-        },
+        where: removeUndefinedKeys({
+            email,
+            _id
+        }),
         attributes: {
             exclude: []
         }
@@ -54,7 +56,6 @@ async function update(args, where) {
         password,
         retryCount
     } = args;
-    const oldEmailVerificationCode = where.emailVerificationCode;
     const response = await userSchema.update(removeUndefinedKeys({
         isEmailVerified,
         emailVerificationCode,
@@ -62,7 +63,7 @@ async function update(args, where) {
         retryCount
     }), {
         where: removeUndefinedKeys({
-            emailVerificationCode: oldEmailVerificationCode,
+            emailVerificationCode: where.emailVerificationCode,
             password: where.password,
             _id: where._id
         })

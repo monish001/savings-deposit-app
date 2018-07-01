@@ -11,6 +11,9 @@ const userController = {
     updatePassword: async (req, res, next) => {
         debug('updatePassword');
         const {
+            _id
+        } = req.user;
+        const {
             oldPassword,
             newPassword,
             confirmNewPassword
@@ -18,17 +21,29 @@ const userController = {
         debug(oldPassword,
             newPassword,
             confirmNewPassword);
+
+        const user = await userModel.findOne({
+            _id
+        });
+        const isCorrectPassword = await bcrypt.compare(oldPassword, user.password);
+        if (!isCorrectPassword) {
+            debug('Password change failed. Please check your old password.');
+            next(new createError.BadRequest('Password change failed. Please check your old password.'));
+            return;
+        }
+
         if (newPassword !== confirmNewPassword) {
             debug('Passwords do not match.');
             next(new createError.BadRequest('Passwords do not match.'));
             return;
         }
+        debug('config.api.salt', config.api.salt);
         const oldPasswordHash = await bcrypt.hash(oldPassword, Number(config.api.salt));
         const newPasswordHash = await bcrypt.hash(newPassword, Number(config.api.salt));
         const affectedCount = await userModel.update({
             password: newPasswordHash
         }, {
-            password: oldPasswordHash
+            _id
         });
         if (affectedCount) {
             return res.json({
@@ -36,7 +51,7 @@ const userController = {
                 message: `Password is successfully updated.`
             });
         }
-        next(new createError.InternalServerError('Password change failed. Please check your old password.'));
+        next(new createError.InternalServerError());
     },
     resetPassword: (req, res, next) => {
         next(new createError.NotImplemented());
