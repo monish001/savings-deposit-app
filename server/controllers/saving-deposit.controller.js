@@ -59,8 +59,8 @@ async function getReport(req, res, next) {
     const userId = req.user._id;
     const sds = await savingDepositModel.getAll({
         userId,
-        minStartDate: startDate,
-        maxEndDate: endDate
+        maxStartDate: endDate,
+        minEndDate: startDate
     });
     let totalGains = 0,
         totalLoss = 0,

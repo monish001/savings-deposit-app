@@ -18,6 +18,17 @@ async function sendAccountCreationNotificationEmail(email, newPassword) {
     const isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
     return isOk;
 }
+async function sendInviteEmail(email) {
+    const {
+        subject,
+        text,
+        html
+    } = config.email.invite;
+    const emailText = text.replace(/%Domain%/g, config.domain);
+    const emailHtml = html.replace(/%Domain%/g, config.domain);
+    const isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+    return isOk;
+}
 const userController = {
     update: async (req, res, next, userId) => {
         const {
@@ -188,7 +199,20 @@ const userController = {
         });
     },
     invite: async (req, res, next) => {
-        next(new createError.NotImplemented());
+        debug('invite');
+        const {
+            email
+        } = req.body;
+        const isOk = await sendInviteEmail(email);
+        if (!isOk) {
+            debug('invite', 'isOk', isOk);
+            next(new createError.InternalServerError('Email notification failed.'));
+            return;
+        }
+        return res.json({
+            ok: true,
+            message: `Email invitation is sent successfully`
+        });
     },
     getAll: async (req, res, next) => {
         debug('getAll');
@@ -205,7 +229,12 @@ const userController = {
         const {
             userId
         } = req.params;
-        const affectedCount = await userModel.update({role: newRole}, {_id: userId, role: currentRole});
+        const affectedCount = await userModel.update({
+            role: newRole
+        }, {
+            _id: userId,
+            role: currentRole
+        });
         debug('updateRole', 'affectedCount', affectedCount);
         if (affectedCount) {
             return res.json({

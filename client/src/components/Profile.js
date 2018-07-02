@@ -57,9 +57,9 @@ export default class Profile extends React.Component {
           <Row>
             <Col xs={12} md={4}>
               <div style={{ "text-align": "center" }}>
-                {profileState.profile.photo &&
+                {profileState.profile && profileState.profile.photo &&
                   <Image src={`${profileState.profile.photo}`} rounded />}
-                {!profileState.profile.photo &&
+                {!(profileState.profile && profileState.profile.photo) &&
                   <Glyphicon style={{ "font-size": "20rem" }} glyph="user" />}
               </div>
               <form
@@ -107,7 +107,7 @@ export default class Profile extends React.Component {
                   </Col>
                   <Col sm={10}>
                     <FormControl.Static>
-                      {profileState.profile.email}
+                      {profileState.profile && profileState.profile.email}
                     </FormControl.Static>
                   </Col>
                 </FormGroup>
