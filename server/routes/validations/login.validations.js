@@ -9,9 +9,18 @@ module.exports = {
             cpassword: Joi.string().regex(PASSWORD_REGEX).required(),
         }
     },
-    emailVerification: {},
-    googleCallback: {},
-    facebookCallback: {},
-    login: {},
+    emailVerification: {
+        params: {
+            guid: Joi.string().length(72).required(),
+        }
+    },
+    google: {},
+    facebook: {},
+    login: {
+        body: {
+            email: Joi.string().email().required(),
+            password: Joi.string().regex(PASSWORD_REGEX).required(),
+        }
+    },
     logout: {}
 };
