@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
-const debug = require("debug")("sd:authentication:index");
+const debug = require("debug")("sd:helpers:authentication.index");
 var createError = require('http-errors');
 
 // Configure the local strategy for use by Passport.
@@ -83,11 +83,13 @@ passport.use(
 // deserializing.
 passport.serializeUser(function (user, cb) {
     debug("serializeUser", user);
+    const {_id, email, role} = user;
     cb(
         null,
         JSON.stringify({
-            _id: user._id,
-            email: user.email
+            _id,
+            email,
+            role,
         })
     );
 });

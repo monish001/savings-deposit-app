@@ -8,7 +8,7 @@ var helmet = require('helmet');
 var session = require("express-session");
 var config = require('config');
 var validate = require('express-validation');
-var debug = require('debug')('sd');
+var debug = require('debug')('sd:app');
 var app = express();
 app.use(compression()); //Compress all routes. For a high-traffic website in production you wouldn't use this middleware. Instead you would use a reverse proxy like Nginx.
 app.use(helmet()); // See https://helmetjs.github.io/docs/ for more information on what headers it sets/vulnerabilities it protects against
@@ -27,7 +27,7 @@ app.use(session({
 }))
 
 // Initialize Passport and restore authentication state, if any, from the session.
-var authentication = require('./authentication');
+var authentication = require('./helpers/authentication.helper');
 app.use(authentication.passport.initialize());
 app.use(authentication.passport.session());
 
@@ -54,12 +54,22 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (error, req, res, next) {
   debug(error.stack);
-  if(error instanceof validate.ValidationError) {
-    return res.status(error.status).json({error});
+  if (error instanceof validate.ValidationError) {
+    return res.status(error.status).json({
+      error
+    });
+  }
+
+  if (error.status == 403) {
+    return res.status(error.status).json({
+      error: 'Forbidden'
+    });
   }
 
   res.status(error.status || 500);
-  res.json({error: error.message || 'Something went wrong. Please try in a bit.'});
+  res.json({
+    error: error.message || 'Something went wrong. Please try in a bit.'
+  });
 });
 
 module.exports = app;
