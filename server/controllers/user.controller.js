@@ -263,14 +263,15 @@ const userController = {
         }
         next(new createError.BadRequest());
     },
-    remove: async (req, res, next, allowedRoleToDelete) => {
+    remove: async (req, res, next) => {
         debug('remove');
         const {
-            userId
+            userId,
+            role,
         } = req.params;
         const affectedCount = await userModel.remove({
             _id: userId,
-            role: allowedRoleToDelete
+            role
         });
         debug('remove', 'affectedCount', affectedCount);
         if (affectedCount) {

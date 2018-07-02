@@ -110,6 +110,7 @@ export const hideEditModal = () => {
   };
 };
 export const editUser = (newUser, oldUser) => {
+  console.log('newUser, oldUser', newUser, oldUser);
   return dispatch => {
     dispatch(editUserRequest(newUser));
     const _apiUrl =
@@ -131,7 +132,7 @@ export const editUser = (newUser, oldUser) => {
       .then(response => {
         if (response.ok) {
           response.json().then(data => {
-            dispatch(editUserSuccess(data.user, data.message));
+            dispatch(editUserSuccess(data.message));
           });
         } else {
           return Promise.reject(response);
@@ -148,10 +149,9 @@ export const editUserRequest = user => {
     user
   };
 };
-export const editUserSuccess = (user, message) => {
+export const editUserSuccess = (message) => {
   return {
     type: "EDIT_USER_SUCCESS",
-    user: user,
     message: message
   };
 };

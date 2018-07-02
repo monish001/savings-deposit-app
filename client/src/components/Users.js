@@ -74,11 +74,11 @@ export default class Users extends React.Component {
     e.preventDefault();
     const form = document.getElementById("UserEditForm");
     const newUser = {
-      _id: form._id.value,
+      _id: Number(form._id.value),
       role: form.role.value
     };
     const oldUser = this.props.mappedUsersState.users.find(
-      user => user._id === form._id.value
+      user => user._id === newUser._id
     );
     this.props.mappedEditUser(newUser, oldUser);
   }
@@ -174,6 +174,7 @@ export default class Users extends React.Component {
               </tr>
             </thead>
             <tbody>
+              {console.log('users', users)}
               {users.map((user, i) => (
                 <tr key={`user-${user._id}-${i}`}>
                   <td>
@@ -268,10 +269,9 @@ export default class Users extends React.Component {
                 !usersState.isFetching &&
                 usersState.successMsg &&
                 <Alert bsStyle="success">
-                  Book
+                  Success!
                   {" "}
-                  <strong> {userToEdit.userText} </strong>
-                  {usersState.successMsg}
+                  <strong> {usersState.successMsg} </strong>
                 </Alert>}
             </div>
           </Modal.Body>

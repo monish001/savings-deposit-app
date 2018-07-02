@@ -37,6 +37,9 @@ const INITIAL_STATE = {
   isFetching: false,
   error: null,
   successMsg: null,
+  isAddingNew: false,
+  errorAddingNew: null,
+  successMsgAddingNew: null,
   showDeleteModal: false,
   savingDepositToDelete: null,
   showGenerateReportModal: false,
@@ -55,6 +58,9 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
         isFetching: true,
         error: null,
         successMsg: null,
+        isAddingNew: false,
+        errorAddingNew: null,
+        successMsgAddingNew: null,
       };
     case "FETCH_SAVING_DEPOSITS_SUCCESS":
       return {
@@ -105,25 +111,25 @@ const savingDepositReducer = (currentState = INITIAL_STATE, action) => {
     case "ADD_NEW_SAVING_DEPOSIT_REQUEST":
       return {
         ...currentState,
-        isFetching: true,
-        error: null,
-        successMsg: null,
+        isAddingNew: true,
+        errorAddingNew: null,
+        successMsgAddingNew: null,
         savingDepositToCreate: action.savingDeposit
       };
     case "ADD_NEW_SAVING_DEPOSIT_REQUEST_FAILED":
       return {
         ...currentState,
-        isFetching: false,
-        error: action.error,
-        successMsg: null,
+        isAddingNew: false,
+        errorAddingNew: action.error,
+        addNewSuccessMsg: null,
       };
     case "ADD_NEW_SAVING_DEPOSIT_REQUEST_SUCCESS":
       const nextState = {
         ...currentState,
         savingDeposits: [...currentState.savingDeposits, action.savingDeposit],
-        isFetching: false,
-        error: null,
-        successMsg: action.message,
+        isAddingNew: false,
+        errorAddingNew: null,
+        successMsgAddingNew: action.message,
         savingDepositToCreate: null,
       };
       return nextState;

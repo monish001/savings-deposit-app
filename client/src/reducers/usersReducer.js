@@ -25,6 +25,9 @@ const INITIAL_STATE = {
   // ],
 
   users: [],
+  isFetchingAddingNewUser: false,
+  errorAddingNewUser: null,
+  successMsgAddingNewUser: null,
   isFetching: false,
   error: null,
   successMsg: null,
@@ -82,27 +85,25 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
       return {
         ...currentState,
         users: currentState.users,
-        isFetching: true,
-        error: null,
-        successMsg: null,
+        isFetchingAddingNewUser: true,
+        errorAddingNewUser: null,
+        successMsgAddingNewUser: null,
         newUser: action.user
       };
     case "ADD_NEW_USER_REQUEST_FAILED":
       return {
         ...currentState,
-        users: currentState.users,
-        isFetching: false,
-        error: action.error,
-        successMsg: null,
+        isFetchingAddingNewUser: false,
+        errorAddingNewUser: action.error,
+        successMsgAddingNewUser: null,
         newUser: currentState.newUser
       };
     case "ADD_NEW_USER_REQUEST_SUCCESS":
       const nextState = {
         ...currentState,
-        users: [...currentState.users, action.user],
-        isFetching: false,
-        error: null,
-        successMsg: action.message,
+        isFetchingAddingNewUser: false,
+        errorAddingNewUser: null,
+        successMsgAddingNewUser: action.message,
         newUser: null
       };
       return nextState;
@@ -131,7 +132,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
     case "EDIT_USER_REQUEST":
       return {
         ...currentState,
-        users: currentState.users,
         isFetching: true,
         error: null,
         successMsg: null,
@@ -140,20 +140,8 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
         newUser: null
       };
     case "EDIT_USER_SUCCESS":
-      const updatedUsers = currentState.users.map(user => {
-        if (user._id !== action.user._id) {
-          //This is not the item we care about, keep it as is
-          return user;
-        }
-        //Otherwise, this is the one we want to return an updated value
-        return {
-          ...user,
-          ...action.user
-        };
-      });
       return {
         ...currentState,
-        users: updatedUsers,
         isFetching: false,
         error: null,
         successMsg: action.message,
@@ -162,7 +150,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
     case "EDIT_USER_FAILED":
       return {
         ...currentState,
-        users: currentState.users,
         isFetching: false,
         error: action.error,
         successMsg: null,

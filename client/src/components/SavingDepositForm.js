@@ -141,14 +141,21 @@ export default class SavingDepositsForm extends React.Component {
             </Button>
           </FormGroup>
         </form>
-        {!this.props.mappedSavingDepositState.isFetching &&
-          this.props.mappedSavingDepositState.error &&
+        {!this.props.mappedSavingDepositState.isAddingNew &&
+          this.props.mappedSavingDepositState.errorAddingNew &&
           <Alert bsStyle="danger">
             <strong>
-              Failed. {this.props.mappedSavingDepositState.error}{" "}
+              Failed. {this.props.mappedSavingDepositState.errorAddingNew}{" "}
             </strong>
           </Alert>}
-      </div>
+          {!this.props.mappedSavingDepositState.isAddingNew &&
+            this.props.mappedSavingDepositState.successMsgAddingNew &&
+            <Alert bsStyle="success">
+              <strong>
+                Success. {this.props.mappedSavingDepositState.successMsgAddingNew}{" "}
+              </strong>
+            </Alert>}
+        </div>
     );
   }
 }

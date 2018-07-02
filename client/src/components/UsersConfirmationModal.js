@@ -27,6 +27,8 @@ const UsersConfirmationModal = props => {
       </Modal.Header>
       <Modal.Body>
         {user &&
+          !usersState.error &&
+          !usersState.successMsg &&
           !usersState.isFetching &&
           <Alert bsStyle="warning">
             {displayBody}
@@ -35,19 +37,18 @@ const UsersConfirmationModal = props => {
             {" "}
             ?
           </Alert>}
-        {user &&
-          usersState.error &&
+        {usersState.error &&
+          !usersState.isFetching &&
           <Alert bsStyle="danger">
             Failed. <strong>{usersState.error} </strong>
           </Alert>}
-        {user &&
-          !usersState.error &&
+        {!usersState.error &&
+          !usersState.successMsg &&
           usersState.isFetching &&
           <Alert bsStyle="success">
             <strong>In progress... </strong>
           </Alert>}
-        {!user &&
-          !usersState.error &&
+        {usersState.successMsg &&
           !usersState.isFetching &&
           <Alert bsStyle="success">
             <strong>{usersState.successMsg} </strong>

@@ -1,5 +1,11 @@
 import React from "react";
-import { FormGroup, ControlLabel, Alert, FormControl, Button } from "react-bootstrap";
+import {
+  FormGroup,
+  ControlLabel,
+  Alert,
+  FormControl,
+  Button
+} from "react-bootstrap";
 
 export default class UserCreate extends React.Component {
   constructor(props) {
@@ -39,7 +45,7 @@ export default class UserCreate extends React.Component {
                 <FormControl
                   componentClass="select"
                   placeholder="Select role"
-                  defaultValue={'REGULAR_USER'}
+                  defaultValue={"REGULAR_USER"}
                   name="role"
                 >
                   <option value="REGULAR_USER">User</option>
@@ -55,19 +61,18 @@ export default class UserCreate extends React.Component {
             </Button>
           </FormGroup>
         </form>
-        {!usersState.isFetching &&
-          usersState.successMsg &&
+        {!usersState.isFetchingAddingNewUser &&
+          usersState.successMsgAddingNewUser &&
           <Alert bsStyle="success">
-            New user
-            <strong>{usersState.newUser.email}</strong> created!
+            Success{" "}<strong>{usersState.successMsgAddingNewUser}</strong>
           </Alert>}
-        {!usersState.isFetching &&
-          usersState.error &&
+        {!usersState.isFetchingAddingNewUser &&
+          usersState.errorAddingNewUser &&
           <Alert bsStyle="danger">
             Failed!{" "}
-            <strong>{usersState.error}</strong>
+            <strong>{usersState.errorAddingNewUser}</strong>
           </Alert>}
-        {usersState.isFetching &&
+        {usersState.isFetchingAddingNewUser &&
           <Alert bsStyle="success">
             Creating...
           </Alert>}

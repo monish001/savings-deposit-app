@@ -69,8 +69,8 @@ const UsersInviteModal = props => {
           <Alert bsStyle="success">
             <strong>In progress... </strong>
           </Alert>}
-        {!state &&
-          !state.error &&
+        {state &&
+          state.successMsg &&
           !state.isFetching &&
           <Alert bsStyle="success">
             <strong>{state.successMsg} </strong>
