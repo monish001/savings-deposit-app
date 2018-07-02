@@ -31,6 +31,7 @@ async function sendInviteEmail(email) {
 }
 const userController = {
     update: async (req, res, next, userId) => {
+        debug('update', 'userId', userId);
         const {
             photo
         } = req.body;

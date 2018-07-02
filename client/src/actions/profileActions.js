@@ -81,8 +81,15 @@ export const register = args => {
           dispatch(registerRequestSuccess(data.message));
         });
       } else {
-        response.json().then(error => {
-          dispatch(registerRequestFailed(error));
+        // push error further for the next `catch`, like
+        return Promise.reject(response);
+      }
+    }).catch(error => {
+      if(error.bodyUsed) {
+        dispatch(registerRequestFailed(error.statusText));
+      } else {
+        error.json().then(data => {
+          dispatch(registerRequestFailed(data.error));
         });
       }
     });
@@ -131,8 +138,15 @@ export const submitPicture = args => {
           dispatch(submitPictureRequestSuccess(data.message));
         });
       } else {
-        response.json().then(error => {
-          dispatch(submitPictureRequestFailed(error));
+        // push error further for the next `catch`, like
+        return Promise.reject(response);
+      }
+    }).catch(error => {
+      if(error.bodyUsed) {
+        dispatch(submitPictureRequestFailed(error.statusText));
+      } else {
+        error.json().then(data => {
+          dispatch(submitPictureRequestFailed(data.error));
         });
       }
     });
@@ -175,8 +189,15 @@ export const updatePassword = args => {
           dispatch(updatePasswordRequestSuccess(data.message));
         });
       } else {
-        response.json().then(error => {
-          dispatch(updatePasswordRequestFailed(error));
+        // push error further for the next `catch`, like
+        return Promise.reject(response);
+      }
+    }).catch(error => {
+      if(error.bodyUsed) {
+        dispatch(updatePasswordRequestFailed(error.statusText));
+      } else {
+        error.json().then(data => {
+          dispatch(updatePasswordRequestFailed(data.error));
         });
       }
     });

@@ -1,5 +1,5 @@
 var config = require('config');
-const debug = require('debug')('sd:helpers:email.helper');
+const debug = require('debug')('sd:helpers:image.helper');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 var path = require('path');

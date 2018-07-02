@@ -87,7 +87,7 @@ async function update(args, where) {
         })
     });
     const affectedCount = response[0];
-    debug('update', affectedCount);
+    debug('update', 'affectedCount', affectedCount);
     return affectedCount;
 }
 

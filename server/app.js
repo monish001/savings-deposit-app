@@ -35,6 +35,7 @@ app.use((req, res, next) => {
   debug('reqBody', req.body);
   debug('reqParams', req.params);
   debug('reqQuery', req.query);
+  debug('reqUser', req.user);
   next();
 });
 debug('Registering routes.');
