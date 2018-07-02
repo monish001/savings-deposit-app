@@ -41,11 +41,11 @@ const UserEditForm = props => {
         </FormGroup>
       </form>
 
-      <div style={{ "text-align": "center" }}>
+      <div style={{ textAlign: "center" }}>
         {props.editUserRequest.photo &&
           <Image src={`${props.editUserRequest.photo}`} rounded />}
         {!props.editUserRequest.photo &&
-          <Glyphicon style={{ "font-size": "20rem" }} glyph="user" />}
+          <Glyphicon style={{ fontSize: "20rem" }} glyph="user" />}
       </div>
 
       <form

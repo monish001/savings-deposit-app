@@ -23,7 +23,7 @@ export const login = args => {
       }
     }).catch(error => {
       getErrorMessage(error, errorMessage => dispatch(loginRequestFailed(errorMessage)));
-  });;
+  });
   };
 };
 export const loginRequest = args => {

@@ -286,7 +286,7 @@ export default class SavingDeposits extends React.Component {
                       let userEmail;
                       if (isAdmin) {
                         userEmail = usersState.users.find(
-                          user => user._id == savingDeposit.userId
+                          user => Number(user._id) === Number(savingDeposit.userId)
                         ).email;
                       }
                       return (
@@ -352,7 +352,7 @@ export default class SavingDeposits extends React.Component {
                   userEmail={
                     isAdmin && savingDepositToEdit
                       ? usersState.users.find(
-                          user => user._id == savingDepositToEdit.userId
+                          user => Number(user._id) === Number(savingDepositToEdit.userId)
                         ).email
                       : ""
                   }

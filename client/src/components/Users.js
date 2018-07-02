@@ -174,7 +174,6 @@ export default class Users extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {console.log('users', users)}
               {users.map((user, i) => (
                 <tr key={`user-${user._id}-${i}`}>
                   <td>
@@ -186,7 +185,7 @@ export default class Users extends React.Component {
                       />}
                     {!user.photo &&
                       <Glyphicon
-                        style={{ "font-size": "3rem" }}
+                        style={{ fontSize: "3rem" }}
                         glyph="user"
                       />}
                   </td>
@@ -220,7 +219,7 @@ export default class Users extends React.Component {
                     </Button>
                   </td>
                   <td>
-                    {user.retryCount == 3 &&
+                    {Number(user.retryCount) === 3 &&
                       <Button
                         onClick={() => this.showUnblockUserModal(user)}
                         bsStyle="info"

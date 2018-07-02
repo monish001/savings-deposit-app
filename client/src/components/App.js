@@ -6,15 +6,10 @@ import { browserHistory } from "react-router";
 import "./App.css";
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   componentWillMount() {
     this.checkLandingPage(this.props);
   }
-  
-  componentWillUpdate(nextProps, nextState) {
-  }
+  componentWillUpdate(nextProps, nextState) {}
   componentWillReceiveProps(nextProps) {
     this.checkLandingPage(nextProps);
   }

@@ -110,7 +110,6 @@ export const hideEditModal = () => {
   };
 };
 export const editUser = (newUser, oldUser) => {
-  console.log('newUser, oldUser', newUser, oldUser);
   return dispatch => {
     dispatch(editUserRequest(newUser));
     const _apiUrl =
@@ -227,7 +226,6 @@ export const uploadUserPictureInBrowser = base64Image => {
 };
 export const submitPicture = args => {
   return dispatch => {
-    console.log("submitPicture", args);
     dispatch(submitPictureRequest());
     return fetch(apiUrl + args._id, {
       method: "put",
@@ -315,7 +313,6 @@ export const resetPasswordFailed = error => {
   };
 };
 export const showResetPasswordModal = userToResetPassword => {
-  console.log("showResetPasswordModal", userToResetPassword);
   return {
     type: "SHOW_RESET_PASSWORD_USER_MODAL",
     userToResetPassword: userToResetPassword

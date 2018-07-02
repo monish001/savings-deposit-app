@@ -56,11 +56,11 @@ export default class Profile extends React.Component {
         <Grid>
           <Row>
             <Col xs={12} md={4}>
-              <div style={{ "text-align": "center" }}>
+              <div style={{ textAlign: "center" }}>
                 {profileState.profile && profileState.profile.photo &&
                   <Image src={`${profileState.profile.photo}`} rounded />}
                 {!(profileState.profile && profileState.profile.photo) &&
-                  <Glyphicon style={{ "font-size": "20rem" }} glyph="user" />}
+                  <Glyphicon style={{ fontSize: "20rem" }} glyph="user" />}
               </div>
               <form
                 className="form form-horizontal"

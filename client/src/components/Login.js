@@ -104,7 +104,7 @@ export default class Login extends React.Component {
 
                 <FormGroup>
                   <Col smOffset={3} sm={9}>
-                    <div class="g-signin2" data-onsuccess="onSignIn" />
+                    <div className="g-signin2" data-onsuccess="onSignIn" />
                   </Col>
                 </FormGroup>
               </form>

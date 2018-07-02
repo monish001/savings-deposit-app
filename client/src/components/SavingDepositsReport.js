@@ -28,7 +28,7 @@ export default class SavingDepositsReport extends React.Component {
           <div>{`${savingDepositsReportState.error}`}</div>}
         {savingDepositsReportState.savingDepositsReport &&
           savingDepositsReportState.savingDepositsReport.rows &&
-          savingDepositsReportState.savingDepositsReport.rows.length == 0 &&
+          savingDepositsReportState.savingDepositsReport.rows.length === 0 &&
           !savingDepositsReportState.isFetching &&
           !savingDepositsReportState.error &&
           <div>No saving deposits active during given period</div>}
