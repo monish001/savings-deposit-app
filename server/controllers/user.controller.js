@@ -11,22 +11,34 @@ async function sendAccountCreationNotificationEmail(email, newPassword) {
     const {
         subject,
         text,
-        html
+        html,
+        skip,
     } = config.email.accountCreation;
-    const emailText = text.replace(/%NewPassword%/g, newPassword);
-    const emailHtml = html.replace(/%NewPassword%/g, newPassword);
-    const isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+    let isOk;
+    if (!skip) {
+        const emailText = text.replace(/%NewPassword%/g, newPassword);
+        const emailHtml = html.replace(/%NewPassword%/g, newPassword);
+        isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+    } else {
+        isOk = true;
+    }
     return isOk;
 }
 async function sendInviteEmail(email) {
     const {
         subject,
         text,
-        html
+        html,
+        skip,
     } = config.email.invite;
-    const emailText = text.replace(/%Domain%/g, config.domain);
-    const emailHtml = html.replace(/%Domain%/g, config.domain);
-    const isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+    let isOk;
+    if (!skip) {
+        const emailText = text.replace(/%Domain%/g, config.domain);
+        const emailHtml = html.replace(/%Domain%/g, config.domain);
+        isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+    } else {
+        isOk = true;
+    }
     return isOk;
 }
 const userController = {
@@ -117,11 +129,17 @@ const userController = {
         const {
             subject,
             text,
-            html
+            html,
+            skip,
         } = config.email.passwordReset;
-        const emailText = text.replace(/%NewPassword%/g, newPassword);
-        const emailHtml = html.replace(/%NewPassword%/g, newPassword);
-        const isOk = await emailHelper.sendEmail(user.email, subject, emailText, emailHtml);
+        let isOk;
+        if (!skip) {
+            const emailText = text.replace(/%NewPassword%/g, newPassword);
+            const emailHtml = html.replace(/%NewPassword%/g, newPassword);
+            isOk = await emailHelper.sendEmail(user.email, subject, emailText, emailHtml);
+        } else {
+            isOk = true;
+        }
         if (!isOk) {
             debug('resetPassword', 'isOk', isOk);
             next(new createError.BadRequest());

@@ -1,3 +1,4 @@
+import getErrorMessage from './common';
 const apiUrl = "/api/";
 /** login actions  */
 export const login = args => {
@@ -13,33 +14,15 @@ export const login = args => {
       body: JSON.stringify(args)
     })
     .then(response => {
-      // response from server
-      // here you can check status of response and handle it manually
-      // switch (response.status) {
-      //   case 500: console.error('Something went wrong. Please try again in a while.'); break;
-      //   case 401: console.error('Unauthorized'); break;
-      //   // ...
-      // }
-
-      // or you can check if status in the range 200 to 299
       if (response.ok) {
         response.json().then(data => {
           dispatch(loginRequestSuccess(data.profile, data.message));
         });
       } else {
-        // push error further for the next `catch`, like
         return Promise.reject(response);
       }
     }).catch(error => {
-      // https://github.com/github/fetch/issues/201
-      // here you will get only Fetch API errors and those you threw or rejected above
-      // in most cases Fetch API error will look like common Error object
-      // {
-      //   name: "TypeError",
-      //   message: "Failed to fetch",
-      //   stack: ...
-      // }
-      dispatch(loginRequestFailed(error.statusText));
+      getErrorMessage(error, errorMessage => dispatch(loginRequestFailed(errorMessage)));
   });;
   };
 };
@@ -85,13 +68,7 @@ export const register = args => {
         return Promise.reject(response);
       }
     }).catch(error => {
-      if(error.bodyUsed) {
-        dispatch(registerRequestFailed(error.statusText));
-      } else {
-        error.json().then(data => {
-          dispatch(registerRequestFailed(data.error));
-        });
-      }
+      getErrorMessage(error, errorMessage => dispatch(registerRequestFailed(errorMessage)));
     });
   };
 };
@@ -142,13 +119,7 @@ export const submitPicture = args => {
         return Promise.reject(response);
       }
     }).catch(error => {
-      if(error.bodyUsed) {
-        dispatch(submitPictureRequestFailed(error.statusText));
-      } else {
-        error.json().then(data => {
-          dispatch(submitPictureRequestFailed(data.error));
-        });
-      }
+      getErrorMessage(error, errorMessage => dispatch(submitPictureRequestFailed(errorMessage)));
     });
   };
 };
@@ -193,13 +164,7 @@ export const updatePassword = args => {
         return Promise.reject(response);
       }
     }).catch(error => {
-      if(error.bodyUsed) {
-        dispatch(updatePasswordRequestFailed(error.statusText));
-      } else {
-        error.json().then(data => {
-          dispatch(updatePasswordRequestFailed(data.error));
-        });
-      }
+      getErrorMessage(error, errorMessage => dispatch(updatePasswordRequestFailed(errorMessage)));
     });
   };
 };

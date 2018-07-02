@@ -55,10 +55,10 @@ export default class Login extends React.Component {
                 onSubmit={this.login}
               >
                 <FormGroup controlId="formHorizontalLoginEmail">
-                  <Col componentClass={ControlLabel} sm={2}>
+                  <Col componentClass={ControlLabel} sm={3}>
                     Email
                   </Col>
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <FormControl
                       name="email"
                       type="email"
@@ -68,10 +68,10 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 <FormGroup controlId="formHorizontalLoginPassword">
-                  <Col componentClass={ControlLabel} sm={2}>
+                  <Col componentClass={ControlLabel} sm={3}>
                     Password
                   </Col>
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <FormControl
                       name="password"
                       type="password"
@@ -81,7 +81,7 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                  <Col smOffset={2} sm={10}>
+                  <Col smOffset={3} sm={9}>
                     <Button type="submit" bsStyle="info" bsSize="small">
                       {`${profileState.isLoggingIn ? "Signing In..." : "Sign In"}`}
                     </Button>
@@ -95,7 +95,7 @@ export default class Login extends React.Component {
 
                 <FormGroup controlId="">
                   <Col componentClass={ControlLabel} sm={2} />
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <FormControl.Static>
                       OR
                     </FormControl.Static>
@@ -103,7 +103,7 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                  <Col smOffset={2} sm={10}>
+                  <Col smOffset={3} sm={9}>
                     <div class="g-signin2" data-onsuccess="onSignIn" />
                   </Col>
                 </FormGroup>
@@ -117,10 +117,10 @@ export default class Login extends React.Component {
                 onSubmit={this.register}
               >
                 <FormGroup controlId="formHorizontalSignupEmail">
-                  <Col componentClass={ControlLabel} sm={2}>
+                  <Col componentClass={ControlLabel} sm={3}>
                     Email
                   </Col>
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <FormControl
                       name="email"
                       type="email"
@@ -130,10 +130,10 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 <FormGroup controlId="formHorizontalSignupPassword">
-                  <Col componentClass={ControlLabel} sm={2}>
+                  <Col componentClass={ControlLabel} sm={3}>
                     Password
                   </Col>
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <FormControl
                       name="password"
                       type="password"
@@ -143,10 +143,10 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 <FormGroup controlId="formHorizontalSignupConfirmPassword">
-                  <Col componentClass={ControlLabel} sm={2}>
-                    Password
+                  <Col componentClass={ControlLabel} sm={3}>
+                    C-Password
                   </Col>
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <FormControl
                       name="cpassword"
                       type="password"
@@ -156,7 +156,7 @@ export default class Login extends React.Component {
                 </FormGroup>
 
                 <FormGroup>
-                  <Col smOffset={2} sm={10}>
+                  <Col smOffset={3} sm={9}>
                     <Button type="submit" bsStyle="info" bsSize="small">
                       {`${profileState.isSigningUp ? "Signing Up..." : "Sign Up"}`}
                     </Button>

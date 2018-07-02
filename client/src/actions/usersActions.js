@@ -1,3 +1,4 @@
+import getErrorMessage from './common';
 const apiUrl = "/api/users/";
 /** create user */
 export const addNewUser = user => {
@@ -23,13 +24,7 @@ export const addNewUser = user => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(addNewUserRequestFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(addNewUserRequestFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(addNewUserRequestFailed(errorMessage)));
       });
   };
 };
@@ -77,13 +72,7 @@ export const fetchUsers = () => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(fetchUsersFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(fetchUsersFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(fetchUsersFailed(errorMessage)));
       });
   };
 };
@@ -149,13 +138,7 @@ export const editUser = (newUser, oldUser) => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(editUserFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(editUserFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(editUserFailed(errorMessage)));
       });
   };
 };
@@ -201,13 +184,7 @@ export const deleteUser = user => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(deleteUserFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(deleteUserFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(deleteUserFailed(errorMessage)));
       });
   };
 };
@@ -271,13 +248,7 @@ export const submitPicture = args => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(submitPictureRequestFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(submitPictureRequestFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(submitPictureRequestFailed(errorMessage)));
       });
   };
 };
@@ -321,13 +292,7 @@ export const resetPassword = user => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(resetPasswordFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(resetPasswordFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(resetPasswordFailed(errorMessage)));
       });
   };
 };
@@ -384,13 +349,7 @@ export const unblockUser = user => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(unblockUserFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(unblockUserFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(unblockUserFailed(errorMessage)));
       });
   };
 };
@@ -447,13 +406,7 @@ export const inviteUser = email => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(inviteUserFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(inviteUserFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(inviteUserFailed(errorMessage)));
       });
   };
 };

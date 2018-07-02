@@ -35,13 +35,19 @@ const loginController = {
             const {
                 subject,
                 text,
-                html
+                html,
+                skip,
             } = config.email.verify;
+            let isOk;
             const emailVerificationCode = (uuidv4() + uuidv4());
             const emailLink = `${config.domain}/api/email-verification/${emailVerificationCode}`;
             const emailText = text.replace(/%EmailLink%/g, emailLink);
             const emailHtml = html.replace(/%EmailLink%/g, emailLink);
-            const isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);
+            if(!skip) {
+                isOk = await emailHelper.sendEmail(email, subject, emailText, emailHtml);    
+            } else {
+                isOk = true;
+            }
             if (isOk) {
                 const user = await userModel.create({
                     email,

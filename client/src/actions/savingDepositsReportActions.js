@@ -1,3 +1,4 @@
+import getErrorMessage from './common';
 const apiUrl = "/api/users/self/saving-deposits/report/";
 
 //Async action
@@ -35,14 +36,8 @@ export const fetchSavingDepositsReport = (filters = {}) => {
       }
     })
     .catch(error => {
-      if (error.bodyUsed) {
-        dispatch(fetchSavingDepositsReportFailed(error.statusText));
-      } else {
-        error.json().then(data => {
-          dispatch(fetchSavingDepositsReportFailed(data.error));
-        });
-      }
-  });
+      getErrorMessage(error, errorMessage => dispatch(fetchSavingDepositsReportFailed(errorMessage)));
+    });
   };
 };
 export const fetchSavingDepositsReportRequest = filters => {

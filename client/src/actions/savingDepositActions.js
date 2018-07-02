@@ -1,3 +1,4 @@
+import getErrorMessage from './common';
 function getApiUrl(isAdmin) {
   return isAdmin ? "/api/saving-deposits" : "/api/users/self/saving-deposits";
 }
@@ -29,13 +30,7 @@ export const addNewSavingDeposit = (savingDeposit, isAdmin = false) => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(addNewSavingDepositRequestFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(addNewSavingDepositRequestFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(addNewSavingDepositRequestFailed(errorMessage)));
       });
   };
 };
@@ -93,13 +88,7 @@ export const fetchSavingDeposits = (filters = {}, isAdmin) => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(fetchSavingDepositsFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(fetchSavingDepositsFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(fetchSavingDepositsFailed(errorMessage)));
       });
   };
 };
@@ -149,13 +138,7 @@ export const fetchSavingDepositById = (savingDepositId, isAdmin = false) => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(fetchSavingDepositFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(fetchSavingDepositFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(fetchSavingDepositFailed(errorMessage)));
       });
   };
 };
@@ -216,13 +199,7 @@ export const editSavingDeposit = (savingDeposit, isAdmin = false) => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(editSavingDepositFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(editSavingDepositFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(editSavingDepositFailed(errorMessage)));
       });
   };
 };
@@ -268,13 +245,7 @@ export const deleteSavingDeposit = (savingDeposit, isAdmin = false) => {
         }
       })
       .catch(error => {
-        if (error.bodyUsed) {
-          dispatch(deleteSavingDepositFailed(error.statusText));
-        } else {
-          error.json().then(data => {
-            dispatch(deleteSavingDepositFailed(data.error));
-          });
-        }
+        getErrorMessage(error, errorMessage => dispatch(deleteSavingDepositFailed(errorMessage)));
       });
   };
 };

@@ -114,7 +114,7 @@ function authenticate(req, res, next) {
         //     res.redirect(constants.basePath + "login");
     } else {
         res.status(401).json({
-            error: "Not Authorized"
+            error: "Unauthorized"
         });
     }
 }
