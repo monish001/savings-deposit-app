@@ -9,10 +9,19 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    const profileState = this.props.mappedProfileState;
+  componentWillMount() {
+    this.checkLandingPage(this.props);
+  }
+  
+  componentWillUpdate(nextProps, nextState) {
+  }
+  componentWillReceiveProps(nextProps) {
+    this.checkLandingPage(nextProps);
+  }
+  checkLandingPage(props) {
+    const profileState = props.mappedProfileState;
     const isLoggedIn = profileState.profile && profileState.profile.email;
-    const isRootRoute = this.props.location.pathname === "/";
+    const isRootRoute = props.location.pathname === "/";
 
     if (isLoggedIn && isRootRoute) {
       const role = profileState.profile && profileState.profile.role;
@@ -55,7 +64,12 @@ export default class App extends React.Component {
         <Navbar inverse collapseOnSelect className="customNav">
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/">Saving Deposits App</a>
+              <LinkContainer
+                to={{ pathname: "/", query: {} }}
+                onClick={() => {}}
+              >
+                <div>Saving Deposits App</div>
+              </LinkContainer>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -84,11 +98,15 @@ export default class App extends React.Component {
                     {profileState &&
                       profileState.profile &&
                       profileState.profile.photo &&
-                      <Image style={{"height": "14px"}} src={`${profileState.profile.photo}`} rounded />}
+                      <Image
+                        style={{ height: "14px" }}
+                        src={`${profileState.profile.photo}`}
+                        rounded
+                      />}
                     {!(profileState &&
                       profileState.profile &&
                       profileState.profile.photo) && <Glyphicon glyph="user" />}
-                      {" "}Profile
+                    {" "}Profile
                   </NavItem>
                 </LinkContainer>}
             </Nav>

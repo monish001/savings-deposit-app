@@ -18,6 +18,13 @@ export default class Login extends React.Component {
     this.register = this.register.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const profileState = nextProps.mappedProfileState;
+    if(profileState.profile && profileState.profile.role) {
+      browserHistory.replace('/');
+    }        
+  }
+
   login(e) {
     e.preventDefault();
     const form = document.getElementById("logInForm");
@@ -36,9 +43,6 @@ export default class Login extends React.Component {
 
   render() {
     const profileState = this.props.mappedProfileState;
-    if(profileState.loginSuccessMsg) {
-      browserHistory.replace('/');
-    }
     return (
       <div>
         <Grid>

@@ -3,7 +3,7 @@ import { Image, Panel, Alert, Glyphicon, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router";
 import UserEditForm from "./UserEditForm";
 import UsersConfirmationModal from "./UsersConfirmationModal";
-import UsersInviteModal from './UsersInviteModal';
+import UsersInviteModal from "./UsersInviteModal";
 
 export default class Users extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ export default class Users extends React.Component {
     this.hideInviteUserModal = this.hideInviteUserModal.bind(this);
     this.showInviteUserModal = this.showInviteUserModal.bind(this);
     this.inviteUser = this.inviteUser.bind(this);
-}
+  }
   componentWillMount() {
     this.props.mappedFetchUsers(); //comment to mock
   }
@@ -133,7 +133,11 @@ export default class Users extends React.Component {
             </div><p />
             {showInvite &&
               <div>
-                <Button onClick={this.showInviteUserModal} bsStyle="info" bsSize="small">
+                <Button
+                  onClick={this.showInviteUserModal}
+                  bsStyle="info"
+                  bsSize="small"
+                >
                   <Glyphicon glyph="envelope" /> Invite user
                 </Button>
               </div>}
@@ -214,16 +218,16 @@ export default class Users extends React.Component {
                       <Glyphicon glyph="refresh" />
                     </Button>
                   </td>
-                  {user.retryCount == 3 &&
-                    <td>
-                      {" "}<Button
+                  <td>
+                    {user.retryCount == 3 &&
+                      <Button
                         onClick={() => this.showUnblockUserModal(user)}
                         bsStyle="info"
                         bsSize="small"
                       >
                         Unblock
-                      </Button>
-                    </td>}
+                      </Button>}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -316,7 +320,7 @@ export default class Users extends React.Component {
         />
 
         {/*Invite user*/}
-        <UsersInviteModal 
+        <UsersInviteModal
           show={usersState.showInviteUserModal}
           onHide={this.hideInviteUserModal}
           hideUserModal={this.hideInviteUserModal}
