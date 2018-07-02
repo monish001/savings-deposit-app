@@ -31,11 +31,18 @@ export const fetchSavingDepositsReport = (filters = {}) => {
           );
         });
       } else {
-        response.json().then(error => {
-          dispatch(fetchSavingDepositsReportFailed(error));
+        return Promise.reject(response);
+      }
+    })
+    .catch(error => {
+      if (error.bodyUsed) {
+        dispatch(fetchSavingDepositsReportFailed(error.statusText));
+      } else {
+        error.json().then(data => {
+          dispatch(fetchSavingDepositsReportFailed(data.error));
         });
       }
-    });
+  });
   };
 };
 export const fetchSavingDepositsReportRequest = filters => {

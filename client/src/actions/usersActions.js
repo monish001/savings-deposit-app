@@ -12,17 +12,25 @@ export const addNewUser = user => {
       },
       credentials: "same-origin",
       body: JSON.stringify(user)
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(addNewUserRequestSuccess(data.user, data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(addNewUserRequestFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(addNewUserRequestSuccess(data.user, data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(addNewUserRequestFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(addNewUserRequestFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const addNewUserRequest = user => {
@@ -58,17 +66,25 @@ export const fetchUsers = () => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       }
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(fetchUsersSuccess(data.users, data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(fetchUsersFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(fetchUsersSuccess(data.users, data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(fetchUsersFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(fetchUsersFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const fetchUsersRequest = () => {
@@ -122,17 +138,25 @@ export const editUser = (newUser, oldUser) => {
       },
       credentials: "same-origin",
       body: JSON.stringify(newUser)
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(editUserSuccess(data.user, data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(editUserFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(editUserSuccess(data.user, data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(editUserFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(editUserFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const editUserRequest = user => {
@@ -166,17 +190,25 @@ export const deleteUser = user => {
         "Content-Type": "application/json"
       },
       method: "delete"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(deleteUserSuccess(data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(deleteUserFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(deleteUserSuccess(data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(deleteUserFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(deleteUserFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const deleteUserRequest = user => {
@@ -228,17 +260,25 @@ export const submitPicture = args => {
       },
       credentials: "same-origin",
       body: JSON.stringify(args)
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(submitPictureRequestSuccess(data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(submitPictureRequestFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(submitPictureRequestSuccess(data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(submitPictureRequestFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(submitPictureRequestFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const submitPictureRequest = () => {
@@ -270,17 +310,25 @@ export const resetPassword = user => {
         "Content-Type": "application/json"
       },
       method: "put"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(resetPasswordSuccess(data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(resetPasswordFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(resetPasswordSuccess(data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(resetPasswordFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(resetPasswordFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const resetPasswordRequest = user => {
@@ -325,17 +373,25 @@ export const unblockUser = user => {
         "Content-Type": "application/json"
       },
       method: "put"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(unblockUserSuccess(data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(unblockUserFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(unblockUserSuccess(data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(unblockUserFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(unblockUserFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const unblockUserRequest = user => {
@@ -380,17 +436,25 @@ export const inviteUser = email => {
       },
       credentials: "same-origin",
       body: JSON.stringify({ email })
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(inviteUserSuccess(data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(inviteUserFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(inviteUserSuccess(data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(inviteUserFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(inviteUserFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const inviteUserRequest = () => {

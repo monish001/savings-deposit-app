@@ -13,19 +13,30 @@ export const addNewSavingDeposit = (savingDeposit, isAdmin = false) => {
       },
       credentials: "same-origin",
       body: JSON.stringify(savingDeposit)
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(
-            addNewSavingDepositRequestSuccess(data.savingDeposit, data.message)
-          );
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(addNewSavingDepositRequestFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(
+              addNewSavingDepositRequestSuccess(
+                data.savingDeposit,
+                data.message
+              )
+            );
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(addNewSavingDepositRequestFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(addNewSavingDepositRequestFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const addNewSavingDepositRequest = savingDeposit => {
@@ -69,19 +80,27 @@ export const fetchSavingDeposits = (filters = {}, isAdmin) => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       }
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(
-            fetchSavingDepositsSuccess(data.savingDeposits, data.message)
-          );
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(fetchSavingDepositsFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(
+              fetchSavingDepositsSuccess(data.savingDeposits, data.message)
+            );
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(fetchSavingDepositsFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(fetchSavingDepositsFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const fetchSavingDepositsRequest = filters => {
@@ -117,19 +136,27 @@ export const fetchSavingDepositById = (savingDepositId, isAdmin = false) => {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       }
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(
-            fetchSavingDepositSuccess(data.savingDeposit, data.message)
-          );
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(fetchSavingDepositFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(
+              fetchSavingDepositSuccess(data.savingDeposit, data.message)
+            );
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(fetchSavingDepositFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(fetchSavingDepositFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const fetchSavingDepositRequest = () => {
@@ -176,17 +203,27 @@ export const editSavingDeposit = (savingDeposit, isAdmin = false) => {
       },
       credentials: "same-origin",
       body: JSON.stringify(savingDeposit)
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(editSavingDepositSuccess(data.savingDeposit, data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(editSavingDepositFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(
+              editSavingDepositSuccess(data.savingDeposit, data.message)
+            );
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(editSavingDepositFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(editSavingDepositFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const editSavingDepositRequest = savingDeposit => {
@@ -220,17 +257,25 @@ export const deleteSavingDeposit = (savingDeposit, isAdmin = false) => {
         "Content-Type": "application/json"
       },
       method: "delete"
-    }).then(response => {
-      if (response.ok) {
-        response.json().then(data => {
-          dispatch(deleteSavingDepositSuccess(data.message));
-        });
-      } else {
-        response.json().then(error => {
-          dispatch(deleteSavingDepositFailed(error));
-        });
-      }
-    });
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(data => {
+            dispatch(deleteSavingDepositSuccess(data.message));
+          });
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .catch(error => {
+        if (error.bodyUsed) {
+          dispatch(deleteSavingDepositFailed(error.statusText));
+        } else {
+          error.json().then(data => {
+            dispatch(deleteSavingDepositFailed(data.error));
+          });
+        }
+      });
   };
 };
 export const deleteSavingDepositRequest = savingDeposit => {
