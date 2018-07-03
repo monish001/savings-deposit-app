@@ -114,8 +114,30 @@ const loginController = {
             message: 'Logout is successful.'
         });
     },
-    googleCallback: (req, res, next) => {
-        next(new createError.NotImplemented());
+    onGoogleSignIn: async (googleProfile) => {
+        debug('onGoogleSignIn', 'googleProfile', googleProfile);
+        const {googleId, email, email_verified, photo} = googleProfile;
+        if(!email_verified) {
+            throw new createError.BadRequest('Please visit again after your email is verified with google!');
+        }
+        const user = await userModel.findOne({email})
+        debug('onGoogleSignIn', 'user', user);
+        if(user && user.email) {
+            // user email exists
+            const {_id} = user;
+            if(user.googleId == googleId && user.photo == photo && user.isEmailVerified) {
+                return user;
+            }
+            const affectedCount = await userModel.update({googleId, photo, isEmailVerified: true}, {_id});
+            debug('onGoogleSignIn', 'affectedCount', affectedCount);
+            const newUser = await userModel.findOne({_id});
+            debug('onGoogleSignIn', 'newUser', newUser);
+            return newUser;
+        }else{
+            const createdUser = await userModel.create({googleId, photo, email, isEmailVerified: true});
+            debug('onGoogleSignIn', 'createdUser', createdUser);
+            return createdUser;
+        }
     },
     facebookCallback: (req, res, next) => {
         next(new createError.NotImplemented());

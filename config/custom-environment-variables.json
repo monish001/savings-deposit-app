@@ -1,14 +1,23 @@
 {
+    "domain": "DMN",
     "authentication": {
         "google": {
-            "secret": "GOOGLE_SECRET"
+            "clientId": "GG_ID",
+            "secret": "GG_S"
+        },
+        "facebook": {
+            "clientId": "FB_ID",
+            "secret": "FB_S"
         }
     },
     "session": {
-        "secret": "SESSION_SECRET"
+        "secret": "SS_S"
     },
     "api": {
-        "salt": "ENCRYPTION_SALT",
-        "emailPassword": "EMAIL_PASSWORD"
+        "salt": "SALT",
+        "emailPassword": "EMAIL_PW"
+    },
+    "db": {
+        "password": "DB_PW"
     }
 }

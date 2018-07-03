@@ -6,7 +6,7 @@ const operatorsAliases = {
   $gte: Sequelize.Op.gte,
   $lte: Sequelize.Op.lte,
 }
-const sequelize = new Sequelize(db.name, db.username, db.password, {
+const connectionParams = {
   host: db.host,
   port: db.port,
   dialect: 'mysql',
@@ -38,7 +38,11 @@ const sequelize = new Sequelize(db.name, db.username, db.password, {
     // isolation level of each transaction
     // defaults to dialect default
     // isolationLevel: Transaction.ISOLATION_LEVELS.REPEATABLE_READ  
-});
+};
+debug('db.name, db.username, db.password', db.name, db.username, db.password);
+debug('connectionParams', connectionParams);
+
+const sequelize = new Sequelize(db.name, db.username, db.password, connectionParams);
 
 sequelize
   .authenticate()

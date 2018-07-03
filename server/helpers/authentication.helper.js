@@ -1,9 +1,12 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const debug = require("debug")("sd:helpers:authentication.index");
-var createError = require('http-errors');
+const createError = require('http-errors');
+const config = require('config');
+var loginController = require('../controllers/login.controller');
 
 // Configure the local strategy for use by Passport.
 //
@@ -74,6 +77,22 @@ passport.use(
         }
     )
 );
+
+// passport.use(new FacebookStrategy({
+//         clientID: config.authentication.facebook.clientId,
+//         clientSecret: config.authentication.facebook.secret,
+//         callbackURL: "http://localhost:3000/login/facebook/callback",
+//         profileFields: ['id', 'photos', 'email']
+//     },
+//     function (accessToken, refreshToken, profile, cb) {
+//         debug('profile', profile);
+//         // @todo
+//         // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+//         //   return cb(err, user);
+//         // });
+//     }
+// ));
+
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
@@ -83,7 +102,11 @@ passport.use(
 // deserializing.
 passport.serializeUser(function (user, cb) {
     debug("serializeUser", user);
-    const {_id, email, role} = user;
+    const {
+        _id,
+        email,
+        role
+    } = user;
     cb(
         null,
         JSON.stringify({
@@ -120,7 +143,60 @@ function authenticate(req, res, next) {
         });
     }
 }
+
+function google(req, res, next) {
+    const token = req.body.id_token;
+    const {
+        OAuth2Client
+    } = require('google-auth-library');
+    const client = new OAuth2Client(config.authentication.google.clientId);
+    async function verify() {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: config.authentication.google.clientId,
+        });
+        const payload = ticket.getPayload();
+        debug('payload', payload);
+        const {
+            sub,
+            email,
+            email_verified,
+            picture
+        } = payload;
+
+        loginController.onGoogleSignIn({
+            googleId: sub,
+            email,
+            email_verified,
+            photo: picture
+        }).then(user => {
+            req.login(user, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                const {
+                    email,
+                    role,
+                    photo
+                } = user;
+                return res.json({
+                    ok: true,
+                    profile: {
+                        email,
+                        role,
+                        photo
+                    },
+                    message: 'Successfully logged in.'
+                });
+            });
+        }).catch(error => {
+            next(new createError.BadRequest(error));
+        });
+    }
+    verify().catch(next);
+}
 module.exports = {
     passport,
-    authenticate
+    authenticate,
+    google,
 };

@@ -13,6 +13,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     //you can now say this.props.mappedAppActions
+    mappedGoogleLogin: args => dispatch(profileActions.googleLogin(args)),
     mappedRegister: args => dispatch(profileActions.register(args)),
     mappedLogin: args => dispatch(profileActions.login(args))
   };

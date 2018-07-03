@@ -22,11 +22,12 @@ async function findOne(where) {
     }).map(el => el.get({
         plain: true
     }));
+    debug('findOne', 'user', user);
     let result;
     if (user.length === 1) {
         result = user[0];
     }
-    debug('findOne', result);
+    debug('findOne', 'result', result);
     return result;
 }
 
@@ -38,6 +39,8 @@ async function create(args) {
         emailVerificationCode,
         isEmailVerified,
         role,
+        googleId,
+        photo
     } = args;
     let user;
     try {
@@ -47,6 +50,8 @@ async function create(args) {
             emailVerificationCode,
             isEmailVerified,
             role,
+            googleId,
+            photo
         }));
     } catch (error) {
         debug('create', 'error', JSON.stringify(error));

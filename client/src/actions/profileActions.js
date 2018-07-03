@@ -185,3 +185,30 @@ export const updatePasswordRequestFailed = error => {
     error
   };
 };
+
+/* google login */
+export const googleLogin = args => {
+  return dispatch => {
+    dispatch(loginRequest(args));
+    return fetch(apiUrl + "login/google", {
+      method: "post",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(args),
+    })
+    .then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          dispatch(loginRequestSuccess(data.profile, data.message));
+        });
+      } else {
+        return Promise.reject(response);
+      }
+    }).catch(error => {
+      getErrorMessage(error, errorMessage => dispatch(loginRequestFailed(errorMessage)));
+  });
+  };
+};

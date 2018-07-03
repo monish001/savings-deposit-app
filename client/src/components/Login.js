@@ -16,13 +16,87 @@ export default class Login extends React.Component {
     super(props);
     this.login = this.login.bind(this);
     this.register = this.register.bind(this);
+    this.onGoogleSuccess = this.onGoogleSuccess.bind(this);
+    this.onGoogleFailure = this.onGoogleFailure.bind(this);
+    // this.onFacebookSuccess = this.onFacebookSuccess.bind(this);
+    // this.initFacebookLogin = this.initFacebookLogin.bind(this);
+    this.initGoogleLogin = this.initGoogleLogin.bind(this);
+  }
+
+  componentDidMount() {
+    // this.initFacebookLogin();
+    this.initGoogleLogin();
   }
 
   componentWillReceiveProps(nextProps) {
     const profileState = nextProps.mappedProfileState;
-    if(profileState.profile && profileState.profile.role) {
-      browserHistory.replace('/');
-    }        
+    if (profileState.profile && profileState.profile.role) {
+      browserHistory.replace("/");
+    }
+  }
+
+  initGoogleLogin() {
+    window.gapi.signin2.render("google-signin2", {
+      scope: "email profile openid",
+      width: 240,
+      height: 50,
+      longtitle: true,
+      theme: "dark",
+      onsuccess: this.onGoogleSuccess,
+      onfailure: this.onGoogleFailure
+    });
+  }
+
+  initFacebookLogin() {
+
+    window.fbAsyncInit = function() {
+      window.FB.init({
+        appId            : '2152071231731773',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v3.0'
+      });
+
+      window.FB.Event.subscribe('auth.statusChange', response => {
+        if (response.authResponse) {
+          console.log(response);
+          alert('fb login success!');
+          // this.login
+        } else {
+          // this.logout
+        }
+      });
+    }.bind(this);
+
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
+  onFacebookSuccess(args) {
+    console.log('args', args);
+    window.FB.getLoginStatus(function(response) {
+      console.log('response', response);
+    });    
+  }
+
+  onGoogleSuccess(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    this.props.mappedGoogleLogin({ id_token });
+  }
+  onGoogleFailure(error) {
+    console.error("onGoogleFailure", "error", error);
   }
 
   login(e) {
@@ -104,9 +178,33 @@ export default class Login extends React.Component {
 
                 <FormGroup>
                   <Col smOffset={3} sm={9}>
-                    <div className="g-signin2" data-onsuccess="onSignIn" />
+                    <div id="google-signin2" data-onsuccess="onSignIn" />
                   </Col>
                 </FormGroup>
+
+                {/*<FormGroup controlId="">
+                  <Col componentClass={ControlLabel} sm={2} />
+                  <Col sm={9}>
+                    <FormControl.Static>
+                      OR
+                    </FormControl.Static>
+                  </Col>
+                </FormGroup>
+
+                <FormGroup>
+                  <Col smOffset={3} sm={9}>
+                    <div
+                      className="fb-login-button"
+                      data-max-rows="1"
+                      data-size="large"
+                      data-button-type="continue_with"
+                      data-show-faces="false"
+                      data-auto-logout-link="false"
+                      data-onlogin={this.onFacebookSuccess}
+                      data-use-continue-as="false"
+                    />
+                  </Col>
+                </FormGroup>*/}
               </form>
             </Col>
             <Col xs={12} md={6}>

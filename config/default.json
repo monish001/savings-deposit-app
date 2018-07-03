@@ -1,7 +1,20 @@
 {
-    "domain": "http://localhost:3001",
+    "domain": "",
     "authentication": {
         "google": {
+            "clientId": "",
+            "secret": ""
+        },
+        "facebook": {
+            "clientId": "",
+            "secret": ""
+        },
+        "twitter": {
+            "clientId": "",
+            "secret": ""
+        },
+        "github": {
+            "clientId": "",
             "secret": ""
         }
     },
