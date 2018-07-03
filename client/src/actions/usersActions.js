@@ -56,6 +56,7 @@ export const fetchUsers = () => {
     dispatch(fetchUsersRequest());
     // Returns a promise
     return fetch(apiUrl, {
+      method: "get",
       credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",

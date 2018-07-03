@@ -36,15 +36,19 @@ export default class Login extends React.Component {
   }
 
   initGoogleLogin() {
-    window.gapi.signin2.render("google-signin2", {
-      scope: "email profile openid",
-      width: 240,
-      height: 50,
-      longtitle: true,
-      theme: "dark",
-      onsuccess: this.onGoogleSuccess,
-      onfailure: this.onGoogleFailure
-    });
+    if(window.gapi) {
+      window.gapi.signin2.render("google-signin2", {
+        scope: "email profile openid",
+        width: 240,
+        height: 50,
+        longtitle: true,
+        theme: "dark",
+        onsuccess: this.onGoogleSuccess,
+        onfailure: this.onGoogleFailure
+      });  
+    } else {
+      requestAnimationFrame(this.initGoogleLogin);
+    }
   }
 
   initFacebookLogin() {
@@ -156,16 +160,11 @@ export default class Login extends React.Component {
 
                 <FormGroup>
                   <Col smOffset={3} sm={9}>
-                    <Button type="submit" bsStyle="info" bsSize="small">
+                    <Button type="submit" id="formHorizontalLoginSubmit" bsStyle="info" bsSize="small">
                       {`${profileState.isLoggingIn ? "Signing In..." : "Sign In"}`}
                     </Button>
                   </Col>
                 </FormGroup>
-
-                {profileState.loginError &&
-                  <Alert bsStyle="danger">
-                    <strong>Failed. {profileState.loginError} </strong>
-                  </Alert>}
 
                 <FormGroup controlId="">
                   <Col componentClass={ControlLabel} sm={2} />
@@ -205,6 +204,12 @@ export default class Login extends React.Component {
                     />
                   </Col>
                 </FormGroup>*/}
+
+                {profileState.loginError &&
+                  <Alert bsStyle="danger">
+                    <strong>Failed. {profileState.loginError} </strong>
+                  </Alert>}
+
               </form>
             </Col>
             <Col xs={12} md={6}>

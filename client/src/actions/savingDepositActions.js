@@ -1,4 +1,4 @@
-import getErrorMessage from './common';
+import getErrorMessage from "./common";
 function getApiUrl(isAdmin) {
   return isAdmin ? "/api/saving-deposits" : "/api/users/self/saving-deposits";
 }
@@ -30,7 +30,9 @@ export const addNewSavingDeposit = (savingDeposit, isAdmin = false) => {
         }
       })
       .catch(error => {
-        getErrorMessage(error, errorMessage => dispatch(addNewSavingDepositRequestFailed(errorMessage)));
+        getErrorMessage(error, errorMessage =>
+          dispatch(addNewSavingDepositRequestFailed(errorMessage))
+        );
       });
   };
 };
@@ -54,22 +56,27 @@ export const addNewSavingDepositRequestFailed = error => {
   };
 };
 
+function appendObjectAsQueryString(url, obj) {
+  const queryParams =
+    obj &&
+    Object.keys(obj)
+      .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(obj[k]))
+      .join("&");
+  const _url = url + (url.indexOf("?") === -1 ? "?" : "&") + queryParams;
+  return _url;
+}
+
 //Async action
 export const fetchSavingDeposits = (filters = {}, isAdmin) => {
   // Returns a dispatcher function
   // that dispatches an action at later time
   const apiUrl = getApiUrl(isAdmin);
-  const queryParams =
-    filters &&
-    Object.keys(filters)
-      .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(filters[k]))
-      .join("&");
-  const _apiUrl =
-    apiUrl + (apiUrl.indexOf("?") === -1 ? "?" : "&") + queryParams;
+  const _apiUrl = appendObjectAsQueryString(apiUrl, filters);
   return dispatch => {
     dispatch(fetchSavingDepositsRequest(filters));
     // Returns a promise
     return fetch(_apiUrl, {
+      method: "get",
       credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -88,7 +95,9 @@ export const fetchSavingDeposits = (filters = {}, isAdmin) => {
         }
       })
       .catch(error => {
-        getErrorMessage(error, errorMessage => dispatch(fetchSavingDepositsFailed(errorMessage)));
+        getErrorMessage(error, errorMessage =>
+          dispatch(fetchSavingDepositsFailed(errorMessage))
+        );
       });
   };
 };
@@ -120,6 +129,7 @@ export const fetchSavingDepositById = (savingDepositId, isAdmin = false) => {
     // Returns a promise
     const apiUrl = getApiUrl(isAdmin);
     return fetch(apiUrl + "/" + savingDepositId, {
+      method: "get",
       credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -138,7 +148,9 @@ export const fetchSavingDepositById = (savingDepositId, isAdmin = false) => {
         }
       })
       .catch(error => {
-        getErrorMessage(error, errorMessage => dispatch(fetchSavingDepositFailed(errorMessage)));
+        getErrorMessage(error, errorMessage =>
+          dispatch(fetchSavingDepositFailed(errorMessage))
+        );
       });
   };
 };
@@ -199,7 +211,9 @@ export const editSavingDeposit = (savingDeposit, isAdmin = false) => {
         }
       })
       .catch(error => {
-        getErrorMessage(error, errorMessage => dispatch(editSavingDepositFailed(errorMessage)));
+        getErrorMessage(error, errorMessage =>
+          dispatch(editSavingDepositFailed(errorMessage))
+        );
       });
   };
 };
@@ -245,7 +259,9 @@ export const deleteSavingDeposit = (savingDeposit, isAdmin = false) => {
         }
       })
       .catch(error => {
-        getErrorMessage(error, errorMessage => dispatch(deleteSavingDepositFailed(errorMessage)));
+        getErrorMessage(error, errorMessage =>
+          dispatch(deleteSavingDepositFailed(errorMessage))
+        );
       });
   };
 };

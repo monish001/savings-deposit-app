@@ -46,6 +46,13 @@ app.use('/api', savingDepositRoutes);
 var userRoutes = require('./routes/user.routes');
 app.use('/api', userRoutes);
 
+// ^((?!api).)* is taken from https://stackoverflow.com/a/406408/989139. Thanks!
+// Serve UI on all paths other than /api/
+app.get('^((?!api/)[\\w\\W])*', (req, res) => {
+  debug('Serving static html');
+	res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(new createError.NotFound());

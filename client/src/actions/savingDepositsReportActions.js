@@ -16,6 +16,7 @@ export const fetchSavingDepositsReport = (filters = {}) => {
     dispatch(fetchSavingDepositsReportRequest(filters));
     // Returns a promise
     return fetch(_apiUrl, {
+      method: "get",
       credentials: "same-origin",
       headers: {
         Accept: "application/json, text/plain, */*",

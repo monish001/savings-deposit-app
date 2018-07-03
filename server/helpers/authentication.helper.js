@@ -177,14 +177,16 @@ function google(req, res, next) {
                 const {
                     email,
                     role,
-                    photo
+                    photo,
+                    googleId,
                 } = user;
                 return res.json({
                     ok: true,
                     profile: {
                         email,
                         role,
-                        photo
+                        photo,
+                        googleId,
                     },
                     message: 'Successfully logged in.'
                 });
