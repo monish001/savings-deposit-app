@@ -1,8 +1,8 @@
 export default function getErrorMessage(error, callback) {
   console.error(error);
   if (error.bodyUsed) {
-    callback(error.statusText);
-  } else {
+    callback(error.message || error.statusText);
+  } else if(error.json) {
     error
       .json()
       .then(data => {
@@ -15,7 +15,9 @@ export default function getErrorMessage(error, callback) {
         callback(errorMessage);
       })
       .catch(error2 => {
-        callback(error.statusText);
+        callback(error.message || error.statusText);
       });
+  } else {
+    callback(error.message || error.statusText)
   }
 }

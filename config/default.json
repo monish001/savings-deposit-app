@@ -42,25 +42,25 @@
     },
     "email": {
         "verify": {
-            "skip": true,
+            "skip": false,
             "subject": "Email verification! Welcome to saving deposits app!",
             "text": "Hello there,\r\n\r\n Thanks for registering on the Saving deposits app. Please open below email verification link to start using the application.\r\n%EmailLink%\r\n\r\nCheers\r\nSaving deposits app team",
             "html": "Hello there,<br/><br/> Thanks for registering on the Saving deposits app. Please open below email verification link to start using the application.<br/><a href=\"%EmailLink%\">%EmailLink%</a><br/><br/>Cheers<br/>Saving deposits app team"
         },
         "passwordReset": {
-            "skip": true,
+            "skip": false,
             "subject": "Password reset notification for the saving deposits app!",
             "text": "Hello there,\r\n\r\n Your password has been reset. Please login with below new password.\r\n%NewPassword%\r\n\r\nCheers\r\nSaving deposits app team",
             "html": "Hello there,<br/><br/> Your password has been reset. Please login with below new password.<br/>%NewPassword%<br/><br/>Cheers<br/>Saving deposits app team"
         },
         "accountCreation": {
-            "skip": true,
+            "skip": false,
             "subject": "Welcome to saving deposits app!",
             "text": "Hello there,\r\n\r\n Your account has been created. Please login with below new password.\r\n%NewPassword%\r\n\r\nCheers\r\nSaving deposits app team",
             "html": "Hello there,<br/><br/> Your account has been created. Please login with below new password.<br/>%NewPassword%<br/><br/>Cheers<br/>Saving deposits app team"
         },
         "invite": {
-            "skip": true,
+            "skip": false,
             "subject": "Greetings from the team of saving deposits app!",
             "text": "Hello there,\r\n\r\n Please register yourself via below link.\r\n%Domain%\r\n\r\nCheers\r\nSaving deposits app team",
             "html": "Hello there,<br/><br/> Please register yourself via below link.<br/>%Domain%<br/><br/>Cheers<br/>Saving deposits app team"
