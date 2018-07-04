@@ -186,11 +186,11 @@ export const updatePasswordRequestFailed = error => {
   };
 };
 
-/* google login */
-export const googleLogin = args => {
+/* social login */
+export const socialLogin = args => {
   return dispatch => {
     dispatch(loginRequest(args));
-    return fetch(apiUrl + "login/google", {
+    return fetch(apiUrl + "login/" + args.socialProvider, {
       method: "post",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -212,3 +212,4 @@ export const googleLogin = args => {
   });
   };
 };
+

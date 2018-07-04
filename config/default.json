@@ -8,14 +8,6 @@
         "facebook": {
             "clientId": "",
             "secret": ""
-        },
-        "twitter": {
-            "clientId": "",
-            "secret": ""
-        },
-        "github": {
-            "clientId": "",
-            "secret": ""
         }
     },
     "session": {

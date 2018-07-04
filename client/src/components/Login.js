@@ -18,13 +18,12 @@ export default class Login extends React.Component {
     this.register = this.register.bind(this);
     this.onGoogleSuccess = this.onGoogleSuccess.bind(this);
     this.onGoogleFailure = this.onGoogleFailure.bind(this);
-    // this.onFacebookSuccess = this.onFacebookSuccess.bind(this);
-    // this.initFacebookLogin = this.initFacebookLogin.bind(this);
+    this.initFacebookLogin = this.initFacebookLogin.bind(this);
     this.initGoogleLogin = this.initGoogleLogin.bind(this);
   }
 
   componentDidMount() {
-    // this.initFacebookLogin();
+    this.initFacebookLogin();
     this.initGoogleLogin();
   }
 
@@ -62,12 +61,11 @@ export default class Login extends React.Component {
       });
 
       window.FB.Event.subscribe('auth.statusChange', response => {
-        if (response.authResponse) {
-          console.log(response);
-          alert('fb login success!');
-          // this.login
+        if (response.status === 'connected' && response.authResponse && response.authResponse.accessToken) {
+          this.props.mappedSocialLogin({id_token: response.authResponse.accessToken, socialProvider: 'facebook'});
         } else {
           // this.logout
+          console.error("onFacebookFailure", "error", response);
         }
       });
     }.bind(this);
@@ -82,22 +80,9 @@ export default class Login extends React.Component {
     }(document, 'script', 'facebook-jssdk'));
   }
 
-  onFacebookSuccess(args) {
-    console.log('args', args);
-    window.FB.getLoginStatus(function(response) {
-      console.log('response', response);
-    });    
-  }
-
   onGoogleSuccess(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log("Name: " + profile.getName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-
     var id_token = googleUser.getAuthResponse().id_token;
-    this.props.mappedGoogleLogin({ id_token });
+    this.props.mappedSocialLogin({ id_token, socialProvider: 'google' });
   }
   onGoogleFailure(error) {
     console.error("onGoogleFailure", "error", error);
@@ -181,7 +166,7 @@ export default class Login extends React.Component {
                   </Col>
                 </FormGroup>
 
-                {/*<FormGroup controlId="">
+                <FormGroup controlId="">
                   <Col componentClass={ControlLabel} sm={2} />
                   <Col sm={9}>
                     <FormControl.Static>
@@ -199,17 +184,15 @@ export default class Login extends React.Component {
                       data-button-type="continue_with"
                       data-show-faces="false"
                       data-auto-logout-link="false"
-                      data-onlogin={this.onFacebookSuccess}
                       data-use-continue-as="false"
+                      data-scope="public_profile, email"
                     />
                   </Col>
-                </FormGroup>*/}
-
+                </FormGroup>
                 {profileState.loginError &&
                   <Alert bsStyle="danger">
                     <strong>Failed. {profileState.loginError} </strong>
                   </Alert>}
-
               </form>
             </Col>
             <Col xs={12} md={6}>

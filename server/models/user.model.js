@@ -40,7 +40,8 @@ async function create(args) {
         isEmailVerified,
         role,
         googleId,
-        photo
+        facebookId,
+        photo,
     } = args;
     let user;
     try {
@@ -51,6 +52,7 @@ async function create(args) {
             isEmailVerified,
             role,
             googleId,
+            facebookId,
             photo
         }));
     } catch (error) {
@@ -69,6 +71,8 @@ async function create(args) {
 async function update(args, where) {
     debug('update', args, where);
     const {
+        googleId,
+        facebookId,
         isEmailVerified,
         emailVerificationCode,
         password,
@@ -77,6 +81,8 @@ async function update(args, where) {
         role,
     } = args;
     const response = await userSchema.update(removeUndefinedKeys({
+        googleId,
+        facebookId,
         isEmailVerified,
         emailVerificationCode,
         password,

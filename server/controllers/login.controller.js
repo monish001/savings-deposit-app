@@ -114,33 +114,33 @@ const loginController = {
             message: 'Logout is successful.'
         });
     },
-    onGoogleSignIn: async (googleProfile) => {
-        debug('onGoogleSignIn', 'googleProfile', googleProfile);
-        const {googleId, email, email_verified, photo} = googleProfile;
+    onSocialSignin: async (socialProfile) => {
+        debug('onSocialSignin', 'socialProfile', socialProfile);
+        const {facebookId, googleId, email, email_verified, photo, provider} = socialProfile;
         if(!email_verified) {
             throw new createError.BadRequest('Please visit again after your email is verified with google!');
         }
         const user = await userModel.findOne({email})
-        debug('onGoogleSignIn', 'user', user);
+        debug('onSocialSignin', 'user', user);
         if(user && user.email) {
             // user email exists
             const {_id} = user;
-            if(user.googleId == googleId && user.photo == photo && user.isEmailVerified) {
-                return user;
+            if(user.photo == photo && user.isEmailVerified) {
+                if(provider === 'google' && user.googleId == googleId)
+                    return user;
+                if(provider === 'facebook' && user.facebookId == facebookId)
+                    return user;
             }
-            const affectedCount = await userModel.update({googleId, photo, isEmailVerified: true}, {_id});
-            debug('onGoogleSignIn', 'affectedCount', affectedCount);
+            const affectedCount = await userModel.update({googleId, facebookId, photo, isEmailVerified: true}, {_id});
+            debug('onSocialSignin', 'affectedCount', affectedCount);
             const newUser = await userModel.findOne({_id});
-            debug('onGoogleSignIn', 'newUser', newUser);
+            debug('onSocialSignin', 'newUser', newUser);
             return newUser;
         }else{
-            const createdUser = await userModel.create({googleId, photo, email, isEmailVerified: true});
-            debug('onGoogleSignIn', 'createdUser', createdUser);
+            const createdUser = await userModel.create({facebookId, googleId, photo, email, isEmailVerified: true});
+            debug('onSocialSignin', 'createdUser', createdUser);
             return createdUser;
         }
-    },
-    facebookCallback: (req, res, next) => {
-        next(new createError.NotImplemented());
     },
 };
 

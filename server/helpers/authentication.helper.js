@@ -1,12 +1,13 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-// const FacebookStrategy = require('passport-facebook').Strategy;
+const { FB } = require('fb');
+const { OAuth2Client } = require("google-auth-library");
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const debug = require("debug")("sd:helpers:authentication.index");
-const createError = require('http-errors');
-const config = require('config');
-var loginController = require('../controllers/login.controller');
+const createError = require("http-errors");
+const config = require("config");
+var loginController = require("../controllers/login.controller");
 
 // Configure the local strategy for use by Passport.
 //
@@ -27,21 +28,21 @@ passport.use(
                 });
 
                 if (!user) {
-                    debug('user', user, errorMessage);
+                    debug("user", user, errorMessage);
                     return done(null, false, {
                         message: errorMessage
                     });
                 }
                 if (!user.isEmailVerified) {
                     const message = `Please verify your email by opening a link already sent to your email.`;
-                    debug('user.isEmailVerified', user.isEmailVerified, message);
+                    debug("user.isEmailVerified", user.isEmailVerified, message);
                     return done(null, false, {
                         message
                     });
                 }
                 if (user.retryCount >= 3) {
-                    const message = `Your login is blocked. Please contact administrator to unblock your login.`
-                    debug('user.retryCount', user.retryCount, message);
+                    const message = `Your login is blocked. Please contact administrator to unblock your login.`;
+                    debug("user.retryCount", user.retryCount, message);
                     return done(null, false, {
                         message
                     });
@@ -51,22 +52,26 @@ passport.use(
                     delete user.password; // This step is a must. Else encrypted password will be exposed.
                     if (user.retryCount) {
                         const affectedCount = await userModel.update({
-                            'retryCount': 0
+                            retryCount: 0
                         }, {
                             _id: user._id
                         });
-                        debug(affectedCount ? 'retryCount updated to 0' : 'retryCount update failed.', affectedCount);
+                        debug(
+                            affectedCount ?
+                            "retryCount updated to 0" :
+                            "retryCount update failed.",
+                            affectedCount
+                        );
                     }
                     return done(null, user);
                 }
 
-
-                const affectedCount = await userModel.increment('retryCount', {
+                const affectedCount = await userModel.increment("retryCount", {
                     _id: user._id
                 });
-                debug('affectedCount', affectedCount);
+                debug("affectedCount", affectedCount);
 
-                debug('isCorrectPassword', isCorrectPassword, errorMessage);
+                debug("isCorrectPassword", isCorrectPassword, errorMessage);
                 return done(null, false, {
                     message: errorMessage
                 });
@@ -77,21 +82,6 @@ passport.use(
         }
     )
 );
-
-// passport.use(new FacebookStrategy({
-//         clientID: config.authentication.facebook.clientId,
-//         clientSecret: config.authentication.facebook.secret,
-//         callbackURL: "http://localhost:3000/login/facebook/callback",
-//         profileFields: ['id', 'photos', 'email']
-//     },
-//     function (accessToken, refreshToken, profile, cb) {
-//         debug('profile', profile);
-//         // @todo
-//         // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-//         //   return cb(err, user);
-//         // });
-//     }
-// ));
 
 // Configure Passport authenticated session persistence.
 //
@@ -112,7 +102,7 @@ passport.serializeUser(function (user, cb) {
         JSON.stringify({
             _id,
             email,
-            role,
+            role
         })
     );
 });
@@ -120,18 +110,15 @@ passport.deserializeUser(function (userStr, cb) {
     debug("deserializeUser", userStr);
     try {
         cb(null, JSON.parse(userStr));
-    } catch (err) {
-        debug("deserializeUser", err);
-        return cb(err);
+    } catch (error) {
+        debug("deserializeUser", error);
+        return cb(error);
     }
 });
 
 function authenticate(req, res, next) {
-    debug('authenticate');
-    if (
-        req.user &&
-        req.user._id
-    ) {
+    debug("authenticate");
+    if (req.user && req.user._id) {
         next();
         // } else if (!req.body.XHRRequest) { // UI layer authentication
         //     // req.originalUrl is a combination of req.baseUrl and req.path along with query parameters.
@@ -144,19 +131,74 @@ function authenticate(req, res, next) {
     }
 }
 
+function facebook(req, res, next) {
+    debug('facebook');
+    const token = req.body.id_token;
+    debug('facebook', 'token', token);
+
+    FB.api('me', {
+        fields: 'id,picture,email',
+        access_token: token
+    }, function (profile) {
+        debug('facebook', 'profile', profile);
+        const {
+            id,
+            email
+        } = profile;
+        const photo = profile.picture && profile.picture.data && profile.picture.data.url;
+        const email_verified = !!email;
+
+
+        loginController
+            .onSocialSignin({
+                facebookId: id,
+                email,
+                email_verified,
+                photo,
+                provider: 'facebook',
+            })
+            .then(user => {
+                req.login(user, function (error) {
+                    if (error) {
+                        next(new createError.BadRequest(error));
+                    }
+                    const {
+                        email,
+                        role,
+                        photo,
+                        facebookId
+                    } = user;
+                    const profile = {
+                        email,
+                        role,
+                        photo,
+                        facebookId
+                    };
+                    debug('facebook', 'profile', profile);
+                    return res.json({
+                        ok: true,
+                        profile,
+                        message: "Successfully logged in."
+                    });
+                });
+            })
+            .catch(error => {
+                debug('facebook', 'error', error);
+                next(new createError.BadRequest(error));
+            });
+    });
+}
+
 function google(req, res, next) {
     const token = req.body.id_token;
-    const {
-        OAuth2Client
-    } = require('google-auth-library');
     const client = new OAuth2Client(config.authentication.google.clientId);
     async function verify() {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: config.authentication.google.clientId,
+            audience: config.authentication.google.clientId
         });
         const payload = ticket.getPayload();
-        debug('payload', payload);
+        debug("payload", payload);
         const {
             sub,
             email,
@@ -164,41 +206,47 @@ function google(req, res, next) {
             picture
         } = payload;
 
-        loginController.onGoogleSignIn({
-            googleId: sub,
-            email,
-            email_verified,
-            photo: picture
-        }).then(user => {
-            req.login(user, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                const {
-                    email,
-                    role,
-                    photo,
-                    googleId,
-                } = user;
-                return res.json({
-                    ok: true,
-                    profile: {
+        loginController
+            .onSocialSignin({
+                googleId: sub,
+                email,
+                email_verified,
+                photo: picture,
+                provider: 'google',
+            })
+            .then(user => {
+                req.login(user, function (error) {
+                    if (error) {
+                        next(new createError.BadRequest(error));
+                    }
+                    const {
                         email,
                         role,
                         photo,
-                        googleId,
-                    },
-                    message: 'Successfully logged in.'
+                        googleId
+                    } = user;
+                    return res.json({
+                        ok: true,
+                        profile: {
+                            email,
+                            role,
+                            photo,
+                            googleId
+                        },
+                        message: "Successfully logged in."
+                    });
                 });
+            })
+            .catch(error => {
+                next(new createError.BadRequest(error));
             });
-        }).catch(error => {
-            next(new createError.BadRequest(error));
-        });
     }
     verify().catch(next);
 }
+
 module.exports = {
     passport,
     authenticate,
     google,
+    facebook,
 };
