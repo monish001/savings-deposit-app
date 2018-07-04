@@ -8,7 +8,8 @@
     "server__prod": "node ./server/bin/www",
     "server__dev": "node ./server/bin/www-dev-start.js",
     "build-client__prod": "cd client && npm run build && cd ..",
-    "client__dev": "node start-client__dev.js"
+    "client__dev": "node start-client__dev.js",
+    "test": "mocha"
   },
   "dependencies": {
     "babel-preset-es2015-node6": "^0.4.0",
@@ -43,9 +44,11 @@
   },
   "devDependencies": {
     "assert": "^1.4.1",
+    "chai": "^4.1.2",
     "concurrently": "^3.6.0",
     "cucumber": "^4.2.1",
     "http-shutdown": "^1.2.0",
+    "mocha": "^5.2.0",
     "puppeteer": "^1.5.0"
   }
 }
