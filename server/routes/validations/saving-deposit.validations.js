@@ -23,7 +23,7 @@ module.exports = {
             initialAmount: Joi.number().precision(2).min(0.00).required(),
             startDate: Joi.string().length(24).required(),
             endDate: Joi.string().length(24).required(),
-            interest: Joi.number().precision(2).min(0.00).required(),
+            interest: Joi.number().precision(2).required(),
             tax: Joi.number().precision(2).min(0.00).required(),
         }
     },
@@ -44,7 +44,7 @@ module.exports = {
             initialAmount: Joi.number().precision(2).min(0.00).required(),
             startDate: Joi.string().length(24).required(),
             endDate: Joi.string().length(24).required(),
-            interest: Joi.number().precision(2).min(0.00).required(),
+            interest: Joi.number().precision(2).required(),
             tax: Joi.number().precision(2).min(0.00).required(),
             userId: Joi.number().integer().positive().required(),
         }
