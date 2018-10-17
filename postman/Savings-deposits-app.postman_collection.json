@@ -1,0 +1,765 @@
+{
+	"info": {
+		"_postman_id": "befc4720-7893-478e-a1bf-a72fb1a48fed",
+		"name": "Savings-deposits-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register [all]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd5ccc51-dddf-4ba9-b95e-bcffc5da5a45",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\":\"saving.deposits.app+4@gmail.com\",\"password\":\"qwerty\",\"cpassword\":\"qwerty\"}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/register",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Email verification [all]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/email-verification/04055b33-23a4-4c7b-857c-1bae0430269751c71ff0-25bf-4939-853c-465d1d9bb5b0",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"email-verification",
+						"04055b33-23a4-4c7b-857c-1bae0430269751c71ff0-25bf-4939-853c-465d1d9bb5b0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login [all]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\":\"saving.deposits.app+1@gmail.com\",\"password\":\"qwerty\"}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/login",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout [all]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/logout",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create self SD [ru]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bankName\":\"HDFC BANK\",\n\t\"accountNumber\":\"3053287324923493\",\n\t\"initialAmount\":\"1500\",\n\t\"startDate\":\"2018-06-01T06:30:00.000Z\",\n\t\"endDate\":\"2018-06-01T06:30:00.000Z\",\n\t\"interest\":\"12.12\",\n\t\"tax\":\"30\"\n}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self record}}",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self record}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create SD [ad]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bankName\":\"bank\",\n\t\"accountNumber\":\"24263940359595\",\n\t\"initialAmount\":\"1100\",\n\t\"startDate\":\"2018-06-01T06:30:00.000Z\",\n\t\"endDate\":\"2018-06-01T06:30:00.000Z\",\n\t\"interest\":\"-5\",\n\t\"tax\":\"25\",\n\t\"userId\":\"2\"\n}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/saving-deposits",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"saving-deposits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read self SDs [ru]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self record}}?bankName=bank&minAmount=12&maxAmount=36&startDate=2018-06-02T06%3A30%3A00.000Z&endDate=2018-06-22T06%3A30%3A00.000Z",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self record}}"
+					],
+					"query": [
+						{
+							"key": "bankName",
+							"value": "bank"
+						},
+						{
+							"key": "minAmount",
+							"value": "12"
+						},
+						{
+							"key": "maxAmount",
+							"value": "36"
+						},
+						{
+							"key": "startDate",
+							"value": "2018-06-02T06%3A30%3A00.000Z"
+						},
+						{
+							"key": "endDate",
+							"value": "2018-06-22T06%3A30%3A00.000Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read SDs [ad]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/saving-deposits?bankName=bank&minAmount=1000&maxAmount=5000&startDate=2018-06-01T06%3A30%3A00.000Z&endDate=2018-06-02T06%3A30%3A00.000Z&userId=2",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"saving-deposits"
+					],
+					"query": [
+						{
+							"key": "bankName",
+							"value": "bank"
+						},
+						{
+							"key": "minAmount",
+							"value": "1000"
+						},
+						{
+							"key": "maxAmount",
+							"value": "5000"
+						},
+						{
+							"key": "startDate",
+							"value": "2018-06-01T06%3A30%3A00.000Z"
+						},
+						{
+							"key": "endDate",
+							"value": "2018-06-02T06%3A30%3A00.000Z"
+						},
+						{
+							"key": "userId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read self SD [ru]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self record}}/{{$guid}}",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self record}}"
+					],
+					"path": [
+						"{{$guid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read SD [ad]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/saving-deposits/{{$guid}}",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"saving-deposits",
+						"{{$guid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update self SD [ru]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bankName\":\"SBI1\",\n\t\"accountNumber\":\"65023498324894331\",\n\t\"initialAmount\":\"3001\",\n\t\"startDate\":\"2018-07-01T06:30:00.000Z\",\n\t\"endDate\":\"2018-08-01T06:30:00.000Z\",\n\t\"interest\":\"11.1\",\n\t\"tax\":\"31\"\n}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self record}}/1",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self record}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update SD [ad]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"bankName\":\"SBI1\",\n\t\"accountNumber\":\"65023498324894331\",\n\t\"initialAmount\":\"3001\",\n\t\"startDate\":\"2018-07-01T06:30:00.000Z\",\n\t\"endDate\":\"2018-08-01T06:30:00.000Z\",\n\t\"interest\":\"11.1\",\n\t\"tax\":\"31\"\n}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/saving-deposits/1",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"saving-deposits",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete self SD [ru]",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self record}}/{{$guid}}",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self record}}"
+					],
+					"path": [
+						"{{$guid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete SD [ad]",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/saving-deposits/{{$guid}}",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"saving-deposits",
+						"{{$guid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read self SD report [ru]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self record}}/report?startDate=2018-06-01T06:30:00.000Z&endDate=2019-01-01T06:30:00.000Z",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self record}}"
+					],
+					"path": [
+						"report"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2018-06-01T06:30:00.000Z"
+						},
+						{
+							"key": "endDate",
+							"value": "2019-01-01T06:30:00.000Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update self user [ru, um, ad]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"photo\":\"data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7\"\n}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self user}}",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self user}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update self user password [ru, um, ad]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"oldPassword\":\"92421a3b-f45a-4a40-966c-7343008e5c45\",\"newPassword\":\"qwerty\",\"confirmNewPassword\":\"qwerty\"}\n"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}{{sd self user}}/password",
+					"host": [
+						"{{sd domain}}{{sd path}}{{sd self user}}"
+					],
+					"path": [
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user [um, ad]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"photo\":\"data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7\"\n}"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/1",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset user password [um, ad]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/5/password/reset",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"5",
+						"password",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user login-retry-count reset [um, ad]",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/5/login-retry-count/reset",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"5",
+						"login-retry-count",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create regular-user [um, ad]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"saving.deposits.app+ru1@gmail.com\"\n}\n"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/regular_user",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"regular_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user-manager [um, ad]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"saving.deposits.app+um@gmail.com\"\n}\n"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/user_manager",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"user_manager"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create admin [ad]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"saving.deposits.app+ad@gmail.com\"\n}\n"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/admin",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user invite [ad]",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"saving.deposits.app+invite1@gmail.com\"\n}\n"
+				},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/invite",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"invite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read users [um, ad]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update role [um, ad]",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/1/regular_user/user_manager",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"1",
+						"regular_user",
+						"user_manager"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update role [ad]",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/1/user_manager/admin",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"1",
+						"user_manager",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete regular-user [um, ad]",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/regular_user/13",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"regular_user",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user-manager [um, ad]",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/user_manager/4",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"user_manager",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete admin [ad]",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{sd domain}}{{sd path}}/users/admin/4",
+					"host": [
+						"{{sd domain}}{{sd path}}"
+					],
+					"path": [
+						"users",
+						"admin",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
