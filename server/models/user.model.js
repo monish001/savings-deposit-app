@@ -1,5 +1,5 @@
 const userSchema = require("./db/user.schema");
-const debug = require('debug')('sd:models:user.model');
+const debug = require('debug')('app:models:user.model');
 
 function removeUndefinedKeys(args) {
     return JSON.parse(JSON.stringify(args));

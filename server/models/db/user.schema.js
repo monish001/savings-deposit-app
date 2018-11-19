@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./connection");
-const debug = require('debug')('sd:models:db:user.schema');
+const debug = require('debug')('app:models:db:user.schema');
 
 // Model file for the table imageInfo
 // which maps to each fields in the DB

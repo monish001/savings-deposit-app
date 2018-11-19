@@ -23,7 +23,7 @@
 ## Run the app
 After local setup is complete, run -
 ```
-DMN=http://localhost:3001 DEBUG=sd* NODE_ENV=production SS_S='af919388-6929-4b06-a835-19c605518a4d' SALT=8 EMAIL_PW=Test@1234 GG_ID=120404744058-jib7bgrdkmlsava6soq8tl8bt8egpaea.apps.googleusercontent.com FB_ID=2152071231731773 DB_PW= npm run start
+DMN=http://localhost:3001 DEBUG=app* NODE_ENV=production SS_S='af919388-6929-4b06-a835-19c605518a4d' SALT=8 EMAIL_PW=Test@1234 GG_ID=120404744058-jib7bgrdkmlsava6soq8tl8bt8egpaea.apps.googleusercontent.com FB_ID=2152071231731773 DB_PW= npm run start
 ```
 
 ## Run unit tests
@@ -35,7 +35,7 @@ npm test
 ## Run e2e tests
 After local setup is complete, run -
 ```
-DMN=http://localhost:3001 DEBUG=sd* NODE_ENV=production SS_S='af919388-6929-4b06-a835-19c605518a4d' SALT=8 EMAIL_PW=Test@1234 GG_ID=120404744058-jp9qpfibuokie24v0q21he6qrq1cc7uc.apps.googleusercontent.com FB_ID=2152071231731773 DB_PW= npx cucumber-js
+DMN=http://localhost:3001 DEBUG=app* NODE_ENV=production SS_S='af919388-6929-4b06-a835-19c605518a4d' SALT=8 EMAIL_PW=Test@1234 GG_ID=120404744058-jp9qpfibuokie24v0q21he6qrq1cc7uc.apps.googleusercontent.com FB_ID=2152071231731773 DB_PW= npx cucumber-js
 ```
 
 ## Component design

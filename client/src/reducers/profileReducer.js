@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  profile: null,
+  // profile: null,
 
   // profile: {
   //   email: 'reg_user@abc.com', 
@@ -13,11 +13,11 @@ const INITIAL_STATE = {
   //   photo: "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7"
   // },
 
-  // profile: {
-  //   email: 'admin@abc.com', 
-  //   role: 'ADMIN',
-  //   photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAFeBAMAAACV4/u8AAAAG1BMVEXMzMyWlpaqqqq3t7fFxcW+vr6xsbGjo6OcnJyLKnDGAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABLUlEQVR4nO3SMU/CUBTF8cPra2FsoTqjg3GkG2Mx0bkmJDKWhBBGiAlzAyb6sb0PjPvroMv/N7Wnyel97ZUAAAAAAAAAAAAAAAAAAAAAAACA/zFQVhStduffZHeqQ5R9zWK77uSO2ya5Xdc/QXaeT0NUbcvIqqrQ0N4/bF2rrPSTcJl2ITrqIbLrudJwaSetk046ub3kauuyqNQ8sksLDQ5jLazAhqwaS/xba5EvterRtVm1C/ncjjcOiStqiza5PYrukpLuOlc2uURPdtLko9dcUppfv9fo025eLiOmea/vVSnb23+c2ma92v8bNL4L0VH38V2j9/XM9quRnzgbztl+haja3sR3pQfb+bD3rgv75R9Pl6jH3gMAAAAAAAAAAAAAAAAAAAAAAOBvfAO2pyxQDyWdkwAAAABJRU5ErkJggg==",
-  // },
+  profile: {
+    email: 'admin@abc.com', 
+    role: 'ADMIN',
+    photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAFeBAMAAACV4/u8AAAAG1BMVEXMzMyWlpaqqqq3t7fFxcW+vr6xsbGjo6OcnJyLKnDGAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABLUlEQVR4nO3SMU/CUBTF8cPra2FsoTqjg3GkG2Mx0bkmJDKWhBBGiAlzAyb6sb0PjPvroMv/N7Wnyel97ZUAAAAAAAAAAAAAAAAAAAAAAACA/zFQVhStduffZHeqQ5R9zWK77uSO2ya5Xdc/QXaeT0NUbcvIqqrQ0N4/bF2rrPSTcJl2ITrqIbLrudJwaSetk046ub3kauuyqNQ8sksLDQ5jLazAhqwaS/xba5EvterRtVm1C/ncjjcOiStqiza5PYrukpLuOlc2uURPdtLko9dcUppfv9fo025eLiOmea/vVSnb23+c2ma92v8bNL4L0VH38V2j9/XM9quRnzgbztl+haja3sR3pQfb+bD3rgv75R9Pl6jH3gMAAAAAAAAAAAAAAAAAAAAAAOBvfAO2pyxQDyWdkwAAAABJRU5ErkJggg==",
+  },
 
   isLoggingIn: false,
   loginError: null,

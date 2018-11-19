@@ -1,6 +1,6 @@
 var nodemailer = require("nodemailer");
 var config = require('config');
-const debug = require('debug')('sd:helpers:email.helper');
+const debug = require('debug')('app:helpers:email.helper');
 
 // Use Smtp Protocol to send Email
 var smtpTransport = nodemailer.createTransport({

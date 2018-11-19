@@ -4,7 +4,7 @@ const validations = require('./validations/login.validations'); // @todo
 const validate = require('express-validation');
 const router = express.Router();
 const authentication = require('../helpers/authentication.helper');
-const debug = require('debug')('sd:routes:login.routes');
+const debug = require('debug')('app:routes:login.routes');
 
 router.post('/register', validate(validations.register), loginController.register);
 router.get('/email-verification/:guid', validate(validations.emailVerification), loginController.emailVerification);

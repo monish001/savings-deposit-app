@@ -8,7 +8,7 @@ var helmet = require('helmet');
 var session = require("express-session");
 var config = require('config');
 var validate = require('express-validation');
-var debug = require('debug')('sd:app');
+var debug = require('debug')('app:app');
 var app = express();
 app.use(compression()); //Compress all routes. For a high-traffic website in production you wouldn't use this middleware. Instead you would use a reverse proxy like Nginx.
 app.use(helmet()); // See https://helmetjs.github.io/docs/ for more information on what headers it sets/vulnerabilities it protects against

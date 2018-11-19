@@ -1,4 +1,4 @@
-const debug = require("debug")("sd:helpers:authorization.index");
+const debug = require("debug")("app:helpers:authorization.index");
 const createError = require('http-errors');
 const authorization = require("express-authz");
 

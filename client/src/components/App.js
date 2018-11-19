@@ -34,8 +34,6 @@ export default class App extends React.Component {
         url = "/users";
         break;
       case "REGULAR_USER":
-        url = "/saving-deposits";
-        break;
       default:
         url = "/profile";
     }
@@ -44,11 +42,6 @@ export default class App extends React.Component {
   render() {
     const profileState = this.props.mappedProfileState;
     const showProfile = profileState.profile && profileState.profile.email;
-    const showSds =
-      profileState.profile &&
-      profileState.profile.role &&
-      (profileState.profile.role === "ADMIN" ||
-        profileState.profile.role === "REGULAR_USER");
     const showUsers =
       profileState.profile &&
       profileState.profile.role &&
@@ -63,20 +56,13 @@ export default class App extends React.Component {
                 to={{ pathname: "/", query: {} }}
                 onClick={() => {}}
               >
-                <div>Saving Deposits App</div>
+                <div>App Name</div>
               </LinkContainer>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              {showSds &&
-                <LinkContainer
-                  to={{ pathname: "/saving-deposits", query: {} }}
-                  onClick={() => {}}
-                >
-                  <NavItem eventKey={1}>Saving Deposits</NavItem>
-                </LinkContainer>}
               {showUsers &&
                 <LinkContainer
                   to={{ pathname: "/users", query: {} }}

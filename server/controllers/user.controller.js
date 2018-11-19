@@ -1,5 +1,5 @@
 const userModel = require("../models/user.model");
-const debug = require('debug')('sd:controllers:user.controller');
+const debug = require('debug')('app:controllers:user.controller');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const createError = require('http-errors');

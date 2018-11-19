@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('config').db;
-const debug = require('debug')('sd:models:db:connection');
+const debug = require('debug')('app:models:db:connection');
 const dbPool = db.pool;
 const operatorsAliases = {
   $gte: Sequelize.Op.gte,

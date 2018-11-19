@@ -3,7 +3,7 @@ var userController = require('../controllers/user.controller');
 const router = express.Router();
 const authentication = require('../helpers/authentication.helper');
 const {authorization, policyNames} = require('../helpers/authorization.helper');
-const debug = require('debug')('sd:routes:user.routes');
+const debug = require('debug')('app:routes:user.routes');
 const validations = require('./validations/user.validations'); // @todo
 const validate = require('express-validation');
 
