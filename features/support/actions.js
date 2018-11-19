@@ -1,9 +1,5 @@
 // Dependencies
 const assert = require('assert');
-const SavingDeposit = require('../../server/models/saving-deposit.model');
-const User = require('../../server/models/user.model');
-// const { validUsers, validUser } = require('api/test/data/userData.test');
-// const { interactsWithMail } = require('api/test/helpers/emailStub');
 const pages = require('./pages');
 const selectors = require('./selectors');
 const scope = require('./scope');

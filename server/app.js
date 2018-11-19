@@ -41,8 +41,6 @@ app.use((req, res, next) => {
 debug('Registering routes.');
 var loginRoutes = require('./routes/login.routes');
 app.use('/api', loginRoutes);
-var savingDepositRoutes = require('./routes/saving-deposit.routes');
-app.use('/api', savingDepositRoutes);
 var userRoutes = require('./routes/user.routes');
 app.use('/api', userRoutes);
 
